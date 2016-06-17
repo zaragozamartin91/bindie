@@ -13,6 +13,9 @@ exports.registerSchema = function() {
             type: Date,
             default: Date.now
         },
+        genres: [{
+            type: String
+        }],
         members: [{
             type: Schema.Types.ObjectId,
             ref: 'User'

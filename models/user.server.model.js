@@ -20,6 +20,7 @@ exports.registerSchema = function() {
             /*Defining a custom validator is done using the validate property. The validate property value should be an array consisting of 
             a validation function and an error message.*/
             validate: [
+
                 function(password) {
                     return password && password.length >= 6;
                 },
@@ -32,6 +33,10 @@ exports.registerSchema = function() {
             type: Date,
             default: Date.now
         },
+        bands: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Band'
+        }],
         /*variable para encriptar el password...*/
         salt: String
     });

@@ -9,11 +9,14 @@ function setSessionUserId(req, uid) {
     req.session.uid = uid;
 }
 
-exports.list = function(req, res, next) {
+/*lista usuarios como objetos json para ser consumidos usando Ajax*/
+exports.list = function(req, res) {
     User.find({}, function(err, users) {
         if (err) {
-            console.error("Something went wrong!");
-            return next(err);
+            console.error("Algo salio mal!");
+            return res.json({
+                error: err
+            });
         }
 
         res.json(users);
@@ -88,6 +91,46 @@ exports.registerSubmit = function(req, res, next) {
         });
     });
 };
+
+
+/*Api para registrar usuarios sin interfaz usando Ajax.*/
+exports.registerApi = function(req, res) {
+    console.log("Usuario subido: ");
+    var data = req.body;
+
+    User.findOneByEmail(data.email, function(err, user) {
+        if (err) {
+            return res.json({
+                error: err
+            });
+        }
+
+        if (user) {
+            return res.json({
+                error: "usuario ya existe!"
+            });
+        }
+
+        console.log("Guardando usuario:");
+        console.log(req.body);
+        user = new User(req.body);
+
+        user.save(function(err) {
+            if (err) {
+                var message = getErrorMessage(err);
+                return res.json({
+                    error: err,
+                    errorMessage: message
+                });
+            }
+
+            console.log("Usuario guardado:");
+            console.log(user);
+            res.json(user);
+        });
+    });
+};
+
 
 /*Renderiza el formulario de login.*/
 exports.loginForm = function(req, res) {
