@@ -12,7 +12,8 @@ exports.registerSchema = function() {
         email: {
             type: String,
             /*The usage of a match validator here will make sure the email field value matches the given regex expression*/
-            match: [/.+\@.+\..+/, "Please fill a valid e-mail address"]
+            match: [/.+\@.+\..+/, "Ingrese una direccion de correo valida!"],
+            unique: 'Ya existe un usuario con este correo!'
         },
         password: {
             type: String,
@@ -42,7 +43,7 @@ exports.registerSchema = function() {
     UserSchema.statics.findOneByEmail = function(email, callback) {
         this.findOne({
             /*'i' is to Perform case-insensitive matching*/
-            email: new RegExp(email, 'i')
+            email: email
         }, callback);
     };
 

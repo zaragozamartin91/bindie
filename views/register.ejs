@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    <% include menu %>
+    
+    <h1><%= title %></h1>
+    <p>Completa el siguiente formulario para registrarte:</p>
+    
+    <% include messages %>
+    
+    <form action='/users/register' method='post'>
+        <p>
+            <input type='text' name='email' placeholder='Email' />
+        </p>
+        <p>
+            <input type='password' name='password' placeholder='Password' />
+        </p>
+        <p>
+            <input type='submit' value='Registrarse' />
+        </p>
+    </form>
+</body>
+</html>

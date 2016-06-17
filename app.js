@@ -9,7 +9,9 @@ var favicon = require('serve-favicon');
 var morganLogger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 var session = require('express-session');
+var messages = require('./lib/messages');
 
 /*inicio express*/
 var app = express();
@@ -17,17 +19,21 @@ var app = express();
 /*cargo las propiedades de configuracion*/
 var appConfig = require('./config/appConfig');
 
-// view engine setup
+// en la carpeta views se guardaran las vistas. Como motor de template se usa EJS.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
+// Descomentar la siguiente linea de codigo cuando se coloque un logo de la aplicacion en carpeta public/
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(morganLogger('dev'));
+
+/*body-parser module provides several middleware to handle request data */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+/*method-override module provides DELETE and PUT HTTP verbs legacy support*/
+app.use(methodOverride());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -42,12 +48,13 @@ app.use(session({
 }));
 
 
+/*Agregamos el middleware para trabajar con mensajes en cada redirect...*/
+app.use(messages);
 
-/*Establezco las rutas base. indexRoutes y userRoutes especifican las sub-rutas.*/
-var indexRoutes = require('./routes/index');
-var userRoutes = require('./routes/user.server.routes');
-app.use('/', indexRoutes);
-app.use('/api/users', userRoutes);
+
+/*Configuro las rutas de la aplicacion.*/
+var indexRoutes = require('./routes/index').config(app);
+var userRoutes = require('./routes/user.server.routes').config(app);
 
 
 // catch 404 and forward to error handler
