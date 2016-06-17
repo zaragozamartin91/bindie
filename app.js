@@ -11,6 +11,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var session = require('express-session');
+
+var userLoadMiddleware = require('./lib/userLoad.js');
 var messages = require('./lib/messages');
 
 /*inicio express*/
@@ -48,6 +50,8 @@ app.use(session({
 }));
 
 
+/*cargamos el middleware de usuarios para inyectar el usuario en cada request*/
+app.use(userLoadMiddleware);
 /*Agregamos el middleware para trabajar con mensajes en cada redirect...*/
 app.use(messages);
 

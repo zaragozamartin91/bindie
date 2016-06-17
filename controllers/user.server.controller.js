@@ -1,4 +1,13 @@
-var User = require('mongoose').model('User');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
+
+function getSessionUserId(req) {
+    return req.session.uid;
+}
+
+function setSessionUserId(req, uid) {
+    req.session.uid = uid;
+}
 
 exports.list = function(req, res, next) {
     User.find({}, function(err, users) {
@@ -11,8 +20,14 @@ exports.list = function(req, res, next) {
     });
 };
 
+
 /*Redirecciona a la vista de registro "register.ejs".*/
-exports.form = function(req, res) {
+exports.registerForm = function(req, res) {
+    if (getSessionUserId(req)) {
+        res.message("Ya ha iniciado sesion!");
+        return res.redirect('back');
+    }
+
     res.render('register', {
         title: 'Register'
     });
@@ -41,7 +56,7 @@ var getErrorMessage = function(err) {
 };
 
 /*logica para procesar formulario de register.ejs y registrar un usuario*/
-exports.submit = function(req, res, next) {
+exports.registerSubmit = function(req, res, next) {
     console.log("Formulario de usuario subido: ");
     var data = req.body;
 
@@ -50,24 +65,70 @@ exports.submit = function(req, res, next) {
 
         if (user) {
             res.error("Ya existe un usuario con ese correo!");
-            res.redirect("back");
-        } else {
-            console.log("Guardando usuario:");
-            console.log(req.body);
-            user = new User(req.body);
-
-            user.save(function(err) {
-                if (err) {
-                    var message = getErrorMessage(err);
-                    res.error(message);
-                    return res.redirect('back');
-                }
-
-                console.log("Usuario guardado:");
-                console.log(user);
-                req.session.uid = user._id;
-                res.redirect('/');
-            });
+            return res.redirect("back");
         }
+
+        console.log("Guardando usuario:");
+        console.log(req.body);
+        user = new User(req.body);
+
+        user.save(function(err) {
+            if (err) {
+                var message = getErrorMessage(err);
+                res.error(message);
+                return res.redirect('back');
+            }
+
+            console.log("Usuario guardado:");
+            console.log(user);
+            setSessionUserId(req, user._id);
+            console.log("req.session.uid:");
+            console.log(req.session.uid);
+            res.redirect('/');
+        });
+    });
+};
+
+/*Renderiza el formulario de login.*/
+exports.loginForm = function(req, res) {
+    if (getSessionUserId(req)) {
+        res.message("Ya ha iniciado sesion!");
+        res.redirect("back");
+    }
+
+    res.render('login', {
+        title: 'login'
+    });
+};
+
+/*Procesa el formulario de login.*/
+exports.loginSubmit = function(req, res, next) {
+    var data = req.body;
+    console.log("Procesando login de:");
+    console.log(data);
+
+    User.findOneByEmail(data.email, function(err, user) {
+        if (!user) {
+            res.error('No existe un usuario con email: ' + data.email);
+            return res.redirect('back');
+        }
+
+        var userOk = user.authenticate(data.password);
+
+        if (userOk) {
+            req.session.uid = user._id;
+            return res.redirect('/');
+        }
+
+        res.error('Credenciales invalidas!');
+        res.redirect('back');
+    });
+};
+
+/*Destruye la sesion de usuario*/
+exports.logout = function(req, res) {
+    req.session.destroy(function(err) {
+        if (err) throw err;
+        res.redirect('/');
     });
 };
