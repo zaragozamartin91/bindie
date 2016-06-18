@@ -66,18 +66,32 @@ exports.createSubmit = function(req, res, next) {
 
         var memberEmails = data.members;
         var queryArray = [];
-        memberEmails.forEach(function(memberEmail) {
-            queryArray.push({
-                email: memberEmail
+
+        if (memberEmails.forEach) {
+            memberEmails.forEach(function(memberEmail) {
+                queryArray.push({
+                    email: memberEmail
+                });
             });
-        });
+        } else {
+            queryArray = [{
+                email: memberEmails
+            }];
+        }
+
         User.find({
             $or: queryArray
         }, function(err, users) {
             data.members = [];
-            users.forEach(function(user) {
-                data.members.push(new ObjectId(user._id));
-            });
+
+
+            if (users.forEach) {
+                users.forEach(function(user) {
+                    data.members.push(new ObjectId(user._id));
+                });
+            } else {
+                data.members.push(new ObjectId(users));
+            }
 
             console.log("Miembros de la banda: " + data.members);
             band = new Band(data);
