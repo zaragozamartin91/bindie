@@ -60,6 +60,7 @@ app.use(messages);
 var indexRoutes = require('./routes/index').config(app);
 var userRoutes = require('./routes/user.server.routes').config(app);
 var bandRoutes = require('./routes/band.server.routes').config(app);
+var bandRoutes = require('./routes/song.server.routes').config(app);
 
 
 // catch 404 and forward to error handler

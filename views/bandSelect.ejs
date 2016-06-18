@@ -1,0 +1,8 @@
+<p>Bandas:</p>
+<select id="bandSelect" name="band" size="10">
+    <% if (locals.bands) { 
+        bands.forEach(function(band) { %>
+            <option value="<%= band.name %>"><%= band.name %></option>
+        <% }) 
+    } %>
+</select>

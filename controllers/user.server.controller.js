@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Band = mongoose.model('Band');
 var ObjectId = mongoose.Types.ObjectId;
+// var path = require('path');
 
 function getSessionUserId(req) {
     return req.session.uid;
@@ -46,6 +47,8 @@ exports.getBands = function(req, res) {
 
 /*lista usuarios como objetos json para ser consumidos usando Ajax*/
 exports.list = function(req, res) {
+    // console.log(path.join(__dirname,'public'));
+
     User.find({}, function(err, users) {
         if (err) {
             console.error("Algo salio mal!");
