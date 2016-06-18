@@ -5,6 +5,7 @@ exports.registerSchema = function() {
     var mongoose = require('mongoose');
     var crypto = require('crypto');
     var Schema = mongoose.Schema;
+    var ObjectId = Schema.Types.ObjectId;
 
 
     var UserSchema = new Schema({
@@ -13,7 +14,8 @@ exports.registerSchema = function() {
             type: String,
             /*The usage of a match validator here will make sure the email field value matches the given regex expression*/
             match: [/.+\@.+\..+/, "Ingrese una direccion de correo valida!"],
-            unique: 'Ya existe un usuario con este correo!'
+            unique: 'Ya existe un usuario con este correo!',
+            required: 'La direccion de correo no puede ser vacia!'
         },
         password: {
             type: String,
@@ -25,16 +27,17 @@ exports.registerSchema = function() {
                     return password && password.length >= 6;
                 },
                 'Password deberia ser mas largo...'
-            ]
+            ],
+            required: 'Se debe ingresar un password!'
         },
-        /*The created date field should be initialized at creation time and save the time the user document
-         was initially created*/
+        /*Guarda la fecha de creacion del usuario*/
         created: {
             type: Date,
             default: Date.now
         },
         bands: [{
-            type: Schema.Types.ObjectId,
+            type: ObjectId,
+            default: [],
             ref: 'Band'
         }],
         /*variable para encriptar el password...*/
@@ -46,7 +49,6 @@ exports.registerSchema = function() {
     /*To add a static method, you will need to declare it as a member of your schema's statics property*/
     UserSchema.statics.findOneByEmail = function(email, callback) {
         this.findOne({
-            /*'i' is to Perform case-insensitive matching*/
             email: email
         }, callback);
     };
@@ -63,6 +65,21 @@ exports.registerSchema = function() {
     /*accepts a string argument, hashes it, and compares it to the current user's hashed password*/
     UserSchema.methods.authenticate = function(password) {
         return this.password === this.hashPassword(password);
+    };
+
+    /*metodo de instancia para agregar una banda a un usuario*/
+    UserSchema.methods.addBand = function(band, handleError) {
+        var user = this;
+        user.bands.push(new ObjectId(band._id));
+
+        user.save(function(err) {
+            if (err) {
+                console.error("addBand::ocurrio un error al agregar la banda: " + band + "\nal usuario: " + user);
+                return handleError(err);
+            }
+
+            return user;
+        });
     };
 
     /*pre-save middleware to handle the hashing of your users' passwords.*/

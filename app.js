@@ -59,6 +59,7 @@ app.use(messages);
 /*Configuro las rutas de la aplicacion.*/
 var indexRoutes = require('./routes/index').config(app);
 var userRoutes = require('./routes/user.server.routes').config(app);
+var bandRoutes = require('./routes/band.server.routes').config(app);
 
 
 // catch 404 and forward to error handler
@@ -99,5 +100,5 @@ module.exports = app;
 
 var port = 3000;
 app.listen(port, function() {
-  console.log("App listening at localhost:3000");
+  console.log("Alicacion levantada en http://localhost:" + port);
 });

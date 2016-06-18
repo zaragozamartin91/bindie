@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Band = mongoose.model('Band');
+var ObjectId = mongoose.Types.ObjectId;
 
 function getSessionUserId(req) {
     return req.session.uid;
@@ -8,6 +10,29 @@ function getSessionUserId(req) {
 function setSessionUserId(req, uid) {
     req.session.uid = uid;
 }
+
+/*funcion API que busca un usuario por ID*/
+exports.getById = function(req, res) {
+    var userId = req.params.userId;
+    console.log("getById::buscando usuario:" + userId);
+
+    User.findOne({
+        _id: new ObjectId(userId)
+    }).populate('bands').exec(function(err, user) {
+        if (err) {
+            console.error("getById::algo salio mal buscando el usuario:" + userId);
+            return res.json({
+                error: err
+            });
+        }
+
+        return res.json(user);
+    });
+};
+
+exports.addBandApi = function(req, res) {
+    
+};
 
 /*lista usuarios como objetos json para ser consumidos usando Ajax*/
 exports.list = function(req, res) {
@@ -72,12 +97,14 @@ exports.registerSubmit = function(req, res, next) {
         }
 
         console.log("Guardando usuario:");
-        console.log(req.body);
-        user = new User(req.body);
+        console.log(data);
+        user = new User(data);
 
         user.save(function(err) {
             if (err) {
                 var message = getErrorMessage(err);
+                console.log("Algo salio mal: ");
+                console.log(err);
                 res.error(message);
                 return res.redirect('back');
             }
@@ -147,7 +174,7 @@ exports.loginForm = function(req, res) {
 /*Procesa el formulario de login.*/
 exports.loginSubmit = function(req, res, next) {
     var data = req.body;
-    console.log("Procesando login de:");
+    console.log("loginSubmit::Procesando login de:");
     console.log(data);
 
     User.findOneByEmail(data.email, function(err, user) {
@@ -155,6 +182,8 @@ exports.loginSubmit = function(req, res, next) {
             res.error('No existe un usuario con email: ' + data.email);
             return res.redirect('back');
         }
+
+        console.log("loginSubmit::usuario: " + user + " encontrado!");
 
         var userOk = user.authenticate(data.password);
 

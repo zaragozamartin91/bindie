@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    <% include menu %>
+    
+    <h1><%= title %></h1>
+    <p>Crea una banda:</p>
+    
+    <% include messages %>
+    
+    <form action='/bands/create' method='post'>
+        <p>
+            <input type='text' name='name' placeholder='Nombre' />
+        </p>
+
+         
+        <select id="genreSelect" name="genres" multiple="multiple" size="10">
+            <option value="rock">Rock</option>
+            <option value="indie">Indie</option>
+            <option value="pop">Pop</option>
+        </select>
+        
+
+        <select id="userSelect" name="members" multiple="multiple" size="10">
+            <% if (locals.users) { 
+                users.forEach(function(user) { %>
+                    <option value="<%= user.email %>"><%= user.email %></option>
+                <% }) 
+            } %>
+        </select>
+
+        <p>
+            <input type='submit' value='Crear' />
+        </p>
+    </form>
+</body>
+</html>

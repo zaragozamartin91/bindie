@@ -6,10 +6,9 @@ var client = new Client();
 // set content-type header and data as json in args parameter 
 var args = {
     data: {
-        name: "Mateo",
-        email: "mateo@zaragoza.com",
-        password: "mateo000",
-        bands: []
+        name: "Catarsis",
+        genres: ["indie", "rock"],
+        members: ["mzaragoza@gmail.com"]
     },
     headers: {
         "Content-Type": "application/json"
@@ -17,7 +16,7 @@ var args = {
 };
 
 // registering remote methods 
-client.registerMethod("postMethod", "http://localhost:3000/api/users/register/", "POST");
+client.registerMethod("postMethod", "http://localhost:3000/api/bands/create/", "POST");
 
 client.methods.postMethod(args, function(data, response) {
     // parsed response body as js object 

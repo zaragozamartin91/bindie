@@ -1,14 +1,18 @@
 /*DEFINE EL SCHEMA Y REGISTRA EL MODELO DE USUARIO */
 // -----------------------------------------------------------------
 
+/*considero que los nombres de bandas deben ser unicos...*/
 exports.registerSchema = function() {
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
 
     var BandSchema = new Schema({
-        name: String,
-        /*The created date field should be initialized at creation time and save the time the user document
-        was initially created*/
+        name: {
+            type: String,
+            unique: 'Ya existe una banda con ese nombre!',
+            required: 'El nombre de la banda no puede ser vacio!'
+        },
+        /*Campo que guarda la fecha de creacion de la banda*/
         created: {
             type: Date,
             default: Date.now
@@ -22,13 +26,21 @@ exports.registerSchema = function() {
         }]
     });
 
+    /*busca una unica banda por nombre.*/
+    BandSchema.statics.findOneByName = function(name, callback) {
+        console.log("Buscando banda: " + name);
+        this.findOne({
+            name: name
+        }, callback);
+    };
+
     /*A post middleware is defined using the post() method of the schema object*/
     /*esta funcion correra despues de ejecutar save() sobre mongo.*/
     BandSchema.post('save', function(next) {
         if (this.isNew) {
-            console.log('A new band was created!');
+            console.log('Se creo una banda nueva!');
         } else {
-            console.log('An band was updated!');
+            console.log('Se actualizo una banda!');
         }
     });
 
@@ -39,6 +51,6 @@ exports.registerSchema = function() {
         virtuals: true
     });
 
-    console.log("registering Band model!");
+    console.log("Registrando modelo de bandas!");
     mongoose.model('Band', BandSchema);
 };
