@@ -3,7 +3,7 @@ exports.config = function(app) {
 
 
     /* Los siguientes son rutas API para manipular bandas utilizando AJAX... */
-    app.get('/api/bands/list', bandController.list);
+    app.get('/api/bands', bandController.list);
 
 
     /* Rutas con vistas para manipular bandas... */

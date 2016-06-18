@@ -3,9 +3,10 @@ exports.config = function(app) {
 
 
     /* Los siguientes son rutas API para manipular usuarios utilizando AJAX... */
-    app.get('/api/users/list', userController.list);
+    app.get('/api/users/', userController.list);
     app.post('/api/users/register', userController.registerApi);
-    app.get('/api/users/id/:userId', userController.getById);
+    app.get('/api/users/:userId', userController.getById);
+    app.get('/api/users/:userId/bands', userController.getBands);
 
 
     /* Las siguientes son rutas de vistas */

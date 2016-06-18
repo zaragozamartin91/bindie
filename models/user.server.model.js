@@ -35,16 +35,15 @@ exports.registerSchema = function() {
             type: Date,
             default: Date.now
         },
-        bands: [{
-            type: ObjectId,
-            default: [],
-            ref: 'Band'
-        }],
         /*variable para encriptar el password...*/
         salt: String
     });
 
-
+    UserSchema.statics.findOneById = function(plainId, callback) {
+        this.findOne({
+            _id: new ObjectId(plainId)
+        }, callback);
+    };
 
     /*To add a static method, you will need to declare it as a member of your schema's statics property*/
     UserSchema.statics.findOneByEmail = function(email, callback) {
@@ -53,6 +52,18 @@ exports.registerSchema = function() {
         }, callback);
     };
 
+    /*Busca las bandas correspondientes a un usuario*/
+    UserSchema.statics.findBands = function(plainUserId, callback) {
+        var Band = mongoose.model('Band');
+
+        Band.find({
+            members: {
+                $elemMatch: {
+                    $eq: plainUserId
+                }
+            }
+        }).populate('members').exec(callback);
+    };
 
     /*is used to hash a password string by utilizing Node.js' crypto module*/
     UserSchema.methods.hashPassword = function(password) {
@@ -67,20 +78,7 @@ exports.registerSchema = function() {
         return this.password === this.hashPassword(password);
     };
 
-    /*metodo de instancia para agregar una banda a un usuario*/
-    UserSchema.methods.addBand = function(band, handleError) {
-        var user = this;
-        user.bands.push(new ObjectId(band._id));
 
-        user.save(function(err) {
-            if (err) {
-                console.error("addBand::ocurrio un error al agregar la banda: " + band + "\nal usuario: " + user);
-                return handleError(err);
-            }
-
-            return user;
-        });
-    };
 
     /*pre-save middleware to handle the hashing of your users' passwords.*/
     UserSchema.pre('save', function(next) {

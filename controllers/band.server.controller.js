@@ -20,7 +20,7 @@ var getErrorMessage = function(err) {
 
 /*funcion API para listar todas las bandas*/
 exports.list = function(req, res) {
-    Band.find({}, function(err, bands) {
+    Band.find({}).populate('members').exec(function(err, bands) {
         if (err) {
             return res.json(err);
         }

@@ -18,7 +18,7 @@ exports.getById = function(req, res) {
 
     User.findOne({
         _id: new ObjectId(userId)
-    }).populate('bands').exec(function(err, user) {
+    }, function(err, user) {
         if (err) {
             console.error("getById::algo salio mal buscando el usuario:" + userId);
             return res.json({
@@ -30,8 +30,18 @@ exports.getById = function(req, res) {
     });
 };
 
-exports.addBandApi = function(req, res) {
-    
+/*funcion API que retorna todas las bandas de un usuario en formato Json*/
+exports.getBands = function(req, res) {
+    User.findBands(req.params.userId, function(err, bands) {
+        if (err) {
+            return res.json({
+                error: err
+            });
+        }
+
+        console.log("Bandas encontradas:" + bands);
+        return res.json(bands);
+    });
 };
 
 /*lista usuarios como objetos json para ser consumidos usando Ajax*/

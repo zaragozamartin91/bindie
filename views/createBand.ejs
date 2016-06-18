@@ -12,12 +12,12 @@
     
     <% include messages %>
     
-    <form action='/bands/create' method='post'>
+    <form id="createBandForm" action='/bands/create' method='post'>
         <p>
             <input type='text' name='name' placeholder='Nombre' />
         </p>
 
-         
+        <p>Generos:</p>
         <select id="genreSelect" name="genres" multiple="multiple" size="10">
             <option value="rock">Rock</option>
             <option value="indie">Indie</option>
@@ -25,7 +25,8 @@
         </select>
         
 
-        <select id="userSelect" name="members" multiple="multiple" size="10">
+        <p>Miembros:</p>
+        <select id="memberSelect" name="members" multiple="multiple" size="10">
             <% if (locals.users) { 
                 users.forEach(function(user) { %>
                     <option value="<%= user.email %>"><%= user.email %></option>
