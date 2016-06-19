@@ -44,6 +44,11 @@ exports.createForm = function(req, res, next) {
 
     User.findBands(userId, function(err, bands) {
         console.log("bandas: " + bands);
+        if (!bands || !bands.length) {
+            res.error("No perteneces a ninguna banda!");
+            return res.redirect('back');
+        }
+
         req.bands = res.locals.bands = bands;
 
         res.render('songUpload', {
@@ -66,7 +71,8 @@ exports.createSubmit = function(req, res, next) {
 
     var song = new Song({
         name: name,
-        filePath: songFile.filename
+        filePath: songFile.filename,
+        genres: req.body.genres
     });
     song.save(function(err) {
         if (err) {
@@ -77,5 +83,29 @@ exports.createSubmit = function(req, res, next) {
 
         res.message("Cancion subida exitosamente!");
         return res.redirect("back");
+    });
+};
+
+
+exports.searchByGenreApi = function(req, res) {
+    var genre = req.params.genre;
+
+    Song.searchByGenre(genre, function(err, songs) {
+        console.log("Canciones de genero " + genre + " encontradas: " + songs);
+        res.json(songs);
+    });
+};
+
+
+exports.searchByGenre = function(req, res) {
+    var genre = req.params.genre;
+
+    Song.searchByGenre(genre, function(err, songs) {
+        console.log("Canciones de genero " + genre + " encontradas: " + songs);
+        req.songs = res.locals.songs = songs;
+        res.render('browseSongs', {
+            title: 'Explorar canciones',
+            songs: songs
+        });
     });
 };

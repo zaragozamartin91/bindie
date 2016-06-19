@@ -55,6 +55,20 @@ exports.registerSchema = function() {
         }
     });
 
+    SongSchema.statics.searchByGenre = function(genre, callback) {
+        if (!genre || genre === "" || genre == "*" || genre == "any") {
+            this.find({}, callback);
+        } else {
+            this.find({
+                genres: {
+                    $elemMatch: {
+                        $eq: genre
+                    }
+                }
+            }, callback);
+        }
+    };
+
     SongSchema.set('toJSON', {
         getters: true,
         virtuals: true

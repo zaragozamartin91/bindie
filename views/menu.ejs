@@ -1,6 +1,7 @@
 <% if (locals.user) { %>
     <div id="menu">
         <span class="name"><%= user.email %></span>
+        <a href="/songs/create">subirCancion</a>
         <a href="/bands/create">crearBanda</a>
         <a href='/users/logout'>cerrarSesion</a>
     </div>

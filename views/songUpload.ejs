@@ -48,7 +48,7 @@
             var genreValue = $('select[name="genres"]').val();
             console.log($("#genreSelect"));
             console.log("genreValue: " + genreValue);
-            if(!genreValue) {
+            if(!genreValue || genreValue == "") {
                 messages = messages || [];
                 messages.push("Seleccione al menos un genero!");
             }

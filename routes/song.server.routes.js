@@ -10,6 +10,9 @@ exports.config = function(app) {
     /* Los siguientes son rutas API para manipular canciones utilizando AJAX... */
     app.get('/api/songs', songController.list);
 
+    /* Funcion api que busca canciones por genero.*/
+    app.get('/api/songs/:genre', songController.searchByGenreApi);
+
 
     /* Rutas con vistas para manipular canciones... */
     app.get('/songs/create', songController.createForm);
