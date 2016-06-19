@@ -1,9 +1,7 @@
 {
-"name": "bindie",
-"version": "0.0.1",
-"dependencies": {
-"angular": "~1.2",
-"angular-route": "~1.2",
-"angular-resource": "~1.2"
-}
+  "name": "bindie",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "^3.0.0"
+  }
 }

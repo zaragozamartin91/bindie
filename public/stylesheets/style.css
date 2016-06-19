@@ -29,9 +29,6 @@ a {
 #createBandForm {
     width: 100%;
 }
-#genreSelect {
+select {
     width: 75%;   
-}
-#memberSelect {
-    width: 75%;
 }

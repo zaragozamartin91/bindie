@@ -26,7 +26,7 @@ exports.registerSchema = function() {
                 function(password) {
                     return password && password.length >= 6;
                 },
-                'Password deberia ser mas largo...'
+                'Password debe contener al menos 6 caracteres...'
             ],
             required: 'Se debe ingresar un password!'
         },
@@ -36,7 +36,11 @@ exports.registerSchema = function() {
             default: Date.now
         },
         /*variable para encriptar el password...*/
-        salt: String
+        salt: String,
+        /*generos favoritos del usuario*/
+        genres: [{
+            type: String
+        }],
     });
 
     UserSchema.statics.findOneById = function(plainId, callback) {

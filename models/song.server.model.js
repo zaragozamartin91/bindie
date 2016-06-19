@@ -30,6 +30,11 @@ exports.registerSchema = function() {
         /*nombre del archivo de la cancion*/
         fileName: {
             type: String
+        },
+        /*votos que una cancion puede tener*/
+        votes: {
+            type: Number,
+            default: 0
         }
     });
 

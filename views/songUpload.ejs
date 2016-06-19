@@ -5,10 +5,15 @@
 <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 <body>
+    <% include menu %>
+
     <h1><%= title %></h1>
     <p>Selecciona una cancion para subir.</p>
+
+    <% include messages %>
+
     
-    <form method='post' enctype='multipart/form-data'>
+    <form id="songUpload" method='post' enctype='multipart/form-data'>
         <p><input type='text', name='name', placeholder='Nombre cancion'/></p>
         
         <p><input type='file', name='song'/></p>
@@ -19,5 +24,47 @@
         
         <p><input type='submit', value='Upload'/></p>
     </form>
+
+    <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        $( "#songUpload" ).submit(function( event ) {
+
+            var messages = null;
+            
+            var nameValue = $("input[name='name']").val();
+            console.log("nameValue: " + nameValue);
+            if(!nameValue) {
+                messages = messages || [];
+                messages.push("Nombre no puede ser vacio!");
+            }
+
+            var songValue = $("input[name='song']").val();
+            console.log("songValue: " + songValue);
+            if(!songValue) {
+                messages = messages || [];
+                messages.push("Seleccione un archivo de cancion!");
+            }
+
+            var genreValue = $('select[name="genres"]').val();
+            console.log($("#genreSelect"));
+            console.log("genreValue: " + genreValue);
+            if(!genreValue) {
+                messages = messages || [];
+                messages.push("Seleccione al menos un genero!");
+            }
+
+            var bandValue = $("select[name='band']").val();
+            console.log("bandValue: " + bandValue);
+            if(!bandValue) {
+                messages = messages || [];
+                messages.push("Seleccione una banda!");
+            }
+
+            if(messages) {
+                event.preventDefault();
+                alert( messages.join('\n') );
+            } 
+        });
+    </script>
 </body>
 </html>

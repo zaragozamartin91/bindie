@@ -37,6 +37,11 @@ exports.list = function(req, res) {
 exports.createForm = function(req, res, next) {
     var userId = req.session.uid;
 
+    if (!userId) {
+        res.error('Debe iniciar sesion para poder subir una cancion!');
+        return res.redirect('back');
+    }
+
     User.findBands(userId, function(err, bands) {
         console.log("bandas: " + bands);
         req.bands = res.locals.bands = bands;
