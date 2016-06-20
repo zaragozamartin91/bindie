@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title><%= title %></title>
+
+    <!-- Bootstrap Core CSS -->
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+
+    <!-- Bootstrap Core -->
+    <link rel="stylesheet" type="text/css" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- custom sobre bootstrap -->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/CustomBootstrap/sb-admin-2.css" />
+
+    <!-- Plugin metis menu, para menues responsivos Mobile, controles de list, etc. -->
+    <link rel="stylesheet" type="text/css" href="/lib/metisMenu/dist/metisMenu.min.css" />    
+
+    <!-- Font Awesome (tipografia customizada) -->
+    <link rel="stylesheet" type="text/css" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Bindie</a>
+            </div>
+
+            <!-- Top Menu -->
+            <ul class="nav navbar-top-links navbar-right">
+                <% include menu %>
+            </ul>
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+
+            <ul class="nav" id="side-menu">
+                <li>
+                    <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-wrench fa-fw"></i> DropDown Ejemplo<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#">Opcion 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Opcion 2</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
+            </ul>
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+            <%- body %>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="/lib/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Custom Js para el Style -->
+    <script type="text/javascript" src="/lib/CustomStyleJs/sb-admin-2.js"></script>
+
+    <!-- javascript del multiselect -->
+    <script type="text/javascript" src="/lib/multiselect/js/bootstrap-multiselect.js"></script>
+
+    <!-- Inicializacion de los multiselects -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#genreSelect").multiselect();
+        });
+    </script>
+
+</body>
+
+</html>

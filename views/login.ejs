@@ -1,28 +1,50 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <title><%= title %></title>
 <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
+</head> -->
+
 <body>
-    <% include menu %>
 
     <h1><%= title %></h1>
 
-    <p>Completa el siguiente formulario para iniciar sesion</p>
+    <br />
+
+    <p class="text">Completa el siguiente formulario para iniciar sesion</p>
+
+    <br />
 
     <% include messages %>
 
-    <form id="userLogin" action='/users/login' method='post'>
-        <p>
-            <input type='text' name='email' placeholder='Email' />
-        </p>
-        <p>
-            <input type='password' name='password' placeholder='Password' />
-        </p>
-        <p>
-            <input type='submit' value='Login' />
-        </p>
+    <form class="form" action='/users/login' method='post'>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-4">
+                <input class="form-control" type='text' name='email' placeholder='Email' />
+            </div>
+        </div>
+            
+        <br />
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-4">
+                <input class="form-control" type='password' name='password' placeholder='Password' />
+            </div>
+        </div>
+            
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <hr />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-offset-1 btn-group">
+                <input class="btn btn-primary" type='submit' value='Login' />
+            </div>
+        </div>
+
     </form>
 </body>
 </html>

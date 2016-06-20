@@ -3,5 +3,8 @@
   "version": "0.0.1",
   "dependencies": {
     "jquery": "^3.0.0"
+    "bootstrap": "^3.3.6",
+    "font-awesome": "fontawesome#^4.6.3",
+    "metisMenu": "^2.5.2"
   }
 }

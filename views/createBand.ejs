@@ -1,20 +1,30 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <title><%= title %></title>
 <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
+</head> -->
+
+<link rel="stylesheet" href="/lib/multiselect/css/bootstrap-multiselect.css">
+
 <body>
-    <% include menu %>
     
     <h1><%= title %></h1>
     
     <% include messages %>
     
-    <form id="createBandForm" action='/bands/create' method='post'>
-        <p>
-            <input type='text' name='name' placeholder='Nombre' />
-        </p>
+    <form class="form" id="createBandForm" action='/bands/create' method='post'>
+
+    <div class="row">
+        <div class="col-md-1 col-sm-1 col-xs-2">
+            <label>Nombre: </label>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <input class="form-control" type='text' name='name' />
+        </div>
+    </div>
+
+    <hr />
 
         <% include genreSelect %>
 

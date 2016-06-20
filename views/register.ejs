@@ -1,33 +1,56 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <title><%= title %></title>
 <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
+</head> -->
+
+<link rel="stylesheet" href="/lib/multiselect/css/bootstrap-multiselect.css">
+
 <body>
-    <% include menu %>
     
     <h1><%= title %></h1>
-    <p>Completa el siguiente formulario para registrarte:</p>
+    <p class="text">Completa el siguiente formulario para registrarte:</p>
     
+    <hr />
+
     <% include messages %>
     
-    <form action='/users/register' method='post'>
-        <p>
-            <input type='text' name='name' placeholder='Nombre' />
-        </p>
-        <p>
-            <input type='text' name='email' placeholder='Email' />
-        </p>
-        <p>
-            <input type='password' name='password' placeholder='Password' />
-        </p>
+    <form class="form" action='/users/register' method='post'>
+        <div class="row text-center">
+            <div class="col-md-3 col-sm-3 col-xs-4">
+                <input class="form-control" type='text' name='name' placeholder='Nombre' />
+            </div>
+        </div>
+            
+        <br />
+
+        <div class="row text-center">
+            <div class="col-md-3 col-sm-3 col-xs-4">
+                <input class="form-control" type='text' name='email' placeholder='Email' />
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row text-center">
+            <div class="col-md-3 col-sm-3 col-xs-4">
+                <input class="form-control" type='password' name='password' placeholder='Password' />
+            </div>
+        </div>
+
+        <br />
 
         <% include genreSelect %>
 
-        <p>
-            <input type='submit' value='Registrarse' />
-        </p>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-offset-1 btn-group">
+                <input class="btn btn-primary" type='submit' value='Registrarse' />
+            </div>
+        </div>
+
     </form>
 </body>
 </html>

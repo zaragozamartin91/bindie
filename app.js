@@ -11,6 +11,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var session = require('express-session');
+var expressLayouts = require('express-ejs-layouts');
 
 var userLoadMiddleware = require('./lib/userLoad.js');
 var messages = require('./lib/messages');
@@ -24,6 +25,9 @@ var appConfig = require('./config/appConfig');
 // en la carpeta views se guardaran las vistas. Como motor de template se usa EJS.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+//aplico modulo de layouts
+app.use(expressLayouts);
 
 // Descomentar la siguiente linea de codigo cuando se coloque un logo de la aplicacion en carpeta public/
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
