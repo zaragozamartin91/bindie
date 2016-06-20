@@ -1,21 +1,63 @@
 <link rel="stylesheet" href="/stylesheets/bootstrap-multiselect.css">
+
 <body>
+
     <h1><%= title %></h1>
-    <p>Selecciona una cancion para subir.</p>
+
+    <br />
+
+    <p class="alert alert-info">Selecciona una cancion para subir.</p>
 
     <% include messages %>
 
     
-    <form id="songUpload" method='post' enctype='multipart/form-data'>
-        <p><input type='text', name='name', placeholder='Nombre cancion'/></p>
-        
-        <p><input type='file', name='song'/></p>
+    <form id="songUpload" class="form" method='post' enctype='multipart/form-data'>
 
-        <% include genreSelect %>
-
-        <% include bandSelect %>
+    <div class="row">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+            <input type='file' name='song'/>
+        </div>
+    </div>
         
-        <p><input type='submit', value='Upload'/></p>
+    <br />
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            Contanos sobre tu canción!
+        </div>
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    <input class="form-control" type='text' name='name' placeholder='Nombre de la cancion'/>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <% include genreSelect %>
+                </div>
+
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <% include bandSelect %>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row text-center">
+                <div class="col-md-12s col-sm-12 col-xs-12">
+                    <input class="btn btn-lg btn-primary" type='submit' value='Subir!'/>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+        
+
     </form>
 
     <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>

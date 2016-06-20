@@ -15,24 +15,38 @@
     
     <form class="form" id="createBandForm" action='/bands/create' method='post'>
 
-    <div class="row">
-        <div class="col-md-1 col-sm-1 col-xs-2">
-            <label>Nombre: </label>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Datos de la Banda
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <input class="form-control" type='text' name='name' placeholder="Nombre de la banda" />
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <% include genreSelect %>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <% include memberSelect %>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row text-center">
+                    <input class="btn btn-lg btn-primary" type='submit' value='Crear!' />
+                </div>
+            </div>
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <input class="form-control" type='text' name='name' />
-        </div>
-    </div>
 
-    <hr />
-
-        <% include genreSelect %>
-
-        <% include memberSelect %>        
-
-        <p>
-            <input type='submit' value='Crear' />
-        </p>
+    
     </form>
 </body>
 </html>
