@@ -2,13 +2,25 @@
     <h1><%= title %></h1>
     <p>Escucha tus canciones favoritas.</p>
 
-    <p>
-    <input type="text" name="genre" placeholder="Genero"></input>
-    <button>Buscar</button>
-    </p>
+    <style type="text/css">
+        input[name="genre"] {
+            width: 100%;
+        }
+
+        #searchSongs {
+            width: 30%;
+        }
+    </style>
+
+    <div class="form-group">
+        <label for="genre">Genero:</label>
+        <input type="text" class="form-control" name="genre" id="genre">
+    </div>
+
+    <button class="btn btn-primary" id="searchSongs">Buscar</button>
 
     <p>
-    <div id="songList"></div>
+        <div id="songList"></div>
     </p>
     
     <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
@@ -29,8 +41,7 @@
                     console.log("Cancion: ");
                     console.log(song);
 
-
-                    $('<audio controls="controls"><source src="/songs/'+song.fileName+'" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
+                    $('<audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
                             .appendTo( $(songListSelector) );
 
                 } );

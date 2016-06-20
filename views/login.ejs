@@ -1,4 +1,10 @@
 <body>
+<style type="text/css">
+    #loginButton {
+        width: 100%;
+        margin: 0 auto;
+    }
+</style>
 
     <h1><%= title %></h1>
 
@@ -13,7 +19,7 @@
     <form class="form" action='/users/login' method='post'>
 
         <div class="row">
-            <div class="col-md-3 col-sm-3 col-xs-4">
+            <div class="col-md-8 col-sm-12 col-xs-12">
                 <input class="form-control" type='text' name='email' placeholder='Email' />
             </div>
         </div>
@@ -21,7 +27,7 @@
         <br />
 
         <div class="row">
-            <div class="col-md-3 col-sm-3 col-xs-4">
+            <div class="col-md-8 col-sm-12 col-xs-12">
                 <input class="form-control" type='password' name='password' placeholder='Password' />
             </div>
         </div>
@@ -33,11 +39,10 @@
         </div>
 
         <div class="row">
-            <div class="col-md-offset-1 btn-group">
-                <input class="btn btn-primary" type='submit' value='Login' />
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <input class="btn btn-primary" type='submit' value="Login" id="loginButton" ></input>
             </div>
         </div>
-
     </form>
 </body>
 </html>

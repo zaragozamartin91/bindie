@@ -1,5 +1,11 @@
 <link rel="stylesheet" href="/stylesheets/bootstrap-multiselect.css">
 
+<style type="text/css">
+    #registerButton {
+        width: 100%;
+    }
+</style>
+
 <body>
     
     <h1><%= title %></h1>
@@ -11,7 +17,7 @@
     
     <form class="form" action='/users/register' method='post'>
         <div class="row text-center">
-            <div class="col-md-3 col-sm-3 col-xs-4">
+            <div class="col-md-8 col-sm-12 col-xs-12">
                 <input class="form-control" type='text' name='name' placeholder='Nombre' />
             </div>
         </div>
@@ -19,7 +25,7 @@
         <br />
 
         <div class="row text-center">
-            <div class="col-md-3 col-sm-3 col-xs-4">
+            <div class="col-md-8 col-sm-12 col-xs-12">
                 <input class="form-control" type='text' name='email' placeholder='Email' />
             </div>
         </div>
@@ -27,7 +33,7 @@
         <br />
 
         <div class="row text-center">
-            <div class="col-md-3 col-sm-3 col-xs-4">
+            <div class="col-md-8 col-sm-12 col-xs-12">
                 <input class="form-control" type='password' name='password' placeholder='Password' />
             </div>
         </div>
@@ -39,8 +45,8 @@
         <hr />
 
         <div class="row">
-            <div class="col-md-offset-1 btn-group">
-                <input class="btn btn-primary" type='submit' value='Registrarse' />
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <input class="btn btn-primary" type='submit' value="Registrarse" id="registerButton" ></input>
             </div>
         </div>
 
