@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title><%= title %></title>
-<link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
 <body>
     <h1><%= title %></h1>
     <p>Escucha tus canciones favoritas.</p>
 
+    <p>
     <input type="text" name="genre" placeholder="Genero"></input>
-
     <button>Buscar</button>
+    </p>
 
+    <p>
     <div id="songList"></div>
+    </p>
     
     <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript">
@@ -32,12 +29,12 @@
                     console.log("Cancion: ");
                     console.log(song);
 
-                    $( "<p/>", {
-                        html: song.name
-                    }).appendTo( $(songListSelector) );
+
+                    $('<audio controls="controls"><source src="/songs/'+song.fileName+'" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
+                            .appendTo( $(songListSelector) );
+
                 } );
             });            
         });
     </script>
 </body>
-</html>
