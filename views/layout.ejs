@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><%= title %></title>
 
     <!-- Bootstrap Core CSS -->
     <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
@@ -98,15 +97,16 @@
     <script src="/lib/metisMenu/dist/metisMenu.min.js"></script>
 
     <!-- Custom Js para el Style -->
-    <script type="text/javascript" src="/lib/CustomStyleJs/sb-admin-2.js"></script>
+    <script type="text/javascript" src="/custom/CustomStyleJs/sb-admin-2.js"></script>
 
     <!-- javascript del multiselect -->
-    <script type="text/javascript" src="/lib/multiselect/js/bootstrap-multiselect.js"></script>
+    <script type="text/javascript" src="/custom/multiselect/js/bootstrap-multiselect.js"></script>
 
     <!-- Inicializacion de los multiselects -->
     <script type="text/javascript">
         $(document).ready(function() {
             $("#genreSelect").multiselect();
+            $("#bandSelect").multiselect();
         });
     </script>
 

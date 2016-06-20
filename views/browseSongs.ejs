@@ -7,7 +7,28 @@
 <body>
     <h1><%= title %></h1>
     <p>Escucha tus canciones favoritas.</p>
-    
 
+    <input type="text" placeholder="Genero"></input>
+
+    <button>Buscar</button>
+
+    <div id="songList"></div>
+    
+    <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        $('button').click(function(){
+            $("#songList").html("");
+
+            $.getJSON( "http://localhost:3000/api/songs", function( data ) {
+                data.forEach( function(song){
+                    console.log("Cancion: ");
+                    console.log(song);
+                    $( "<p/>", {
+                        html: song.name
+                    }).appendTo( $('#songList') );
+                } );
+            });            
+        });
+    </script>
 </body>
 </html>

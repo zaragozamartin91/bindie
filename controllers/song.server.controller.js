@@ -71,7 +71,7 @@ exports.createSubmit = function(req, res, next) {
 
     var song = new Song({
         name: name,
-        filePath: songFile.filename,
+        fileName: songFile.filename,
         genres: req.body.genres
     });
     song.save(function(err) {
@@ -97,15 +97,8 @@ exports.searchByGenreApi = function(req, res) {
 };
 
 
-exports.searchByGenre = function(req, res) {
-    var genre = req.params.genre;
-
-    Song.searchByGenre(genre, function(err, songs) {
-        console.log("Canciones de genero " + genre + " encontradas: " + songs);
-        req.songs = res.locals.songs = songs;
-        res.render('browseSongs', {
-            title: 'Explorar canciones',
-            songs: songs
-        });
+exports.browse = function(req, res) {
+    res.render('browseSongs', {
+        title: 'Buscar canciones'
     });
 };

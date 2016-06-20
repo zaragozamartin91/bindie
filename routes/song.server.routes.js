@@ -22,5 +22,8 @@ exports.config = function(app) {
     app.post('/songs/create', upload.single('song'), songController.createSubmit);
 
 
+    app.get('/songs/browse', songController.browse);    
+
+
     console.log("Rutas de canciones configuradas!");
 };

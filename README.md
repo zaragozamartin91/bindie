@@ -7,6 +7,14 @@ Version de Bower:   1.7.9
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
+NOTA:
+
+Todo el contenido del directorio /public/lib y node_modules/ esta marcado como ignorado por git.
+
+Toda biblioteca publica (para el cliente) que desarrollen y que deseen commitear debe estar en /public/custom.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
 Instalacion del proyecto:
 
 > Instalar NodeJs desde https://nodejs.org/en/download/.
@@ -44,7 +52,9 @@ Estructura del proyecto:
 > lib: middlewares y clases de utilidades.
 > models: modelos de datos.
 > node_modules: guarda todos los modulos instalados por npm. Este directorio no deberia tocarse manualmente.
-> public: archivos publicos como imagenes, musica, etc.
+> public: archivos publicos (client-side) como imagenes, musica, etc.
+> public/lib: BIBLIOTECAS DESCARGADAS MEDIANTE BOWER (NO SE SUBEN AL REPOSITORIO).
+> public/custom: BIBLIOTECAS CLIENT-SIDE NUESTRAS QUE DESEEMOS SUBIR AL REPO.
 > routes: rutas y redireccionamientos. Vincula rutas de acceso a la aplicacion con funciones de controladores.
 > views: contiene las vistas de la aplicacion usando el template engine EJS.
 
