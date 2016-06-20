@@ -98,6 +98,11 @@ exports.searchByGenreApi = function(req, res) {
 
 
 exports.browse = function(req, res) {
+    if (!req.session.uid) {
+        res.error("Debe iniciar sesion para buscar musica!");
+        return res.redirect("back");
+    }
+
     res.render('browseSongs', {
         title: 'Buscar canciones'
     });

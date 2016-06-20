@@ -8,7 +8,7 @@
     <h1><%= title %></h1>
     <p>Escucha tus canciones favoritas.</p>
 
-    <input type="text" placeholder="Genero"></input>
+    <input type="text" name="genre" placeholder="Genero"></input>
 
     <button>Buscar</button>
 
@@ -17,15 +17,24 @@
     <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript">
         $('button').click(function(){
-            $("#songList").html("");
+            var songListSelector = "#songList";
+            var genreValue = $("input[name='genre']").val();
+            if(!genreValue || genreValue == ""){
+                genreValue = "any";
+            }
 
-            $.getJSON( "http://localhost:3000/api/songs", function( data ) {
+            $(songListSelector).html("");
+
+            var ajaxUrl = "http://localhost:3000/api/songs/genre/" + genreValue;
+
+            $.getJSON( ajaxUrl , function( data ) {
                 data.forEach( function(song){
                     console.log("Cancion: ");
                     console.log(song);
+
                     $( "<p/>", {
                         html: song.name
-                    }).appendTo( $('#songList') );
+                    }).appendTo( $(songListSelector) );
                 } );
             });            
         });
