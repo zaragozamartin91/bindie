@@ -81,7 +81,7 @@ exports.createSubmit = function(req, res, next) {
             return res.redirect("back");
         }
 
-        res.message("Cancion subida exitosamente!");
+        res.success("Cancion subida exitosamente!");
         return res.redirect("back");
     });
 };

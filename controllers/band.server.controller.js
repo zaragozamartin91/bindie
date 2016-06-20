@@ -107,7 +107,7 @@ exports.createSubmit = function(req, res, next) {
 
                 console.log("Banda creada:");
                 console.log(band);
-                res.message("Banda " + band.name + " creada exitosamente!");
+                res.success("Banda " + band.name + " creada exitosamente!");
                 res.redirect("back");
             });
         });
