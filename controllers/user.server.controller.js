@@ -65,7 +65,7 @@ exports.list = function(req, res) {
 /*Redirecciona a la vista de registro "register.ejs".*/
 exports.registerForm = function(req, res) {
     if (getSessionUserId(req)) {
-        res.message("Ya ha iniciado sesion!");
+        res.message("No puede registrarse con una sesion activa!");
         return res.redirect('back');
     }
 

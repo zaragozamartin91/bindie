@@ -15,6 +15,7 @@ var expressLayouts = require('express-ejs-layouts');
 
 var userLoadMiddleware = require('./lib/userLoad.js');
 var messages = require('./lib/messages');
+var titleMiddleware = require('./lib/titleMiddleware');
 
 /*inicio express*/
 var app = express();
@@ -58,6 +59,8 @@ app.use(session({
 app.use(userLoadMiddleware);
 /*Agregamos el middleware para trabajar con mensajes en cada redirect...*/
 app.use(messages);
+/*Este middleware establece un title para cada pantalla si es que alguno no fue seteado.*/
+app.use(titleMiddleware);
 
 
 /*Configuro las rutas de la aplicacion.*/
