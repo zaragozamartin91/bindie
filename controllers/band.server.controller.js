@@ -27,6 +27,14 @@ exports.list = function(req, res) {
 
         res.json(bands);
     });
+
+    /*Band.find({}, function(err, bands) {
+        if (err) {
+            return res.json(err);
+        }
+
+        res.json(bands);
+    });*/
 };
 
 

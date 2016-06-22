@@ -43,11 +43,13 @@ exports.registerSchema = function() {
     PlaceSchema.methods.addUpvote = function(voter, callback) {
         var voterId = voter._id ? voter._id : voter;
 
-        if( this.upvotes.indexOf(voterId) < 0 ) {
-            this.upvotes.push(new ObjectId(voterId));
+        console.log("Buscando votante " + voterId);
+        if (this.upvotes.indexOf(voterId) < 0) {
+            console.log("Votante no encontrado, agregando voto...");
+            this.upvotes.push(voterId);
+        } else {
+            console.log("Usuario: " + voterId + " ya voto este lugar!");
         }
-
-        this.save(callback);
     };
 
     /*busca un lugar unico por nombre.*/

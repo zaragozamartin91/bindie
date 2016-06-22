@@ -25,5 +25,13 @@ exports.config = function(app) {
     app.get('/songs/browse', songController.browse);    
 
 
+    app.get('/api/songs/id/:songId', songController.getById);
+
+    /*ruta para que el usuario logueado pueda votar una cancion*/
+    app.get('/api/songs/upvote/:songId', songController.apiUpvote);
+    /*ruta para que el usuario cualquiera pueda votar una cancion*/
+    app.get('/api/songs/upvote/:songId/user/:userId', songController.apiUpvote);
+
+
     console.log("Rutas de canciones configuradas!");
 };

@@ -43,11 +43,13 @@ exports.registerSchema = function() {
     SongSchema.methods.addUpvote = function(voter, callback) {
         var voterId = voter._id ? voter._id : voter;
 
+        console.log("Buscando votante " + voterId);
         if (this.upvotes.indexOf(voterId) < 0) {
-            this.upvotes.push(new ObjectId(voterId));
+            console.log("Votante no encontrado, agregando voto...");
+            this.upvotes.push(voterId);
+        } else {
+            console.log("Usuario: " + voterId + " ya voto esta cancion!");
         }
-
-        this.save(callback);
     };
 
     /*busca una unica banda por nombre.*/
@@ -58,14 +60,6 @@ exports.registerSchema = function() {
             band: new ObjectId(bandId)
         }, callback);
     };
-
-    SongSchema.post('save', function(next) {
-        if (this.isNew) {
-            console.log('Se creo una cancion nueva!');
-        } else {
-            console.log('Se actualizo una cancion!');
-        }
-    });
 
     SongSchema.statics.searchByGenre = function(genre, callback) {
         if (!genre || genre === "" || genre == "*" || genre == "any") {

@@ -107,3 +107,50 @@ exports.browse = function(req, res) {
         title: 'Buscar canciones'
     });
 };
+
+
+exports.getById = function(req, res) {
+    var songId = req.params.songId;
+
+    Song.findOne({
+        _id: new ObjectId(songId)
+    }, function(err, song) {
+        if (err) {
+            console.error("Algo salio mal buscando la cancion: " + songId);
+            return res.json({
+                error: err
+            });
+        }
+
+        res.json(song);
+    });
+};
+
+exports.apiUpvote = function(req, res) {
+    var userId = req.params.userId || req.session.uid;
+    var songId = req.params.songId;
+
+    console.log("apiUpvote::userId: " + userId);
+    console.log("apiUpvote::songId: " + songId);
+
+    if (!userId || !songId) {
+        return res.json({
+            error: "No se pasaron los IDs de cancion y usuario para votar!"
+        });
+    }
+
+    Song.findOne({
+        _id: new ObjectId(songId)
+    }, function(err, song) {
+        if (err) {
+            console.error("Algo salio mal buscando la cancion: " + songId);
+            return res.json({
+                error: err
+            });
+        }
+
+        song.addUpvote(userId);
+        song.save();
+        res.json(song);
+    });
+};
