@@ -1,6 +1,7 @@
-/*CARGA LAS CONFIGURACIONES DE MONGOOSE.
-CARGA LOS SCHEMAS Y MODELOS
-SE CONECTA A LA BBDD*/
+/* 
+> CARGA LAS CONFIGURACIONES DE MONGOOSE.
+> CARGA LOS SCHEMAS Y MODELOS
+> SE CONECTA A LA BBDD*/
 // ----------------------------------------------------------------------
 
 var mongoose = require('mongoose');
@@ -13,6 +14,7 @@ module.exports = function() {
     require('../models/user.server.model.js').registerSchema();
     require('../models/band.server.model.js').registerSchema();
     require('../models/song.server.model.js').registerSchema();
+    require('../models/place.server.model.js').registerSchema();
 
     return db;
 };

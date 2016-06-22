@@ -5,6 +5,7 @@
 exports.registerSchema = function() {
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
+    var ObjectId = Schema.Types.ObjectId;
 
     var SongSchema = new Schema({
         name: {
@@ -24,19 +25,30 @@ exports.registerSchema = function() {
             default: "Descripcion no disponible"
         },
         band: {
-            type: Schema.Types.ObjectId,
+            type: ObjectId,
             ref: 'Band'
         },
         /*nombre del archivo de la cancion*/
         fileName: {
             type: String
         },
-        /*votos que una cancion puede tener*/
-        votes: {
-            type: Number,
-            default: 0
-        }
+        /*votos positivos de una cancion. Para evitar que se vote dos veces, se registran quienes dieron votos positivos.*/
+        upvotes: [{
+            type: ObjectId,
+            ref: 'User'
+        }],
     });
+
+    /*FALTA TESTEAR SI FUNCIONA...*/
+    SongSchema.methods.addUpvote = function(voter, callback) {
+        var voterId = voter._id ? voter._id : voter;
+
+        if (this.upvotes.indexOf(voterId) < 0) {
+            this.upvotes.push(new ObjectId(voterId));
+        }
+
+        this.save(callback);
+    };
 
     /*busca una unica banda por nombre.*/
     SongSchema.statics.findOneByNameAndBand = function(name, bandId, callback) {
