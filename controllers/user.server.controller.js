@@ -217,3 +217,26 @@ exports.logout = function(req, res) {
         res.redirect('/');
     });
 };
+
+exports.getByEmail = function(req, res) {
+    var userEmail = req.params.userEmail;
+    console.log("userEmail: " + userEmail);
+
+    if (!userEmail || userEmail == "") {
+        return res.json({
+            error: "No se indico el correo del usuario!"
+        });
+    }
+
+    User.findOne({
+        email: userEmail
+    }, function(err, user) {
+        if (err) {
+            return res.json({
+                error: err
+            });
+        }
+
+        res.json(user);
+    });
+};

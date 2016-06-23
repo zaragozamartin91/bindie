@@ -122,3 +122,27 @@ exports.createSubmit = function(req, res, next) {
 
     });
 };
+
+
+exports.getByName = function(req, res) {
+    var bandName = req.params.bandName;
+
+    if (!bandName) {
+        return res.json({
+            error: "No se indico nombre de banda!"
+        });
+    }
+
+    Band.find({
+        /*Busco una banda ignorando mayusculas y minusculas*/
+        name: new RegExp(bandName, "i")
+    }, function(err, bands) {
+        if (err) {
+            return res.json({
+                error: err
+            });
+        }
+
+        return res.json(bands);
+    });
+};

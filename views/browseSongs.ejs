@@ -3,7 +3,7 @@
     <p>Escucha tus canciones favoritas.</p>
 
     <style type="text/css">
-        input[name="genre"] {
+        #genreInput {
             width: 100%;
         }
 
@@ -14,7 +14,8 @@
 
     <div class="form-group">
         <label for="genre">Genero:</label>
-        <input type="text" class="form-control" name="genre" id="genre">
+        <input id="genreInput" type="text" class="form-control" name="genre" id="genre">
+        
     </div>
 
     <button class="btn btn-primary" id="searchSongs">Buscar</button>
@@ -27,7 +28,7 @@
     <script type="text/javascript">
         $('button').click(function(){
             var songListSelector = "#songList";
-            var genreValue = $("input[name='genre']").val();
+            var genreValue = $("#genreInput").val();
             if(!genreValue || genreValue == ""){
                 genreValue = "any";
             }
