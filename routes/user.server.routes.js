@@ -7,7 +7,7 @@ exports.config = function(app) {
     app.post('/api/users/register', userController.registerApi);
     app.get('/api/users/id/:userId', userController.getById);
     app.get('/api/users/id/:userId/bands', userController.getBands);
-    app.get('/api/users/email/:userEmail?',userController.getByEmail);
+    app.get('/api/users/email/:userEmail?', userController.getByEmail);
 
 
     /* Las siguientes son rutas de vistas */
@@ -16,6 +16,7 @@ exports.config = function(app) {
     app.get('/users/login', userController.loginForm);
     app.post('/users/login', userController.loginSubmit);
     app.get('/users/logout', userController.logout);
+    app.get('/users/bands', userController.browseMyBands);
 
 
     console.log("Rutas de usuario configuradas!");

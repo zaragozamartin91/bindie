@@ -6,12 +6,13 @@ exports.config = function(app) {
     /*Obtiene todas las bandas*/
     app.get('/api/bands', bandController.list);
     /*Obtiene bandas a partir de nombres parecidos de la misma (serviria para una busqueda de autocompletar)*/
-    app.get('/api/bands/name/:bandName',bandController.getByName);
+    app.get('/api/bands/name/:bandName?',bandController.getByName);
 
 
     /* Rutas con vistas para manipular bandas... */
     app.get('/bands/create', bandController.createForm);
     app.post('/bands/create', bandController.createSubmit);
+    app.get('/bands/browse', bandController.browseBands);
 
 
     console.log("Rutas de bandas configuradas!");

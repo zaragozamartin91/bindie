@@ -228,8 +228,8 @@ exports.getByEmail = function(req, res) {
         });
     }
 
-    User.findOne({
-        email: userEmail
+    User.find({
+        email: new RegExp(userEmail, 'i')
     }, function(err, user) {
         if (err) {
             return res.json({
@@ -238,5 +238,29 @@ exports.getByEmail = function(req, res) {
         }
 
         res.json(user);
+    });
+};
+
+/*la idea es que en browse My bands haya opciones para trabajar con la banda o algo asi.*/
+exports.browseMyBands = function(req, res, next) {
+    var userId = req.session.uid;
+
+    if (!userId) {
+        res.error("No has iniciado sesion para ver tus bandas!");
+        return res.redirect("back");
+    }
+
+    User.findBands(userId, function(err, bands) {
+        if (err) {
+            var errorMessage = getErrorMessage(err);
+            res.error(errorMessage);
+            return res.redirect("back");
+        }
+
+        req.bands = res.locals.bands = bands;
+        res.render('myBands', {
+            title: "Mis Bandas",
+            bands: bands
+        });
     });
 };

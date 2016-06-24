@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title><%= title %></title>
-<link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
-<body>
-    <% include menu %>
-    
+<body>    
     <h1><%= title %></h1>
     
     <% include messages %>
     
-    
+	<% if (locals.bands) { 
+        bands.forEach(function(band) { %>
+            <p><%= band.name %></p>
+        <% }) 
+    } %>
 </body>
-</html>

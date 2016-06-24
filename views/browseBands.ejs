@@ -1,0 +1,44 @@
+<body>    
+	<style type="text/css">
+		
+	</style>
+
+    <h1><%= title %></h1>
+    
+    <% include messages %>
+
+    <div class="row">
+        <div class="col-md-10 col-sm-10 col-xs-10">
+            <input id="bandNameInput" class="form-control" type='text' name='bandName' placeholder='Nombre banda' />
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-2">
+        	<button id="searchBandsButton" class="btn btn-primary fa fa-search" ></button>
+        </div>
+    </div>    
+    
+    <div class = "row">
+    	<div class="col-md-12 col-sm-12 col-xs-12">
+    		<div id="foundBands"></div>
+    	</div>
+    </div>
+
+    <script type="text/javascript">
+    	$('document').ready(function() {
+	        $('#searchBandsButton').click(function(){
+	            var bandName = $("#bandNameInput").val();
+	            $("#foundBands").html("");
+
+	            var ajaxUrl = bandName ? ("http://localhost:3000/api/bands/name/" + bandName) : "http://localhost:3000/api/bands/name/";
+
+	            $.getJSON( ajaxUrl , function( data ) {
+	                data.forEach( function(band) {
+	                    console.log("Banda: ");
+	                    console.log(band);
+
+	                    $('<p>'+band.name+'</p>').appendTo( $("#foundBands") );
+	                } );
+	            });            
+	        });
+    	});
+    </script>
+</body>

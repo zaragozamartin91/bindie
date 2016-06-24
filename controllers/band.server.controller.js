@@ -127,10 +127,8 @@ exports.createSubmit = function(req, res, next) {
 exports.getByName = function(req, res) {
     var bandName = req.params.bandName;
 
-    if (!bandName) {
-        return res.json({
-            error: "No se indico nombre de banda!"
-        });
+    if (!bandName || bandName==="") {
+        bandName = ".*";
     }
 
     Band.find({
@@ -144,5 +142,21 @@ exports.getByName = function(req, res) {
         }
 
         return res.json(bands);
+    });
+};
+
+/*No realiza paginacion. En browseBands.ejs se expondran todas las bandas...*/
+exports.browseBands = function(req, res, next) {
+    Band.find({}, function(err, bands) {
+        if (err) {
+            res.error(getErrorMessage(err));
+            return res.redirect('back');
+        }
+
+        res.locals.bands = req.bands = bands;
+        res.render('browseBands', {
+            title: "Buscar bandas",
+            bands: bands
+        })
     });
 };

@@ -15,7 +15,6 @@
     <div class="form-group">
         <label for="genre">Genero:</label>
         <input id="genreInput" type="text" class="form-control" name="genre" id="genre">
-        
     </div>
 
     <button class="btn btn-primary" id="searchSongs">Buscar</button>
@@ -26,27 +25,29 @@
     
     <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript">
-        $('button').click(function(){
-            var songListSelector = "#songList";
-            var genreValue = $("#genreInput").val();
-            if(!genreValue || genreValue == ""){
-                genreValue = "any";
-            }
+        $('document').ready( function(){
+            $('button').click(function() {
+                var songListSelector = "#songList";
+                var genreValue = $("#genreInput").val();
+                if(!genreValue || genreValue == ""){
+                    genreValue = "any";
+                }
 
-            $(songListSelector).html("");
+                $(songListSelector).html("");
 
-            var ajaxUrl = "http://localhost:3000/api/songs/genre/" + genreValue;
+                var ajaxUrl = "http://localhost:3000/api/songs/genre/" + genreValue;
 
-            $.getJSON( ajaxUrl , function( data ) {
-                data.forEach( function(song){
-                    console.log("Cancion: ");
-                    console.log(song);
+                $.getJSON( ajaxUrl , function( data ) {
+                    data.forEach( function(song){
+                        console.log("Cancion: ");
+                        console.log(song);
 
-                    $('<audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
-                            .appendTo( $(songListSelector) );
+                        $('<audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
+                                .appendTo( $(songListSelector) );
 
-                } );
-            });            
-        });
+                    } );
+                });            
+            });
+        } );
     </script>
 </body>
