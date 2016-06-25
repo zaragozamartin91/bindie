@@ -10,12 +10,21 @@
     
     <% include messages %>
 
+    <% if (locals.user) { %>
+     <script>
+        userEmail = "<%= locals.user.email %>";
+        userId = "<%= locals.user._id %>";
+     </script>
+    <% } %>
+
     <div class="row">
-        <div class="col-md-10 col-sm-10 col-xs-10">
-            <input id="bandNameInput" class="form-control" type='text' name='bandName' placeholder='Nombre banda' />
+        <div class="col-md-10 col-sm-10 col-xs-8">
+            <!-- <input id="bandNameInput" class="form-control" type='text' name='bandName' placeholder='Nombre banda' /> -->
+            <paper-input id="bandNameInput" name='bandName' placeholder='Nombre banda' />
         </div>
-        <div class="col-md-2 col-sm-2 col-xs-2">
-        	<button id="searchBandsButton" class="btn btn-primary fa fa-search" ></button>
+        <div class="col-md-2 col-sm-2 col-xs-4">
+        	<!-- <button id="searchBandsButton" class="btn btn-primary fa fa-search" ></button> -->
+            <paper-button id="searchBandsButton" raised>Buscar</paper-button>
         </div>
     </div>    
     
@@ -25,6 +34,9 @@
 
     <script type="text/javascript">
     	$('document').ready(function() {
+            console.log("user:");
+            console.log(userEmail);
+
 	        $('#searchBandsButton').click(function(){
 	            var bandName = $("#bandNameInput").val();
 	            $("#foundBands").html("");
@@ -36,7 +48,7 @@
 	                    console.log("Banda: ");
 	                    console.log(band);
 
-                        $('<paper-card heading="'+band.name+'" >  <div class="card-content">'+band.description+'  </div>  <div class="card-actions">    <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button>  </div></paper-card>').appendTo( $("#foundBands") );
+                        $('<paper-card heading="' + band.name + '" >  <div class="card-content">'+band.description+'  </div>  <div class="card-actions"> <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button></div></paper-card>').appendTo( $("#foundBands") );
 
 	                    //$('<p>'+band.name+'</p>').appendTo( $("#foundBands") );
 	                } );

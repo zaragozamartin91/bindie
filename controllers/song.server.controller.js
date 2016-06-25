@@ -72,7 +72,8 @@ exports.createSubmit = function(req, res, next) {
     var song = new Song({
         name: name,
         fileName: songFile.filename,
-        genres: req.body.genres
+        genres: req.body.genres,
+        description: req.body.description
     });
     song.save(function(err) {
         if (err) {

@@ -12,21 +12,28 @@
         }
     </style>
 
-    <div class="form-group">
-        <label for="genre">Genero:</label>
-        <input id="genreInput" type="text" class="form-control" name="genre" id="genre">
+    <div class="row">
+        <div class="col-md-10 col-sm-10 col-xs-8">
+            <!-- <input id="genreInput" type="text" class="form-control" name="genre" id="genre"> -->
+            <paper-input label="Genero" name="genre" id="genreInput"></paper-input>
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-4">
+            <paper-button raised id="searchSongs">Buscar</paper-button>
+        </div>
     </div>
 
-    <button class="btn btn-primary" id="searchSongs">Buscar</button>
+    <!-- <button class="btn btn-primary" id="searchSongs">Buscar</button> -->
 
-    <p>
-        <div id="songList"></div>
-    </p>
+    <div class="row">
+        <p>
+            <div id="songList"></div>
+        </p>
+    </div>
     
     <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript">
         $('document').ready( function(){
-            $('button').click(function() {
+            $('#searchSongs').click(function() {
                 var songListSelector = "#songList";
                 var genreValue = $("#genreInput").val();
                 if(!genreValue || genreValue == ""){
@@ -42,8 +49,10 @@
                         console.log("Cancion: ");
                         console.log(song);
 
-                        $('<audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
-                                .appendTo( $(songListSelector) );
+                        /*$('<audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
+                                .appendTo( $(songListSelector) );*/
+
+                        $('<paper-card heading="' + song.name + '" >  <div class="card-content"> <p>'+ song.description +'</p>  <audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio> </div>  <div class="card-actions"> <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button></div></paper-card>').appendTo( $(songListSelector) );
 
                     } );
                 });            
