@@ -157,6 +157,6 @@ exports.browseBands = function(req, res, next) {
         res.render('browseBands', {
             title: "Buscar bandas",
             bands: bands
-        })
+        });
     });
 };

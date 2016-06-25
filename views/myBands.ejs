@@ -5,7 +5,7 @@
     
 	<% if (locals.bands) { 
         bands.forEach(function(band) { %>
-            <p><%= band.name %></p>
+            <paper-card heading="<%= band.name%>" >  <div class="card-content"><%= band.description %> </div>  </paper-card>
         <% }) 
     } %>
 </body>

@@ -16,25 +16,26 @@
     <% include messages %>
     
     <form class="form" action='/users/register' method='post'>
-        <div class="row text-center">
+        <div class="row">
             <div class="col-md-8 col-sm-12 col-xs-12">
-                <input class="form-control" type='text' name='name' placeholder='Nombre' />
+                <paper-input label="Nombre" name="name" auto-validate required pattern="[\D ]+" error-message="Correo invalido!"></paper-input>
             </div>
         </div>
             
         <br />
 
-        <div class="row text-center">
+        <div class="row">
             <div class="col-md-8 col-sm-12 col-xs-12">
-                <input class="form-control" type='text' name='email' placeholder='Email' />
+                <!-- <input class="form-control" type='text' name='email' placeholder='Email' /> -->
+                <paper-input label="email" name="email" auto-validate required pattern="[\w_\.]+@[\w_]+\.com" error-message="Correo invalido!"></paper-input>
             </div>
         </div>
-
+            
         <br />
 
-        <div class="row text-center">
+        <div class="row">
             <div class="col-md-8 col-sm-12 col-xs-12">
-                <input class="form-control" type='password' name='password' placeholder='Password' />
+                <paper-input label="Password" type="password" name="password"></paper-input>
             </div>
         </div>
 

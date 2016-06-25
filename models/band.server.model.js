@@ -23,7 +23,11 @@ exports.registerSchema = function() {
         members: [{
             type: Schema.Types.ObjectId,
             ref: 'User'
-        }]
+        }],
+        description: {
+            type: String,
+            default: 'Descripcion no disponible'
+        }
     });
 
     /*busca una unica banda por nombre.*/

@@ -1,6 +1,9 @@
 <body>    
 	<style type="text/css">
-		
+        paper-button[active] {
+            background-color: green;
+            color: white;
+        }		
 	</style>
 
     <h1><%= title %></h1>
@@ -16,11 +19,9 @@
         </div>
     </div>    
     
-    <div class = "row">
-    	<div class="col-md-12 col-sm-12 col-xs-12">
-    		<div id="foundBands"></div>
-    	</div>
-    </div>
+    <br/>
+
+    <div id="foundBands"></div>
 
     <script type="text/javascript">
     	$('document').ready(function() {
@@ -35,7 +36,9 @@
 	                    console.log("Banda: ");
 	                    console.log(band);
 
-	                    $('<p>'+band.name+'</p>').appendTo( $("#foundBands") );
+                        $('<paper-card heading="'+band.name+'" >  <div class="card-content">'+band.description+'  </div>  <div class="card-actions">    <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button>  </div></paper-card>').appendTo( $("#foundBands") );
+
+	                    //$('<p>'+band.name+'</p>').appendTo( $("#foundBands") );
 	                } );
 	            });            
 	        });

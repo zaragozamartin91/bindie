@@ -22,7 +22,13 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
-                        <input class="form-control" type='text' name='name' placeholder="Nombre de la banda" />
+                        <paper-input name="name" label="Nombre de banda" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-textarea name="description" label="Descripcion de banda"></paper-input>
                     </div>
                 </div>
 
