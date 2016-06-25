@@ -10,25 +10,29 @@
         #searchSongs {
             width: 30%;
         }
+
+        paper-button[active] {
+            background-color: green;
+            color: white;
+        }       
+
     </style>
 
     <div class="row">
-        <div class="col-md-10 col-sm-10 col-xs-8">
+        <div class="col-md-10 col-sm-9 col-xs-8">
             <!-- <input id="genreInput" type="text" class="form-control" name="genre" id="genre"> -->
             <paper-input label="Genero" name="genre" id="genreInput"></paper-input>
         </div>
-        <div class="col-md-10 col-sm-10 col-xs-4">
+        <div class="col-md-2 col-sm-3 col-xs-4">
             <paper-button raised id="searchSongs">Buscar</paper-button>
         </div>
     </div>
 
     <!-- <button class="btn btn-primary" id="searchSongs">Buscar</button> -->
 
-    <div class="row">
-        <p>
-            <div id="songList"></div>
-        </p>
-    </div>
+    <br/>
+
+    <div id="songList"></div>
     
     <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript">
@@ -52,7 +56,7 @@
                         /*$('<audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
                                 .appendTo( $(songListSelector) );*/
 
-                        $('<paper-card heading="' + song.name + '" >  <div class="card-content"> <p>'+ song.description +'</p>  <audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio> </div>  <div class="card-actions"> <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button></div></paper-card>').appendTo( $(songListSelector) );
+                        $('<div class="row"> <br/> <paper-card heading="' + song.name + '" >  <div class="card-content"> <p>'+ song.description +'</p>  <audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio> </div>  <div class="card-actions"> <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button></div></paper-card></div>').appendTo( $(songListSelector) );
 
                     } );
                 });            
