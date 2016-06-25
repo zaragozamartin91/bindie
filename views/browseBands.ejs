@@ -41,7 +41,8 @@
 	            var bandName = $("#bandNameInput").val();
 	            $("#foundBands").html("");
 
-	            var ajaxUrl = bandName ? ("http://localhost:3000/api/bands/name/" + bandName) : "http://localhost:3000/api/bands/name/";
+	            var ajaxUrl = bandName ? ("/api/bands/name/" + bandName) : "/api/bands/name/";
+                /*var ajaxUrl = bandName ? ("http://localhost:3000/api/bands/name/" + bandName) : "http://localhost:3000/api/bands/name/";*/
 
 	            $.getJSON( ajaxUrl , function( data ) {
 	                data.forEach( function(band) {
