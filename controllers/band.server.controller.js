@@ -127,7 +127,7 @@ exports.createSubmit = function(req, res, next) {
 exports.getByName = function(req, res) {
     var bandName = req.params.bandName;
 
-    if (!bandName || bandName==="") {
+    if (!bandName || bandName === "") {
         bandName = ".*";
     }
 
@@ -147,16 +147,12 @@ exports.getByName = function(req, res) {
 
 /*No realiza paginacion. En browseBands.ejs se expondran todas las bandas...*/
 exports.browseBands = function(req, res, next) {
-    Band.find({}, function(err, bands) {
-        if (err) {
-            res.error(getErrorMessage(err));
-            return res.redirect('back');
-        }
-
-        res.locals.bands = req.bands = bands;
+    if (req.session.uid) {
         res.render('browseBands', {
             title: "Buscar bandas",
-            bands: bands
         });
-    });
+    } else {
+        res.error("Debe iniciar sesion para buscar bandas!");
+        res.redirect("back");
+    }
 };
