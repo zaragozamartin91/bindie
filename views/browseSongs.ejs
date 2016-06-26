@@ -51,7 +51,8 @@
 			<tr>
 				<th>#</th> 
 				<th>Nombre</th> 
-				<th>Descripción</th> 
+				<th>Descripción</th>
+                <th>Duración</th>
 				<th>Acción</th> 
 			</tr> 
 		</thead>
@@ -91,7 +92,7 @@
 
                         // $('<div class="row"> <br/> <paper-card heading="' + song.name + '" >  <div class="card-content"> <p>'+ song.description +'</p>  <audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio> </div>  <div class="card-actions"> <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button></div></paper-card></div>').appendTo( $(songListSelector) );
 
-                        $('<tr><th scope="row">' + i + '</th> <td>' + song.name + '</td> <td>' + song.description + '</td> <td> <paper-icon-button class="playSong" data-songurl="/songs/' + song.fileName + '" icon="icons:send" title="play" style="color:darkcyan"></paper-icon-button> </td> </tr>').appendTo($(songListSelector));
+                        $('<tr><th scope="row">' + i + '</th> <td>' + song.name + '</td> <td>' + song.description + '</td><td>' + song.duration + '</td> <td> <paper-icon-button class="playSong" data-songurl="/songs/' + song.fileName + '" icon="icons:send" title="play" style="color:darkcyan"></paper-icon-button> </td> </tr>').appendTo($(songListSelector));
                     } );
                 });            
             });

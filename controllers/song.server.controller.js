@@ -6,6 +6,7 @@ var ObjectId = mongoose.Types.ObjectId;
 
 var path = require('path');
 var fs = require('fs');
+var mm = require('musicmetadata');
 var join = path.join;
 
 
@@ -68,23 +69,33 @@ exports.createSubmit = function(req, res, next) {
 
     var songFile = req.file;
     var name = req.body.name;
+    var duration = 0;
+    
+    mm(fs.createReadStream(songFile.path), { duration: true }, function (err, metadata) {
+        if (err) throw err;
+        
+        duration = metadata.duration;
 
-    var song = new Song({
-        name: name,
-        fileName: songFile.filename,
-        genres: req.body.genres,
-        description: req.body.description
-    });
-    song.save(function(err) {
-        if (err) {
-            var message = getErrorMessage(err);
-            res.error(message);
+        var song = new Song({
+            name: name,
+            fileName: songFile.filename,
+            genres: req.body.genres,
+            duration: duration,
+            description: req.body.description
+        });
+        song.save(function(err) {
+            if (err) {
+                var message = getErrorMessage(err);
+                res.error(message);
+                return res.redirect("back");
+            }
+
+            res.success("Cancion subida exitosamente!");
             return res.redirect("back");
-        }
+        });
+    }); 
 
-        res.success("Cancion subida exitosamente!");
-        return res.redirect("back");
-    });
+
 };
 
 

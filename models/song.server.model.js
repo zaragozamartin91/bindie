@@ -32,6 +32,11 @@ exports.registerSchema = function() {
         fileName: {
             type: String
         },
+
+        /* duración de una canción */
+        duration: {
+            type: Number
+        },
         /*votos positivos de una cancion. Para evitar que se vote dos veces, se registran quienes dieron votos positivos.*/
         upvotes: [{
             type: ObjectId,
