@@ -157,7 +157,7 @@ exports.apiUpvote = function(req, res) {
     Song.findOne({
         _id: new ObjectId(songId)
     }, function(err, song) {
-        if (err) {
+        if (err || !song) {
             console.error("Algo salio mal buscando la cancion: " + songId);
             return res.json({
                 error: err
