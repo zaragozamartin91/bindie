@@ -156,3 +156,17 @@ exports.browseBands = function(req, res, next) {
         res.redirect("back");
     }
 };
+
+exports.getById = function(req, res) {
+    var bandId = req.params.bandId;
+
+    if (!bandId) {
+        return res.json([]);
+    }
+
+    Band.findOne({
+        _id: bandId
+    }, function(err, band) {
+        res.json(band);
+    });
+};

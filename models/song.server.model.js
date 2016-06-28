@@ -68,7 +68,7 @@ exports.registerSchema = function() {
 
     SongSchema.statics.searchByGenre = function(genre, callback) {
         if (!genre || genre === "" || genre == "*" || genre == "any") {
-            this.find({}, callback);
+            this.find({}).populate('band').exec(callback);
         } else {
             this.find({
                 genres: {
@@ -76,8 +76,20 @@ exports.registerSchema = function() {
                         $eq: genre
                     }
                 }
-            }, callback);
+            }).populate('band').exec(callback);
         }
+    };
+
+    SongSchema.statics.searchByLike = function(userId, callback) {
+        var uid = userId._id ? userId._id : userId;
+
+        this.find({
+            upvotes: {
+                $elemMatch: {
+                    $eq: uid
+                }
+            }
+        }, callback);
     };
 
     SongSchema.set('toJSON', {

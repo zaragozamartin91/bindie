@@ -49,7 +49,14 @@
 	                    console.log("Banda: ");
 	                    console.log(band);
 
-                        $('<paper-card heading="' + band.name + '" >  <div class="card-content">'+band.description+'  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="bookmark"></iron-icon>Contratar</paper-button></div></paper-card>').appendTo( $("#foundBands") );
+                        var bandDescriptionP = '<p>' + band.description + '</p>';
+                        var genresUl = 'Generos: <ul>';
+                        band.genres.forEach( function(genre){
+                            genresUl+='<li>' + genre + '</li>';
+                        } );
+                        genresUl+='</ul>';
+
+                        $('<paper-card heading="' + band.name + '" >  <div class="card-content">'+ bandDescriptionP + genresUl + '  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="bookmark"></iron-icon>Contratar</paper-button></div></paper-card>').appendTo( $("#foundBands") );
 
 	                    //$('<p>'+band.name+'</p>').appendTo( $("#foundBands") );
 	                } );

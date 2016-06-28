@@ -24,6 +24,8 @@ exports.config = function(app) {
 
     app.get('/songs/browse', songController.browse);    
 
+    app.get('/songs/favorite', songController.browseFavorite);
+
 
     app.get('/api/songs/id/:songId', songController.getById);
 
@@ -31,6 +33,8 @@ exports.config = function(app) {
     app.get('/api/songs/upvote/:songId', songController.apiUpvote);
     /*ruta para que el usuario cualquiera pueda votar una cancion*/
     app.get('/api/songs/upvote/:songId/user/:userId', songController.apiUpvote);
+
+
 
 
     console.log("Rutas de canciones configuradas!");

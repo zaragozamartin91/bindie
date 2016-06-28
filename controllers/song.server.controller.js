@@ -76,26 +76,29 @@ exports.createSubmit = function(req, res, next) {
         
         duration = metadata.duration;
 
-        var song = new Song({
-            name: name,
-            fileName: songFile.filename,
-            genres: req.body.genres,
-            duration: duration,
-            description: req.body.description
-        });
-        song.save(function(err) {
-            if (err) {
-                var message = getErrorMessage(err);
-                res.error(message);
+        Band.findOneByName(req.body.band, function(err, band){
+            var song = new Song({
+                name: name,
+                fileName: songFile.filename,
+                genres: req.body.genres,
+                duration: duration,
+                description: req.body.description,
+                band: band._id
+            });
+            song.save(function(err) {
+                if (err) {
+                    var message = getErrorMessage(err);
+                    res.error(message);
+                    return res.redirect("back");
+                }
+
+                res.success("Cancion subida exitosamente:");
+                console.log(song);
                 return res.redirect("back");
-            }
-
-            res.success("Cancion subida exitosamente!");
-            return res.redirect("back");
+            });
         });
+
     }); 
-
-
 };
 
 
@@ -164,5 +167,27 @@ exports.apiUpvote = function(req, res) {
         song.addUpvote(userId);
         song.save();
         res.json(song);
+    });
+};
+
+exports.browseFavorite = function(req, res, next) {
+    if (!req.session.uid) {
+        res.error("Debe iniciar sesion para ver sus favoritos!");
+        return res.redirect("back");
+    }  
+
+    Song.searchByLike(req.session.uid, function(err,songs){
+        if(err) {
+            var msg = getErrorMessage(err);
+            res.error(msg);
+            return res.redirect('back');
+        }
+
+        req.songs = res.locals.songs = songs;
+
+        res.render('myMusic',{
+            title: 'Mi musica',
+            songs: songs
+        });
     });
 };

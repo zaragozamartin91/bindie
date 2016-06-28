@@ -1,6 +1,6 @@
 <body>
     <h1><%= title %></h1>
-    <p>Escucha tus canciones favoritas.</p>
+    <p>Tu selección de canciones.</p>
 
     <style type="text/css">
         #genreInput {
@@ -11,62 +11,53 @@
             width: 30%;
         }
 
-        paper-icon-button[active] {
-            color: green;
+        paper-button[active] {
+            background-color: green;
+            color: white;
         }       
 
         .footer{
-        	position: fixed;
-        	bottom: 0;
-        	width: 100%;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
 
         body{
-        	padding-bottom: 70px;
+            padding-bottom: 70px;
         }
 
         .darkPlayer{
-        	background-color: darkgray;
+            background-color: darkgray;
         }
 
     </style>
-
-    <div class="row">
-        <div class="col-md-10 col-sm-9 col-xs-8">
-            <!-- <input id="genreInput" type="text" class="form-control" name="genre" id="genre"> -->
-            <paper-input label="Genero" name="genre" id="genreInput"></paper-input>
-        </div>
-        <div class="col-md-2 col-sm-3 col-xs-4">
-            <paper-button raised id="searchSongs">Buscar</paper-button>
-        </div>
-    </div>
 
     <!-- <button class="btn btn-primary" id="searchSongs">Buscar</button> -->
 
     <br/>
 
     <table class="table">
-		<thead> 
-			<tr>
-				<th>Nom</th> 
-				<th>Banda</th>
-                <th>Dur</th>
-				<th>Acción</th> 
-			</tr> 
-		</thead>
-		<tbody id="songList"> 
-		</tbody>
-	</table>
+        <thead> 
+            <tr>
+                <th>#</th> 
+                <th>Nombre</th> 
+                <th>Descripción</th>
+                <th>Duración</th>
+                <th>Acción</th> 
+            </tr> 
+        </thead>
+        <tbody id="songList"> 
+        </tbody>
+    </table>
 
 
     
     <script type="text/javascript">
         $('document').ready( function(){
-
             $('#searchSongs').click(function() {
                 var songListSelector = "#songList";
                 var genreValue = $("#genreInput").val();
-                if(!genreValue || genreValue === ""){
+                if(!genreValue || genreValue == ""){
                     genreValue = "any";
                 }
 
@@ -74,33 +65,20 @@
                 var ajaxUrl = "/api/songs/genre/" + genreValue;
 
 
-				$(songListSelector).html("");
+                $(songListSelector).html("");
 
                 $.getJSON( ajaxUrl , function( data ) {
+                    var i = 1;
                     data.forEach( function(song){
                         console.log("Cancion: ");
                         console.log(song);
-
-                        var minutes = Math.floor(song.duration / 60);
-                        var seconds = Math.floor(song.duration % 60);
-                        var duration = minutes + ':' + seconds;
-
-
-                        $('<tr><td>' + song.name + '</td> <td>' + song.band.name + '</td><td>' + duration + '</td> <td> <paper-icon-button class="playSong" data-songurl="/songs/' + song.fileName + '" icon="icons:send" title="play" style="color:darkcyan"></paper-icon-button> <paper-icon-button class="likeToggle" toggles icon="check"><paper-icon-button/> </td> </tr>').appendTo($(songListSelector));
-
 
                         /*$('<audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
                                 .appendTo( $(songListSelector) );*/
 
                         // $('<div class="row"> <br/> <paper-card heading="' + song.name + '" >  <div class="card-content"> <p>'+ song.description +'</p>  <audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio> </div>  <div class="card-actions"> <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button></div></paper-card></div>').appendTo( $(songListSelector) );
-                         
-                        $('.likeToggle').click( function() {
-                            console.log("LIKE CLICK");
-                            console.log(this);
-                            if(this.active){
-                                return;
-                            }
-                        } );
+
+                        $('<tr><th scope="row">' + i + '</th> <td>' + song.name + '</td> <td>' + song.description + '</td><td>' + song.duration + '</td> <td> <paper-icon-button class="playSong" data-songurl="/songs/' + song.fileName + '" icon="icons:send" title="play" style="color:darkcyan"></paper-icon-button> </td> </tr>').appendTo($(songListSelector));
                     } );
                 });            
             });

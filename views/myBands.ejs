@@ -2,10 +2,29 @@
     <h1><%= title %></h1>
     
     <% include messages %>
+
+    <div id="myBands"></div>
     
 	<% if (locals.bands) { 
         bands.forEach(function(band) { %>
-            <paper-card heading="<%= band.name%>" >  <div class="card-content"><%= band.description %> </div>  </paper-card>
+            <script type="text/javascript">
+                $('document').ready(function(){
+                    var bandDescription = "<%= band.description %>";
+                    var bandName = "<%= band.name %>";
+                    var bandGenres = "<%= band.genres %>".split(',');
+                    console.log(bandGenres);
+    
+                    var bandDescriptionP = '<p>' + bandDescription + '</p>';
+                    var genresUl = 'Generos: <ul>';
+                    bandGenres.forEach( function(genre){
+                        genresUl+='<li>' + genre + '</li>';
+                    } );
+                    genresUl+='</ul>';
+    
+                    $('<paper-card heading="' + bandName + '" >  <div class="card-content">'+ bandDescriptionP + genresUl + '  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="configure"></iron-icon>Configurar</paper-button></div></paper-card>').appendTo( $('#myBands') );})
+            </script>
+            
         <% }) 
     } %>
+
 </body>
