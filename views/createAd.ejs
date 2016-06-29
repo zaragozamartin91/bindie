@@ -1,0 +1,189 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head> -->
+
+<link rel="stylesheet" href="/stylesheets/bootstrap-multiselect.css">
+
+<body>
+    
+    <h1><%= title %></h1>
+    
+    <% include messages %>
+    
+    <form class="form" id="createAdForm" action='/ads/create' method='post'>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Datos del Aviso
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <label>¿Banda o Lugar?</label>
+                        <label class="radio-inline"><input type="radio" id="bandRadio" value="band" name="type" checked="checked">Banda</label>
+                        <label class="radio-inline"><input type="radio" id="placeRadio" value="place" name="type">Lugar</label>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <div id="bandSelectContainer">
+                            <% include bandSelect %>
+                        </div>
+                        <div id="placeSelectContainer" style="display:none;">
+                            <label>Lugar:</label>
+                            <select id="placeSelect" name="place" size="10">
+                                <% if (locals.places) { 
+                                    places.forEach(function(place) { %>
+                                        <option value="<%= place.name %>"><%= place.name %></option>
+                                    <% }) 
+                                } %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+
+                    <script>
+
+                    var priceGold = 40;
+                    var priceSilver = 25;
+                    var adType = 2;
+
+                    function calculatePrices() {
+                        $("#priceGold").text("US $" + priceGold);
+                        $("#priceSilver").text("US $" + priceSilver);
+                    }
+
+                    function calculateTotal() {
+                        $("#priceGold").text("US $" + priceGold);
+                        $("#priceSilver").text("US $" + priceSilver);
+                        if (adType === 1) {
+                            $("#totalPrice").text("US $"+ priceSilver * $("#duration").val());  
+                        } else {
+                            $("#totalPrice").text("US $"+ priceGold * $("#duration").val());
+                        }
+
+                    }                    
+
+                    $( document ).ready(function() {
+                        calculateTotal();
+                        $( "#bandRadio" ).click(function() {
+                            priceGold = 40;
+                            priceSilver = 25;
+                            calculatePrices();
+                            calculateTotal();
+                            $( "#placeSelectContainer" ).hide();
+                            $( "#bandSelectContainer" ).show();
+                        });
+                        $( "#placeRadio" ).click(function() {
+                            priceGold = 100;
+                            priceSilver = 60;                            
+                            calculatePrices();
+                            calculateTotal();
+                            $( "#placeSelectContainer" ).show();
+                            $( "#bandSelectContainer" ).hide();
+                        });
+
+                        $( "#adSilver" ).click(function() {
+                            adType = 1;
+                            calculateTotal();
+                        });
+                        $( "#adGold" ).click(function() {
+                            adType = 2;
+                            calculateTotal();
+                        });
+
+                        $( "#duration" ).focus(function() {
+                            calculateTotal();
+                        });
+                        $( "#duration" ).change(function() {
+                            calculateTotal();
+                        });
+                        $( "#duration" ).keyup(function() {
+                            calculateTotal();
+                        });
+
+                        $( "#placeSelectContainer" ).hide();                        
+
+                    });
+                   
+                    </script>
+
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th class="warning">Visibilidad Gold</th>
+                            <th class="active">Visibilidad Silver</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><b>Descripción</b></td>
+                            <td class="warning">Tu aviso va a tener un tamaño mayor y va a ser visto por mucha gente</td>
+                            <td class="active">Tu aviso va a tener un tamaño stándar</td>
+                          </tr>
+                          <tr>
+                            <td><b>Precio/día</b></td>
+                            <td class="warning"><span id="priceGold">US $40</span></td>
+                            <td class="active"><span id="priceSilver">US $25</span></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td class="warning"><label class="radio-inline"><input id="adGold" checked="checked" type="radio" value="60" name="visibility">Gold</label></td>
+                            <td class="active"><label class="radio-inline"><input id="adSilver" type="radio" value="2" name="visibility">Silver</label></td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input label="Duración" id="duration" name="duration" value="30" auto-validate required pattern="[0-9]*" error-message="Duración inválida!">
+                            <div suffix> días</div>
+                        </paper-input>
+                    </div>
+                </div>                
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+
+                              <paper-input name="name" label="Nombre en la tarjeta" required autocomplete="cc-name"></paper-input>
+
+                              <gold-cc-input name="cc-number" required value="4000 0000 0000 0002"
+                                  auto-validate card-type="{{cardType}}"></gold-cc-input>
+
+                                <gold-cc-expiration-input name="cc-expiration" required label="Expiration"></gold-cc-expiration-input>
+                                <gold-cc-cvc-input name="cc-cvc" required card-type="[[cardType]]"></gold-cc-cvc-input>
+
+                              <br><br>
+
+                            <div class="well well-lg text-right">Total: <b><span id="totalPrice">US $0</span></b></div>
+                    
+                    </div>
+                </div>
+                      
+                </div>
+                </div>
+
+                <hr />
+
+                <div class="row text-center">
+                    <input class="btn btn-lg btn-primary" type='submit' value='Crear!' />
+                </div>
+            </div>
+        </div>
+
+    
+    </form>
+</body>
+</html>

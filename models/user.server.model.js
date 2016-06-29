@@ -69,6 +69,19 @@ exports.registerSchema = function() {
         }).populate('members').exec(callback);
     };
 
+     /*Busca las bandas correspondientes a un usuario*/
+    UserSchema.statics.findPlaces = function(plainUserId, callback) {
+        var Place = mongoose.model('Place');
+
+        Place.find({
+            members: {
+                $elemMatch: {
+                    $eq: plainUserId
+                }
+            }
+        }).populate('members').exec(callback);
+    };   
+
     /*is used to hash a password string by utilizing Node.js' crypto module*/
     UserSchema.methods.hashPassword = function(password) {
         console.log("ejecutando hashPassword...");

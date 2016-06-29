@@ -23,6 +23,7 @@
 
     <!-- jQuery -->
     <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 
     <script src="/lib/webcomponentsjs/webcomponents-lite.min.js"></script>
@@ -34,6 +35,17 @@
     <link rel="import" href="/lib/paper-icon-button/paper-icon-button.html" />
     <link rel="import" href="/lib/paper-styles/typography.html" />
     <link rel="import" href="/lib/paper-input/paper-input.html" />
+
+    <!-- Polymer gold -->
+   <!--  <link rel="import" href="/lib/iron-flex-layout/classes/iron-flex-layout.html"> -->
+	<!-- <link rel="import" href="/lib/iron-form/iron-form.html">	 -->
+    <link rel="import" href="/lib/paper-styles/color.html">
+    <link rel="import" href="/lib/gold-cc-input/gold-cc-input.html">
+	<link rel="import" href="/lib/gold-cc-cvc-input/gold-cc-cvc-input.html">
+	<link rel="import" href="/lib/gold-cc-expiration-input/gold-cc-expiration-input.html">
+	<!-- <link rel="import" type="css" href="/stylesheets/simple-form.css">	 -->
+
+
 
     <link rel="stylesheet" type="text/css" href="/custom/CustomStyleCss/AudioPlayer.css">
     
@@ -132,7 +144,15 @@
 	                    <!-- /.nav-second-level -->
 	                </li>
 	                <li>
-	                    <a href="#"><i class="fa fa-fw fa-bullhorn"></i> Mis Avisos</a>
+	                    <a href="#"><i class="fa fa-fw fa-bullhorn"></i> Mis Avisos<span class="fa arrow"></span></a>
+	                    <ul class="nav nav-second-level">
+	                        <li>
+	                            <a href="/ads/create">Crear un Aviso</a>
+	                        </li>
+	                        <li>
+	                            <a href="/ads/browse">Ver mis Avisos</a>
+	                        </li>
+	                    </ul>	                    
 	                </li>
 
 					<li>
@@ -192,6 +212,8 @@
             $("#genreSelect").multiselect();
             $("#bandSelect").multiselect();
             $("#memberSelect").multiselect();
+            $("#placeSelect").multiselect();
+
         });
     </script>
 

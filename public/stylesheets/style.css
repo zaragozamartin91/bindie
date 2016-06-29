@@ -29,6 +29,9 @@ a {
 #createBandForm {
     width: 100%;
 }
+#createAdForm {
+    width: 100%;
+}
 select {
     width: 75%;   
 }
