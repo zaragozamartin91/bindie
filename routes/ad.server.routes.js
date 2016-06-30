@@ -3,8 +3,8 @@ exports.config = function(app) {
 
     /* Rutas con vistas para manipular bandas... */
     app.get('/ads/create', adController.createForm);
-    //app.post('/ads/create', adController.createSubmit);
-    //app.get('/ads/browse', adController.browseAds);
+    app.post('/ads/create', adController.createSubmit);
+    app.get('/ads/browse', adController.browseAds);
 
 
     console.log("Rutas de ads configuradas!");

@@ -13,10 +13,19 @@ exports.registerSchema = function() {
             type: Date,
             default: Date.now
         },
-        adType: {
+        type: {
             type: String,
             enum: ['place', 'band']
         },
+        // En StackOverflow se sugiere referenciar a los dos aunque solo se use uno
+        band: {
+            type: ObjectId,
+            ref: 'Band'
+        },
+        place: {
+            type: ObjectId,
+            ref: 'Place'
+        },         
         user: {
             type: ObjectId,
             ref: 'User'
@@ -25,15 +34,16 @@ exports.registerSchema = function() {
             type: Number
         },
         visibility: {
-            type: Number
+            type: String,
+            enum: ['gold', 'silver']
         }
     });
 
-    AdSchema.statics.findOneByUser = function(user, callback) {
+    AdSchema.statics.findByUser = function(user, callback) {
         console.log("Aviso por usuario: " + user);
-        this.findOne({
+        this.find({
             user: user
-        }, callback);
+        }, callback).populate('band').populate('place').exec(callback);
     };
 
     AdSchema.post('save', function(next) {
@@ -43,6 +53,14 @@ exports.registerSchema = function() {
             console.log('Se actualizo un lugar!');
         }
     });
+
+    AdSchema.statics.findActiveByVisibility = function(visibility, callback) {
+        console.log("Aviso por usuario: ");
+        this.find({
+            //created: { $lte: new Date(created.getDate() + duration) },
+            visibility: visibility
+        }, callback).populate('band').populate('place').exec(callback);
+    };    
 
     AdSchema.set('toJSON', {
         getters: true,

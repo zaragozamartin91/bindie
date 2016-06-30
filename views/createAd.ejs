@@ -31,14 +31,19 @@
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
                         <div id="bandSelectContainer">
-                            <% include bandSelect %>
+                            <select id="bandSelect" name="referenceBand" size="10">
+                                <% if (locals.bands) { 
+                                    bands.forEach(function(band) { %>
+                                        <option value="<%= band._id %>"><%= band.name %></option>
+                                    <% }) 
+                                } %>
+                            </select> 
                         </div>
                         <div id="placeSelectContainer" style="display:none;">
-                            <label>Lugar:</label>
-                            <select id="placeSelect" name="place" size="10">
+                            <select id="placeSelect" name="referencePlace" size="10">
                                 <% if (locals.places) { 
                                     places.forEach(function(place) { %>
-                                        <option value="<%= place.name %>"><%= place.name %></option>
+                                        <option value="<%= place._id %>"><%= place.name %></option>
                                     <% }) 
                                 } %>
                             </select>
@@ -89,6 +94,7 @@
                             calculateTotal();
                             $( "#placeSelectContainer" ).show();
                             $( "#bandSelectContainer" ).hide();
+
                         });
 
                         $( "#adSilver" ).click(function() {
@@ -110,7 +116,7 @@
                             calculateTotal();
                         });
 
-                        $( "#placeSelectContainer" ).hide();                        
+                        $( "#placeSelectContainer" ).hide(); 
 
                     });
                    
@@ -137,8 +143,8 @@
                           </tr>
                           <tr>
                             <td></td>
-                            <td class="warning"><label class="radio-inline"><input id="adGold" checked="checked" type="radio" value="60" name="visibility">Gold</label></td>
-                            <td class="active"><label class="radio-inline"><input id="adSilver" type="radio" value="2" name="visibility">Silver</label></td>
+                            <td class="warning"><label class="radio-inline"><input id="adGold" checked="checked" type="radio" value="gold" name="visibility">Gold</label></td>
+                            <td class="active"><label class="radio-inline"><input id="adSilver" type="radio" value="silver" name="visibility">Silver</label></td>
                           </tr>
                         </tbody>
                       </table>

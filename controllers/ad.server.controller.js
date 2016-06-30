@@ -58,116 +58,103 @@ exports.createForm = function(req, res, next) {
 
 
 exports.createSubmit = function(req, res, next) {
-    console.log("Aviso a crear: ");
+
     var data = req.body;
     console.log(data);
 
-/*
-    Ad.findOneByName(data.name, function(err, ad) {
+    var userId = req.session.uid;
+
+    if (!userId) {
+        res.error("No has iniciado sesion para ver tus avisos!");
+        return res.redirect("back");
+    }
+
+    // No valido si las referencias existen por ser un prototipo
+    // data.type;
+    if (data.type === "band") {
+        if (!data.referenceBand) {
+            res.error("Es necesario seleccionar una banda");
+            return res.redirect('back');
+        }        
+        data.band = ObjectId(data.referenceBand);
+    } else { // place
+        if (!data.referencePlace) {
+            res.error("Es necesario seleccionar un lugar");
+            return res.redirect('back');
+        }
+        data.place = ObjectId(data.referencePlace);        
+    }
+    data.user = userId;
+    // data.duration;
+    // data.visibility;
+
+    ad = new Ad(data);
+
+    ad.save(function(err) {
         if (err) {
-            return next(err);
+            var message = getErrorMessage(err);
+            console.log("Algo salio mal: " + err);
+            res.error(message);
+            return res.redirect('back');
         }
 
-        if (ad) {
-            res.error("Aviso " + data.name + " ya existe!");
+        console.log("Aviso creado:");
+        console.log(ad);
+        res.success("Aviso creada exitosamente!");
+        res.redirect("back");
+    });
+
+};
+
+exports.browseAds = function(req, res, next) {
+
+    var userId = req.session.uid;
+
+    if (!userId) {
+        res.error("No has iniciado sesion para ver tus avisos!");
+        return res.redirect("back");
+    }
+
+    Ad.findByUser(userId, function(err, ads) {
+        console.log(ads);
+        if (err) {
+            var errorMessage = getErrorMessage(err);
+            res.error(errorMessage);
             return res.redirect("back");
         }
 
-        var memberEmails = data.members;
-        var queryArray = [];
+        req.ads = res.locals.ads = ads;
+        res.render('browseAds', {
+            title: "Mis Avisos",
+            ads: ads
+        });
+    });    
+};
 
-        if (memberEmails.forEach) {
-            memberEmails.forEach(function(memberEmail) {
-                queryArray.push({
-                    email: memberEmail
-                });
-            });
-        } else {
-            queryArray = [{
-                email: memberEmails
-            }];
+exports.showAds = function(req, res, next) {
+
+    Ad.findActiveByVisibility("gold", function(err, ads) {
+        if (err) {
+            var errorMessage = getErrorMessage(err);
+            res.error(errorMessage);
+            return res.redirect("back");
         }
 
-        User.find({
-            $or: queryArray
-        }, function(err, users) {
-            data.members = [];
-
-
-            if (users.forEach) {
-                users.forEach(function(user) {
-                    data.members.push(new ObjectId(user._id));
-                });
-            } else {
-                data.members.push(new ObjectId(users));
+        req.goldAds = res.locals.goldAds = ads;
+        Ad.findActiveByVisibility("silver", function(err, ads) {
+            if (err) {
+                var errorMessage = getErrorMessage(err);
+                res.error(errorMessage);
+                return res.redirect("back");
             }
 
-            console.log("Miembros de la banda: " + data.members);
-            band = new Band(data);
-
-            console.log("Banda a guardar:" + band);
-            band.save(function(err) {
-                if (err) {
-                    var message = getErrorMessage(err);
-                    console.log("Algo salio mal: " + err);
-                    res.error(message);
-                    return res.redirect('back');
-                }
-
-                console.log("Banda creada:");
-                console.log(band);
-                res.success("Banda " + band.name + " creada exitosamente!");
-                res.redirect("back");
+            req.silverAds = res.locals.silverAds = ads;
+            res.render('index', {
+                title: 'Bindie',
+                goldAds: req.goldAds,
+                silverAds: req.silverAds
             });
-        });
+        }); 
 
-    });*/
-};
-
-
-exports.getByName = function(req, res) {
-    var bandName = req.params.bandName;
-
-    if (!bandName || bandName === "") {
-        bandName = ".*";
-    }
-
-    Band.find({
-        /*Busco una banda ignorando mayusculas y minusculas*/
-        name: new RegExp(bandName, "i")
-    }, function(err, bands) {
-        if (err) {
-            return res.json({
-                error: err
-            });
-        }
-
-        return res.json(bands);
-    });
-};
-
-/*No realiza paginacion. En browseBands.ejs se expondran todas las bandas...*/
-exports.browseBands = function(req, res, next) {
-    if (req.session.uid) {
-        res.render('browseBands', {
-            title: "Buscar bandas",
-        });
-    } else {
-        res.error("Debe iniciar sesion para buscar bandas!");
-        res.redirect("back");
-    }
-};
-
-exports.getById = function(req, res) {
-    var bandId = req.params.bandId;
-
-    if (!bandId) {
-        return res.json([]);
-    }
-
-    Band.findOne({
-        _id: bandId
-    }, function(err, band) {
-        res.json(band);
-    });
+    });    
 };

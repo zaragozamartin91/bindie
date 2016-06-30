@@ -1,11 +1,48 @@
   <body>
 
     <div class="container-fluid">
-    <h1><%= title %></h1>
-    <p>Bienvenido a <%= title %></p>
 
     <% include messages %>
 
+   <div id="myAds"></div>
+    
+    <% if (locals.goldAds) { 
+        goldAds.forEach(function(ad) { %>
+            <script type="text/javascript">
+                $('document').ready(function(){
+
+                    <% if (ad.type === "band" )  { %>
+                    var adType = "Banda";
+                    var adReference = "<%= ad.band.name %>";
+                    <% } else { %>
+                    var adType = "Lugar"
+                    var adReference = "<%= ad.place %>";
+                    <% } %>
+    
+                    $('<paper-card heading="' + adReference + '" >  <div class="card-content"><p>...</p></div> </paper-card>').appendTo( $('#myAds') );})
+            </script>
+            
+        <% }) 
+    } %>
+
+    <% if (locals.silverAds) { 
+        silverAds.forEach(function(ad) { %>
+            <script type="text/javascript">
+                $('document').ready(function(){
+
+                   <% if (ad.type === "band" )  { %>
+                    var adType = "Banda";
+                    var adReference = "<%= ad.band.name %>";
+                    <% } else { %>
+                    var adType = "Lugar"
+                    var adReference = "<%= ad.place %>";
+                    <% } %>
+    
+                    $('<paper-card heading="' + adReference + '" >  <div class="card-content"><p>...</p></div> </paper-card>').appendTo( $('#myAds') );})
+            </script>
+            
+        <% }) 
+    } %>
     </div>
   </body>
 </html>

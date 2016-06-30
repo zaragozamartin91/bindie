@@ -1,10 +1,7 @@
 exports.config = function(app) {
+    var adController = require('../controllers/ad.server.controller');
 
     /* GET home page. */
-    app.get('/', function(req, res, next) {
-        res.render('index', {
-            title: 'Bindie'
-        });
-    });
+    app.get('/', adController.showAds);
 
 };
