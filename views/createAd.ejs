@@ -51,7 +51,6 @@
                     </div>
                 </div>
                 <br />
-
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
 
@@ -151,44 +150,48 @@
 
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-md-8 col-sm-12 col-xs-12">
+                    <div class="col-md-8">
                         <paper-input label="Duración" id="duration" name="duration" value="30" auto-validate required pattern="[0-9]*" error-message="Duración inválida!">
                             <div suffix> días</div>
                         </paper-input>
                     </div>
                 </div>                
-
                 <div class="row">
-                    <div class="col-md-8 col-sm-12 col-xs-12">
-
-                              <paper-input name="name" label="Nombre en la tarjeta" required autocomplete="cc-name"></paper-input>
-
-                              <gold-cc-input name="cc-number" required value="4000 0000 0000 0002"
-                                  auto-validate card-type="{{cardType}}"></gold-cc-input>
-
-                                <gold-cc-expiration-input name="cc-expiration" required label="Expiration"></gold-cc-expiration-input>
-                                <gold-cc-cvc-input name="cc-cvc" required card-type="[[cardType]]"></gold-cc-cvc-input>
-
-                              <br><br>
-
-                            <div class="well well-lg text-right">Total: <b><span id="totalPrice">US $0</span></b></div>
-                    
+                    <div class="col-sm-8">
+                        <paper-input name="name" label="Nombre en la tarjeta" required autocomplete="cc-name"></paper-input>
                     </div>
                 </div>
+                <div class="row">                    
+                    <div class="col-sm-8">
+                        <gold-cc-input name="cc-number" required value="4000 0000 0000 0002"       auto-validate card-type="{{cardType}}"></gold-cc-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <gold-cc-expiration-input name="cc-expiration" required label="Expiration"></gold-cc-expiration-input>
+                    </div>
+                </div>
+                <div class="row">                    
+                    <div class="col-md-8">
+                        <gold-cc-cvc-input name="cc-cvc" required card-type="[[cardType]]"></gold-cc-cvc-input>                        
+                    </div>                    
+                </div>                            
+
+                <br>
+
+                <div class="well well-lg text-right">
+                    Total: <b><span id="totalPrice">US $0</span></b>
+                </div>
                       
-                </div>
-                </div>
+            <hr />
 
-                <hr />
-
-                <div class="row text-center">
-                    <input class="btn btn-lg btn-primary" type='submit' value='Crear!' />
-                </div>
+            <div class="row text-center">
+                <input class="btn btn-lg btn-primary" type='submit' value='Crear!' />
+            </div>
             </div>
         </div>
-
     
     </form>
 </body>
