@@ -85,6 +85,9 @@ exports.createSubmit = function(req, res, next) {
         data.place = ObjectId(data.referencePlace);        
     }
     data.user = userId;
+    var date = new Date();
+    date.setTime( date.getTime() + data.duration * 86400000);
+    data.expiration = date;
     // data.duration;
     // data.visibility;
 

@@ -25,10 +25,10 @@
                     <% } %>
 
                     var adDuration = "<%= ad.duration %>";
-                    var adCreated = "<%= ad.created %>";
+                    var adExpiration = "<%= ad.expiration %>";
 
     
-                    $('<paper-card heading="' + adType + '" >  <div class="card-content"><p>'+ adReference + '</p><p>Creado: '+ adCreated + '</p><p>Duración: '+ adDuration + '</p><p>Visibilidad: ' + adVisibility + '</p></div>  <div class="card-actions"> <paper-button ><iron-icon icon="icons:build"></iron-icon></paper-button></div></paper-card>').appendTo( $('#myAds') );})
+                    $('<paper-card heading="' + adType + '" >  <div class="card-content"><p>'+ adReference + '</p><p>Expira: '+ adExpiration + '</p><p>Duración: '+ adDuration + '</p><p>Visibilidad: ' + adVisibility + '</p></div>  <div class="card-actions"> <paper-button ><iron-icon icon="icons:build"></iron-icon></paper-button></div></paper-card>').appendTo( $('#myAds') );})
             </script>
             
         <% }) 

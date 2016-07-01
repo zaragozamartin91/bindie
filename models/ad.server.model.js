@@ -9,7 +9,7 @@ exports.registerSchema = function() {
 
     var AdSchema = new Schema({
         /*considero que los nombres de los lugares deben ser unicos...*/
-        created: {
+        expiration: {
             type: Date,
             default: Date.now
         },
@@ -57,7 +57,7 @@ exports.registerSchema = function() {
     AdSchema.statics.findActiveByVisibility = function(visibility, callback) {
         console.log("Aviso por usuario: ");
         this.find({
-            //created: { $lte: new Date(created.getDate() + duration) },
+            expiration: { $gte: new Date() },
             visibility: visibility
         }, callback).populate('band').populate('place').exec(callback);
     };    
