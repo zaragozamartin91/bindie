@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Band = mongoose.model('Band');
+var Location = mongoose.model('Location');
 var ObjectId = mongoose.Types.ObjectId;
 // var path = require('path');
 
@@ -42,6 +43,20 @@ exports.getBands = function(req, res) {
 
         console.log("Bandas encontradas:" + bands);
         return res.json(bands);
+    });
+};
+
+/*funcion API que retorna todas los lugares de un usuario en formato Json*/
+exports.getLocations = function(req, res) {
+    User.findLocations(req.params.userId, function(err, locations) {
+        if (err) {
+            return res.json({
+                error: err
+            });
+        }
+
+        console.log("Lugares encontrados:" + locations);
+        return res.json(locations);
     });
 };
 
@@ -222,7 +237,7 @@ exports.getByEmail = function(req, res) {
     var userEmail = req.params.userEmail;
     console.log("userEmail: " + userEmail);
 
-    if (!userEmail || userEmail == "") {
+    if (!userEmail || userEmail === "") {
         return res.json({
             error: "No se indico el correo del usuario!"
         });
@@ -261,6 +276,30 @@ exports.browseMyBands = function(req, res, next) {
         res.render('myBands', {
             title: "Mis Bandas",
             bands: bands
+        });
+    });
+};
+
+/*la idea es que en browse My locations haya opciones para trabajar con el lugar o algo asi.*/
+exports.browseMyLocations = function(req, res, next) {
+    var userId = req.session.uid;
+
+    if (!userId) {
+        res.error("No has iniciado sesion para ver tus lugares!");
+        return res.redirect("back");
+    }
+
+    User.findLocations(userId, function(err, locations) {
+        if (err) {
+            var errorMessage = getErrorMessage(err);
+            res.error(errorMessage);
+            return res.redirect("back");
+        }
+
+        req.locations = res.locals.locations = locations;
+        res.render('myLocations', {
+            title: "Mis Lugares",
+            locations: locations
         });
     });
 };
