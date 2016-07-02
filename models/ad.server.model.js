@@ -43,7 +43,7 @@ exports.registerSchema = function() {
         console.log("Aviso por usuario: " + user);
         this.find({
             user: user
-        }, callback).populate('band').populate('place').exec(callback);
+        }).populate('band').populate('place').exec(callback);
     };
 
     AdSchema.post('save', function(next) {
@@ -59,7 +59,7 @@ exports.registerSchema = function() {
         this.find({
             expiration: { $gte: new Date() },
             visibility: visibility
-        }, callback).populate('band').populate('place').exec(callback);
+        }).populate('band').populate('place').exec(callback);
     };    
 
     AdSchema.set('toJSON', {
