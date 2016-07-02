@@ -20,10 +20,6 @@ exports.registerSchema = function() {
             type: String,
             required: 'La localidad del lugar no puede ser vacio!'
         },
-        likes: {
-            type: String,
-            required: 'La cantidad de likes no puede ser vacio!'
-        },
         /*Campo que guarda la fecha de creacion del lugar*/
         created: {
             type: Date,

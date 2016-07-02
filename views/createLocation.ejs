@@ -13,7 +13,7 @@
     
     <% include messages %>
     
-    <form class="form" id="createLocationForm" action='/location/create' method='post'>
+    <form class="form" id="createLocationForm" action='/locations/create' method='post'>
 
         <div class="panel panel-success">
             <div class="panel-heading">
@@ -40,12 +40,6 @@
 
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
-                        <paper-input name="likes" label="Cantidad de likes minimos" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-8 col-sm-12 col-xs-12">
                         <paper-textarea name="description" label="Descripcion del lugar"></paper-input>
                     </div>
                 </div>
@@ -58,6 +52,7 @@
                     </div>
 
                     <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label>Socios:</label>
                         <% include memberSelect %>
                     </div>
                 </div>
