@@ -70,10 +70,10 @@ exports.registerSchema = function() {
     };
 
      /*Busca las bandas correspondientes a un usuario*/
-    UserSchema.statics.findPlaces = function(plainUserId, callback) {
-        var Place = mongoose.model('Place');
+    UserSchema.statics.findLocations = function(plainUserId, callback) {
+        var Location = mongoose.model('Location');
 
-        Place.find({
+        Location.find({
             members: {
                 $elemMatch: {
                     $eq: plainUserId

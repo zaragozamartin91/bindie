@@ -15,16 +15,16 @@ exports.registerSchema = function() {
         },
         type: {
             type: String,
-            enum: ['place', 'band']
+            enum: ['location', 'band']
         },
         // En StackOverflow se sugiere referenciar a los dos aunque solo se use uno
         band: {
             type: ObjectId,
             ref: 'Band'
         },
-        place: {
+        location: {
             type: ObjectId,
-            ref: 'Place'
+            ref: 'Location'
         },         
         user: {
             type: ObjectId,
@@ -43,8 +43,13 @@ exports.registerSchema = function() {
         console.log("Aviso por usuario: " + user);
         this.find({
             user: user
-        }).populate('band').populate('place').exec(callback);
+        }).populate('band').populate('location').exec(callback);
     };
+
+    AdSchema.statics.removeAd = function(id, callback) {
+        console.log("Aviso borrado: " + id);
+        this.findOneAndRemove({'_id' : id}, callback);
+    }
 
     AdSchema.post('save', function(next) {
         if (this.isNew) {
@@ -59,7 +64,7 @@ exports.registerSchema = function() {
         this.find({
             expiration: { $gte: new Date() },
             visibility: visibility
-        }).populate('band').populate('place').exec(callback);
+        }).populate('band').populate('location').exec(callback);
     };    
 
     AdSchema.set('toJSON', {
