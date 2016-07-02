@@ -1,0 +1,68 @@
+<body>    
+    <style type="text/css">
+        paper-button[active] {
+            background-color: green;
+            color: white;
+        }       
+    </style>
+
+    <h1><%= title %></h1>
+    
+    <% include messages %>
+
+    <% if (locals.user) { %>
+     <script>
+        userEmail = "<%= locals.user.email %>";
+        userId = "<%= locals.user._id %>";
+     </script>
+    <% } %>
+
+    <div class="row">
+        <div class="col-md-10 col-sm-10 col-xs-8">
+            <!-- <input id="bandNameInput" class="form-control" type='text' name='bandName' placeholder='Nombre banda' /> -->
+            <paper-input id="locationNameInput" name='locationName' label='Nombre del lugar' />
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-4">
+            <!-- <button id="searchBandsButton" class="btn btn-primary fa fa-search" ></button> -->
+            <paper-button id="searchLocationsButton" raised>Buscar</paper-button>
+        </div>
+    </div>    
+    
+    <br/>
+
+    <div id="foundLocations"></div>
+
+    <script type="text/javascript">
+        $('document').ready(function() {
+            console.log("user:");
+            console.log(userEmail);
+
+            $('#searchLocationsButton').click(function(){
+                var locationName = $("#locationNameInput").val();
+                $("#foundLocations").html("");
+
+                var ajaxUrl = locationName ? ("/api/locations/name/" + locationName) : "/api/locations/name/";
+                /*var ajaxUrl = locationName ? ("http://localhost:3000/api/bands/name/" + bandName) : "http://localhost:3000/api/bands/name/";*/
+
+                $.getJSON( ajaxUrl , function( data ) {
+                    data.forEach( function(location) {
+                        console.log("Lugar: ");
+                        console.log(location);
+
+                        var locationAddressP = '<p>' + "Direccion: " + location.address + ", " + location.location + '</p>';
+                        var locationDescriptionP = '<p>' + location.description + '</p>';
+                        var genresUl = 'Generos: <ul>';
+                        location.genres.forEach( function(genre){
+                            genresUl+='<li>' + genre + '</li>';
+                        } );
+                        genresUl+='</ul>';
+
+                        $('<paper-card heading="' + location.name + '" >  <div class="card-content">'+ locationDescriptionP + locationAddressP + genresUl + '  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="bookmark"></iron-icon>Contratar</paper-button></div></paper-card>').appendTo( $("#foundLocations") );
+
+                        //$('<p>'+band.name+'</p>').appendTo( $("#foundBands") );
+                    } );
+                });            
+            });
+        });
+    </script>
+</body>

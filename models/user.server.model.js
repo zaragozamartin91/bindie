@@ -69,6 +69,19 @@ exports.registerSchema = function() {
         }).populate('members').exec(callback);
     };
 
+    /*Busca los lugares correspondientes a un usuario*/
+    UserSchema.statics.findLocations = function(plainUserId, callback) {
+        var Location = mongoose.model('Location');
+
+        Location.find({
+            members: {
+                $elemMatch: {
+                    $eq: plainUserId
+                }
+            }
+        }).populate('members').exec(callback);
+    };
+
      /*Busca las bandas correspondientes a un usuario*/
     UserSchema.statics.findLocations = function(plainUserId, callback) {
         var Location = mongoose.model('Location');
@@ -80,7 +93,7 @@ exports.registerSchema = function() {
                 }
             }
         }).populate('members').exec(callback);
-    };   
+    };    
 
     /*is used to hash a password string by utilizing Node.js' crypto module*/
     UserSchema.methods.hashPassword = function(password) {
