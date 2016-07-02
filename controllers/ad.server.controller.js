@@ -35,19 +35,15 @@ exports.createForm = function(req, res, next) {
 
         req.bands = res.locals.bands = bands;
 
-        User.findPlaces(userId, function(err, places) {
-            console.log("lugares: " + bands);
-            /*if (!places || !places.length) {
-                res.error("No perteneces a ninguna banda!");
-                return res.redirect('back');
-            }*/
+        User.findLocations(userId, function(err, locations) {
+            console.log("lugares: " + locations);
 
-            req.places = res.locals.places = places;
+            req.locations = res.locals.locations = locations;
 
             res.render('createAd', {
                 title: 'Crear Aviso',
                 bands: bands,
-                places: places
+                locations: locations
             });
 
         });
@@ -77,12 +73,12 @@ exports.createSubmit = function(req, res, next) {
             return res.redirect('back');
         }        
         data.band = ObjectId(data.referenceBand);
-    } else { // place
-        if (!data.referencePlace) {
+    } else { // locations
+        if (!data.referenceLocation) {
             res.error("Es necesario seleccionar un lugar");
             return res.redirect('back');
         }
-        data.place = ObjectId(data.referencePlace);        
+        data.location = ObjectId(data.referenceLocation);        
     }
     data.user = userId;
     var date = new Date();
@@ -118,20 +114,30 @@ exports.browseAds = function(req, res, next) {
         return res.redirect("back");
     }
 
-    Ad.findByUser(userId, function(err, ads) {
-        console.log(ads);
-        if (err) {
-            var errorMessage = getErrorMessage(err);
-            res.error(errorMessage);
-            return res.redirect("back");
-        }
+    var adId = req.params.adId
+    if (adId) {
+        Ad.removeAd(adId, function(err, ads) {viewData();});
+    } else {
+        viewData();
+    }
 
-        req.ads = res.locals.ads = ads;
-        res.render('browseAds', {
-            title: "Mis Avisos",
-            ads: ads
+    function viewData(){
+        Ad.findByUser(userId, function(err, ads) {
+            console.log(ads);
+            if (err) {
+                var errorMessage = getErrorMessage(err);
+                res.error(errorMessage);
+                return res.redirect("back");
+            }
+
+            req.ads = res.locals.ads = ads;
+            res.render('browseAds', {
+                title: "Mis Avisos",
+                ads: ads
+            });
         });
-    });    
+    }
+   
 };
 
 exports.showAds = function(req, res, next) {
@@ -161,3 +167,4 @@ exports.showAds = function(req, res, next) {
 
     });    
 };
+

@@ -56,6 +56,22 @@ exports.registerSchema = function() {
         }
     });
 
+    LocationSchema.statics.searchByOwner = function(owner, callback) {
+        if (!owner) {
+            this.find({}, callback);
+        } else {
+            var ownerId = owner._id ? new ObjectId(owner._id) : new ObjectId(owner);
+
+            this.find({
+                owners: {
+                    $elemMatch: {
+                        $eq: ownerId
+                    }
+                }
+            }, callback);
+        }
+    };    
+
     /*This will force Mongoose to include getters when converting the MongoDB document to a JSON representation and will allow the
     output of documents using res.json(). Tambien habilita los campos virtuales como fullName.*/
     LocationSchema.set('toJSON', {

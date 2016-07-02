@@ -24,7 +24,7 @@
                     <div class="col-md-8 col-sm-12 col-xs-12">
                         <label>¿Banda o Lugar?</label>
                         <label class="radio-inline"><input type="radio" id="bandRadio" value="band" name="type" checked="checked">Banda</label>
-                        <label class="radio-inline"><input type="radio" id="placeRadio" value="place" name="type">Lugar</label>
+                        <label class="radio-inline"><input type="radio" id="locationRadio" value="location" name="type">Lugar</label>
                     </div>
                 </div>
                 <br />
@@ -39,11 +39,11 @@
                                 } %>
                             </select> 
                         </div>
-                        <div id="placeSelectContainer" style="display:none;">
-                            <select id="placeSelect" name="referencePlace" size="10">
-                                <% if (locals.places) { 
-                                    places.forEach(function(place) { %>
-                                        <option value="<%= place._id %>"><%= place.name %></option>
+                        <div id="locationSelectContainer" style="display:none;">
+                            <select id="locationSelect" name="referenceLocation" size="10">
+                                <% if (locals.locations) { 
+                                    locations.forEach(function(location) { %>
+                                        <option value="<%= location._id %>"><%= location.name %></option>
                                     <% }) 
                                 } %>
                             </select>
@@ -83,15 +83,15 @@
                             priceSilver = 25;
                             calculatePrices();
                             calculateTotal();
-                            $( "#placeSelectContainer" ).hide();
+                            $( "#locationSelectContainer" ).hide();
                             $( "#bandSelectContainer" ).show();
                         });
-                        $( "#placeRadio" ).click(function() {
+                        $( "#locationRadio" ).click(function() {
                             priceGold = 100;
                             priceSilver = 60;                            
                             calculatePrices();
                             calculateTotal();
-                            $( "#placeSelectContainer" ).show();
+                            $( "#locationSelectContainer" ).show();
                             $( "#bandSelectContainer" ).hide();
 
                         });
@@ -115,7 +115,7 @@
                             calculateTotal();
                         });
 
-                        $( "#placeSelectContainer" ).hide(); 
+                        $( "#locationSelectContainer" ).hide(); 
 
                     });
                    

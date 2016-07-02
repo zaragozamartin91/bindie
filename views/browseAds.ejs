@@ -3,35 +3,40 @@
     
     <% include messages %>
 
-    <div id="myAds"></div>
-    
+    <div id="myAds">
     <% if (locals.ads) { 
-        ads.forEach(function(ad) { %>
-            <script type="text/javascript">
-                $('document').ready(function(){
+        ads.forEach(function(ad) {
+            var adType;
+            var adReference;
+            var adVisibility;
+            
+            if (ad.type === "band" )  {
+                adType = "Banda";
+                adReference = ad.band.name;
+            } else {
+                adType = "Lugar"
+                adReference = ad.location.name;
+            }
 
-                    <% if (ad.type === "band" )  { %>
-                    var adType = "Banda";
-                    var adReference = "<%= ad.band.name %>";
-                    <% } else { %>
-                    var adType = "Lugar"
-                    var adReference = "<%= ad.place %>";
-                    <% } %>
-
-                    <% if (ad.visibility === "gold" )  { %>
-                    var adVisibility = "Gold";
-                    <% } else { %>
-                    var adVisibility = "Silver"
-                    <% } %>
-
-                    var adDuration = "<%= ad.duration %>";
-                    var adExpiration = "<%= ad.expiration %>";
-
-    
-                    $('<paper-card heading="' + adType + '" >  <div class="card-content"><p>'+ adReference + '</p><p>Expira: '+ adExpiration + '</p><p>Duración: '+ adDuration + '</p><p>Visibilidad: ' + adVisibility + '</p></div>  <div class="card-actions"> <paper-button ><iron-icon icon="icons:build"></iron-icon></paper-button></div></paper-card>').appendTo( $('#myAds') );})
-            </script>
+            if (ad.visibility === "gold" )  {
+                adVisibility = "Gold";
+            } else {
+                adVisibility = "Silver"
+            }             
+        %>
+            <paper-card heading="<%= adType %>" >
+                <div class="card-content">
+                    <p><%= adReference %></p>
+                    <p>Expira: <%= ad.expiration %></p>
+                    <p>Duración: <%= ad.duration %> días</p>
+                    <p>Visibilidad: <%= ad.visibility %></p>
+                </div>
+                <div class="card-actions">
+                    <paper-button ><a href="/ads/delete/<%= ad.id %>"><iron-icon icon="icons:delete"></iron-icon></a></paper-button>
+                </div>
+            </paper-card>
             
         <% }) 
     } %>
-
+    </div>
 </body>

@@ -4,42 +4,63 @@
 
     <% include messages %>
 
-   <div id="myAds"></div>
-    
+    <div id="goldAds">
     <% if (locals.goldAds) { 
-        goldAds.forEach(function(ad) { %>
-            <script type="text/javascript">
-                $('document').ready(function(){
+        goldAds.forEach(function(ad) {
+            var adType;
+            var adReference;
+            var adVisibility;
+            
+            if (ad.type === "band" )  {
+                adType = "Banda";
+                adReference = ad.band.name;
+            } else {
+                adType = "Lugar"
+                adReference = ad.location.name;
+            }
 
-                    <% if (ad.type === "band" )  { %>
-                    var adType = "Banda";
-                    var adReference = "<%= ad.band.name %>";
-                    <% } else { %>
-                    var adType = "Lugar"
-                    var adReference = "<%= ad.place %>";
-                    <% } %>
-    
-                    $('<paper-card heading="' + adReference + '" >  <div class="card-content"><p>...</p></div> </paper-card>').appendTo( $('#myAds') );})
-            </script>
+            if (ad.visibility === "gold" )  {
+                adVisibility = "Gold";
+            } else {
+                adVisibility = "Silver"
+            }             
+        %>
+            <paper-card heading="<%= adType %>" >
+                <div class="card-content">
+                    <p><%= adReference %></p>
+                </div>
+            </paper-card>
             
         <% }) 
     } %>
+    </div>
 
+   <div id="silverAds">
     <% if (locals.silverAds) { 
-        silverAds.forEach(function(ad) { %>
-            <script type="text/javascript">
-                $('document').ready(function(){
+        silverAds.forEach(function(ad) {
+            var adType;
+            var adReference;
+            var adVisibility;
+            
+            if (ad.type === "band" )  {
+                adType = "Banda";
+                adReference = ad.band.name;
+            } else {
+                adType = "Lugar"
+                adReference = ad.location.name;
+            }
 
-                   <% if (ad.type === "band" )  { %>
-                    var adType = "Banda";
-                    var adReference = "<%= ad.band.name %>";
-                    <% } else { %>
-                    var adType = "Lugar"
-                    var adReference = "<%= ad.place %>";
-                    <% } %>
-    
-                    $('<paper-card heading="' + adReference + '" >  <div class="card-content"><p>...</p></div> </paper-card>').appendTo( $('#myAds') );})
-            </script>
+            if (ad.visibility === "gold" )  {
+                adVisibility = "Gold";
+            } else {
+                adVisibility = "Silver"
+            }             
+        %>
+            <paper-card heading="<%= adType %>" >
+                <div class="card-content">
+                    <p><%= adReference %></p>
+                </div>
+            </paper-card>
             
         <% }) 
     } %>
