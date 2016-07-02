@@ -1,0 +1,59 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head> -->
+
+<link rel="stylesheet" href="/stylesheets/bootstrap-multiselect.css">
+
+<body>
+    
+    <h1><%= title %></h1>
+    
+    <% include messages %>
+    
+    <form class="form" id="createBandForm" action='/bands/create' method='post'>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Contrato
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input name="name" label="Nombre de banda" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-textarea name="description" label="Descripcion de banda"></paper-input>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <% include genreSelect %>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label>Miembros: </label>
+                        <% include memberSelect %>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row text-center">
+                    <input class="btn btn-lg btn-primary" type='submit' value='Crear!' />
+                </div>
+            </div>
+        </div>
+
+    
+    </form>
+</body>
+</html>

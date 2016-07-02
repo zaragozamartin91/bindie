@@ -87,8 +87,10 @@
                         var seconds = Math.floor(song.duration % 60);
                         var duration = minutes + ':' + seconds;
 
+                        var likeToggleId = "song_" + song.id;
 
-                        $('<tr><td>' + song.name + '</td> <td>' + song.band.name + '</td><td>' + duration + '</td> <td> <paper-icon-button class="playSong" data-songurl="/songs/' + song.fileName + '" icon="icons:send" title="play" style="color:darkcyan"></paper-icon-button> <paper-icon-button class="likeToggle" toggles icon="icons:thumb-up"><paper-icon-button/> </td> </tr>').appendTo($(songListSelector));
+                        $('<tr><td>' + song.name + '</td> <td>' + song.band.name + '</td><td>' + duration + '</td> <td> <paper-icon-button class="playSong" data-songurl="/songs/' + song.fileName + '" icon="icons:send" title="play" style="color:darkcyan"></paper-icon-button> <paper-icon-button id="' + likeToggleId + '" class="likeToggle" toggles icon="icons:thumb-up"><paper-icon-button/> </td> </tr>')
+                        .appendTo($(songListSelector));
 
 
                         /*$('<audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
@@ -96,28 +98,27 @@
 
                         // $('<div class="row"> <br/> <paper-card heading="' + song.name + '" >  <div class="card-content"> <p>'+ song.description +'</p>  <audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio> </div>  <div class="card-actions"> <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button></div></paper-card></div>').appendTo( $(songListSelector) );
                          
-                        var likeToggles = document.querySelectorAll('.likeToggle');
-                        likeToggles.forEach(function(likeToggle) {
-                            var userLikesSong = song.upvotes.indexOf(userId) >= 0;
+                        var likeToggle = document.querySelector('#' + likeToggleId);
+                        var userLikesSong = song.upvotes.indexOf(userId) >= 0;
+                        
+                        if(userLikesSong){
+                            likeToggle.active = true;
+                            likeToggle.onclick = function() {likeToggle.active = true;};
                             console.log("USER "+ userId +" LIKES SONG: " + userLikesSong);
-
-                            if(userLikesSong){
+                        } else {
+                            likeToggle.onclick = function(event) {
                                 likeToggle.active = true;
-                                likeToggle.onclick = function() {likeToggle.active = true;};
-                            } else {
-                                likeToggle.onclick = function(event) {
-                                    likeToggle.active = true;
-                                    if(this.liked){
-                                        return;
-                                    } else {
-                                        $.get('/api/songs/upvote/'+ song._id, {}, function(response) {
-                                            console.log("UPVOTED. RESPONSE: ");
-                                            console.log(response);
-                                        }, 'json');
-                                    }
-                                };
-                            }
-                        });
+                                if(this.liked){
+                                    return;
+                                } else {
+                                    $.get('/api/songs/upvote/'+ song._id, {}, function(response) {
+                                        console.log("UPVOTED. RESPONSE: ");
+                                        console.log(response);
+                                    }, 'json');
+                                }
+                            };
+                        }
+
                     } );
                 });            
             });
