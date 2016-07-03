@@ -170,3 +170,46 @@ exports.getById = function(req, res) {
         res.json(band);
     });
 };
+
+exports.contract = function(req, res) {
+    var userId = req.session.uid;
+    if(!userId) {
+        res.error("Debe iniciar sesion para contratar a una banda!");
+        return res.redirect("back");
+    }
+
+    var bandId = req.params.bandId;
+
+    if(bandId) {
+        Band.findOne({
+            _id: bandId
+        }, function(err, band) {
+            if (err) {
+                var errorMessage = getErrorMessage(err);
+                res.error(errorMessage);
+                return res.redirect("back");
+            }
+
+            User.findLocations(userId, function(err, locations) {
+                if (err) {
+                    var errorMessage = getErrorMessage(err);
+                    res.error(errorMessage);
+                    return res.redirect("back");
+                }
+
+                req.locations = res.locals.locations = locations;
+                req.band = res.locals.band = band;
+
+                return res.render('createContract',{
+                    title: "Contratar banda",
+                    band: band,
+                    locations: locations
+                });
+            });
+
+        });        
+    } else {
+        res.error("No se indico el id de la banda a contratar!");
+        return res.redirect("back");
+    }
+};

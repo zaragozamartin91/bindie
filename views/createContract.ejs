@@ -10,6 +10,7 @@
 <body>
     
     <h1><%= title %></h1>
+    <h2><%= band.name %></h2>
     
     <% include messages %>
     
@@ -17,18 +18,18 @@
 
         <div class="panel panel-success">
             <div class="panel-heading">
-                Contrato
+                Propuesta
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
-                        <paper-input name="name" label="Nombre de banda" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                        <paper-input name="date" label="Fecha del evento" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
-                        <paper-textarea name="description" label="Descripcion de banda"></paper-input>
+                        <paper-textarea name="description" label="Condiciones"></paper-input>
                     </div>
                 </div>
 
@@ -36,24 +37,38 @@
 
                 <div class="row">
                     <div class="col-md-3 col-sm-12 col-xs-12">
-                        <% include genreSelect %>
+                        <% include locationSelect %>
                     </div>
 
-                    <div class="col-md-3 col-sm-12 col-xs-12">
-                        <label>Miembros: </label>
-                        <% include memberSelect %>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input name="cash" label="Monto" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input name="date2" label="Fecha de caducacion de la propuesta" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
                     </div>
                 </div>
 
                 <hr />
 
                 <div class="row text-center">
-                    <input class="btn btn-lg btn-primary" type='submit' value='Crear!' />
+                    <input class="btn btn-lg btn-primary" type='submit' value='Enviar propuesta!' />
                 </div>
             </div>
         </div>
 
     
     </form>
+
+
+    <script type="text/javascript">
+        var bandId = "<%= band.id %>";
+        var bandName = "<%= band.name %>";
+    </script>
 </body>
 </html>

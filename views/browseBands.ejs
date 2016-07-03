@@ -3,7 +3,13 @@
         paper-button[active] {
             background-color: green;
             color: white;
-        }		
+        }	
+
+        paper-card {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+        }	
 	</style>
 
     <h1><%= title %></h1>
@@ -56,11 +62,16 @@
                         } );
                         genresUl+='</ul>';
 
-                        $('<paper-card heading="' + band.name + '" >  <div class="card-content">'+ bandDescriptionP + genresUl + '  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="bookmark"></iron-icon>Contratar</paper-button></div></paper-card>')
+                        var contractButtonId = "band_" + band.id;
+
+                        $('<paper-card heading="' + band.name + '" >  <div class="card-content">'+ bandDescriptionP + genresUl + '  </div>  <div class="card-actions"> <paper-button id="' + contractButtonId + '"><iron-icon icon="bookmark"></iron-icon>Contratar</paper-button></div></paper-card>')
                         .appendTo( $("#foundBands") );
 
 	                    //$('<p>'+band.name+'</p>').appendTo( $("#foundBands") );
                        
+                        document.querySelector("#" + contractButtonId).addEventListener('transitionend', function(e) {
+                            location.href = '/bands/contract/' + band.id;
+                        });
 	                } );
 	            });            
 	        });
