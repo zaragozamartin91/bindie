@@ -1,4 +1,11 @@
 <body>    
+    <style type="text/css">
+        paper-card {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+
     <h1><%= title %></h1>
     
     <% include messages %>
@@ -21,7 +28,8 @@
                     } );
                     genresUl+='</ul>';
     
-                    $('<paper-card heading="' + bandName + '" >  <div class="card-content">'+ bandDescriptionP + genresUl + '  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="icons:build"></iron-icon>Configurar</paper-button></div></paper-card>').appendTo( $('#myBands') );});
+                    $('<paper-card heading="' + bandName + '" >  <div class="card-content">'+ bandDescriptionP + genresUl + '  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="icons:build"></iron-icon>Configurar</paper-button></div></paper-card>')
+                    .appendTo( $('#myBands') );});
             </script>
             
         <% }) 
