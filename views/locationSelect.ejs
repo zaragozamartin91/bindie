@@ -1,5 +1,5 @@
 
-<select id="locationSelect" name="locations" multiple="multiple" size="10">
+<select id="locationSelect" name="location" multiple="multiple" size="10">
     <% if (locals.locations) { 
         locations.forEach(function(location) { %>
             <option value="<%= location.name %>"><%= location.name %></option>

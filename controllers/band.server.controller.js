@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Band = mongoose.model('Band');
 var ObjectId = mongoose.Types.ObjectId;
-
+var Contract = mongoose.model('Contract');
+var Location = mongoose.model('Location');
 
 /*returns a unified error message from a Mongoose error object.*/
 var getErrorMessage = function(err) {
@@ -92,14 +93,9 @@ exports.createSubmit = function(req, res, next) {
         }, function(err, users) {
             data.members = [];
 
-
-            if (users.forEach) {
-                users.forEach(function(user) {
-                    data.members.push(new ObjectId(user._id));
-                });
-            } else {
-                data.members.push(new ObjectId(users));
-            }
+            users.forEach(function(user) {
+                data.members.push(new ObjectId(user._id));
+            });
 
             console.log("Miembros de la banda: " + data.members);
             band = new Band(data);
@@ -212,4 +208,64 @@ exports.contract = function(req, res) {
         res.error("No se indico el id de la banda a contratar!");
         return res.redirect("back");
     }
+};
+
+/*funcion para procesar la creacion de un contrato para una banda...*/
+exports.createContract = function(req, res, next) {
+    console.log("Contrato para una banda a subir: ");
+    var data = req.body;
+    /*var dataResult = {};
+    dataResult.eventDate = data.eventDate;
+    dataResult.description = data.description;
+    dataResult.cash = data.cash;
+    dataResult.expirationDate = data.cash;*/
+    data.eventDate = new Date(data.eventDate);
+    data.expirationDate = new Date(data.expirationDate);
+
+    console.log(data);
+
+    Band.findOneByName(data.band, function(err, band) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!band) {
+            res.error("La banda " + data.band + " no existe!");
+            return res.redirect("back");
+        }
+
+        //console.log("El id de la banda es " + new ObjectId(band._id));
+        data.band = new ObjectId(band._id);
+
+
+        Location.findOneByName(data.location, function(err, location) {
+            if (err) {
+                return next(err);
+            }
+
+            if (!location) {
+                res.error("El lugar " + data.location + " no existe!");
+                return res.redirect("back");
+            }
+
+            data.location = new ObjectId(location._id);
+
+            contract = new Contract(data);
+
+            console.log("Contrato a guardar:" + contract);
+            contract.save(function(err) {
+                if (err) {
+                    var message = getErrorMessage(err);
+                    console.log("Algo salio mal: " + err);
+                    res.error(message);
+                    return res.redirect('back');
+                }
+
+                console.log("Contrato creado:");
+                console.log(contract);
+                res.success("Contrato creado exitosamente!");
+                res.redirect("back");
+            });
+        });
+    });
 };

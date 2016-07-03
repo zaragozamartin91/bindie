@@ -17,7 +17,8 @@ exports.config = function(app) {
     app.get('/bands/browse', bandController.browseBands);
 
     /*Ruta para contratar una banda. La cola del Url debe ser el id de la banda.*/
-    app.get('/bands/contract/:bandId', bandController.contract);    
+    app.get('/bands/contract/:bandId', bandController.contract); 
+    app.post('/bands/createcontract/', bandController.createContract);   
 
     console.log("Rutas de bandas configuradas!");
 };

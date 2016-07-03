@@ -14,13 +14,19 @@
     
     <% include messages %>
     
-    <form class="form" id="createBandForm" action='/bands/create' method='post'>
+    <form class="form" id="createContractBandForm" action='/bands/createcontract' method='post'>
 
         <div class="panel panel-success">
             <div class="panel-heading">
                 Propuesta
             </div>
             <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input name="band" label="Nombre de banda" value="<%= band.name %>"></paper-input>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
                         <paper-input name="eventDate" label="Fecha del evento" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
@@ -58,7 +64,7 @@
                 <hr />
 
                 <div class="row text-center">
-                    <input class="btn btn-lg btn-primary" type='submit' value='Enviar propuesta!' />
+                    <input id="submitButton" class="btn btn-lg btn-primary" type='submit' value='Enviar propuesta!' />
                 </div>
             </div>
         </div>
@@ -68,8 +74,19 @@
 
 
     <script type="text/javascript">
-        var bandId = "<%= band.id %>";
-        var bandName = "<%= band.name %>";
+       /* $(document).ready(function(){
+            var bandId = "<%= band.id %>";
+            var bandName = "<%= band.name %>";
+
+            var eventDate = document.querySelector("#eventDate");
+
+            var submitButton = document.querySelector('#submitButton');
+            submitButton.onclick = function(event) {
+                if(eventDate.invalid) {
+                    event.preventDefault();
+                }
+            };
+        });*/
     </script>
 </body>
 </html>

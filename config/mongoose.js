@@ -16,6 +16,7 @@ module.exports = function() {
     require('../models/song.server.model.js').registerSchema();
     require('../models/ad.server.model.js').registerSchema();
 	require('../models/location.server.model.js').registerSchema();
+	require('../models/contract.server.model.js').registerSchema();
 
     return db;
 };
