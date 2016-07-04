@@ -29,7 +29,10 @@
 
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
-                        <paper-input name="eventDate" label="Fecha del evento" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                        <!-- <paper-input name="eventDate" label="Fecha del evento" auto-validate required="required" error-message="No puede ser vacio!"></paper-input> -->
+                        <!-- <paper-dialog-calendar></paper-dialog-calendar> -->
+                        <!-- <paper-span-calendar></paper-span-calendar> -->
+                        <vaadin-date-picker name="eventDate" label="Fecha"></vaadin-date-picker>
                     </div>
                 </div>
 
@@ -57,7 +60,8 @@
 
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
-                        <paper-input name="expirationDate" label="Fecha de caducacion de la propuesta" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                        <!-- <paper-input name="expirationDate" label="Fecha de caducacion de la propuesta" auto-validate required="required" error-message="No puede ser vacio!"></paper-input> -->
+                        <vaadin-date-picker name="expirationDate" name="eventDate" label="Fecha"></vaadin-date-picker>
                     </div>
                 </div>
 
