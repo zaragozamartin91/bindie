@@ -95,6 +95,19 @@ exports.registerSchema = function() {
         }).populate('members').exec(callback);
     };    
 
+    /*Busca los eventos correspondientes a un usuario*/
+    UserSchema.statics.findEvents = function(plainUserId, callback) {
+        var Event = mongoose.model('Event');
+
+        Event.find({
+            members: {
+                $elemMatch: {
+                    $eq: plainUserId
+                }
+            }
+        }).populate('members').exec(callback);
+    };
+
     /*is used to hash a password string by utilizing Node.js' crypto module*/
     UserSchema.methods.hashPassword = function(password) {
         console.log("ejecutando hashPassword...");
