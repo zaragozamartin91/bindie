@@ -13,6 +13,11 @@ exports.config = function(app) {
     /* Funcion api que busca canciones por genero.*/
     app.get('/api/songs/genre/:genre?', songController.searchByGenreApi);
 
+    // Funcion api para buscar canciones por nombre.
+    app.get('/api/songs/name/:name?', songController.searchByNameApi);    
+
+    // Funcion api para buscar canciones por nombre de BANDA.
+    app.get('/api/songs/band/:bandName?', songController.searchByBandNameApi);
 
     /* Rutas con vistas para manipular canciones... */
     app.get('/songs/create', songController.createForm);

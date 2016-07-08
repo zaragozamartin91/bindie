@@ -1,9 +1,11 @@
+<link rel="stylesheet" href="/stylesheets/bootstrap-multiselect.css">
+
 <body>
     <h1><%= title %></h1>
     <p>Escucha tus canciones favoritas.</p>
 
     <style type="text/css">
-        #genreInput {
+        #searchInput {
             width: 100%;
         }
 
@@ -29,12 +31,21 @@
             background-color: darkgray;
         }
 
+        #criteriaSelectContainer {
+            margin: 5px;
+        }
+
+        #searchSongs {
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+
     </style>
 
     <div class="row">
         <div class="col-md-10 col-sm-9 col-xs-8">
-            <!-- <input id="genreInput" type="text" class="form-control" name="genre" id="genre"> -->
-            <paper-input label="Genero" name="genre" id="genreInput"></paper-input>
+            <!-- <input id="searchInput" type="text" class="form-control" name="genre" id="genre"> -->
+            <paper-input label="Busqueda" name="genre" id="searchInput"></paper-input>
         </div>
         <div class="col-md-2 col-sm-3 col-xs-4">
             <paper-button raised id="searchSongs">Buscar</paper-button>
@@ -42,6 +53,11 @@
     </div>
 
     <!-- <button class="btn btn-primary" id="searchSongs">Buscar</button> -->
+
+    <div id="criteriaSelectContainer">
+        <label>Criterio de selección:</label>
+        <% include criteriaSelect %>  
+    </div>
 
     <br/>
 
@@ -62,24 +78,34 @@
 
     
     <script type="text/javascript">
+        var urlPrefixMap = {
+            genre: "/api/songs/genre/",
+            songName: "/api/songs/name/",
+            bandName: "/api/songs/band/"
+        };
+
         var userId = "<%= user._id %>";
 
-        $('document').ready( function(){
+        $('document').ready( function() {
 
             $('#searchSongs').click(function() {
                 var songListSelector = "#songList";
-                var genreValue = $("#genreInput").val();
-                if(!genreValue || genreValue === ""){
-                    genreValue = "any";
+                var inputValue = $("#searchInput").val();
+                if(!inputValue || inputValue === ""){
+                    inputValue = "*";
                 }
 
                 
-                var ajaxUrl = "/api/songs/genre/" + genreValue;
+                var criteriaSelect = document.querySelector('#criteriaSelect');
+                var criteria = criteriaSelect.value || 'genre';
+
+                var ajaxUrlPrefix = urlPrefixMap[criteria];
+                var ajaxUrl = ajaxUrlPrefix + inputValue;
 
 
                 $(songListSelector).html("");
 
-                $.getJSON( ajaxUrl , function( data ) {
+                var searchFunction = function( data ) {
                     data.forEach( function(song){
                         console.log("Cancion: ");
                         console.log(song);
@@ -93,11 +119,6 @@
                         $('<tr><td>' + song.name + '</td> <td>' + song.band.name + '</td><td>' + duration + '</td> <td class="' + songClass + '"> ' + song.upvotes.length + ' </td> <td> <paper-icon-button class="playSong" data-songurl="/songs/' + song.fileName + '" icon="icons:send" title="play" style="color:darkcyan"></paper-icon-button> <paper-icon-button class="' + songClass + '" class="likeToggle" toggles icon="icons:thumb-up"><paper-icon-button/> </td> </tr>')
                         .appendTo($(songListSelector));
 
-
-                        /*$('<audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
-                                .appendTo( $(songListSelector) );*/
-
-                        // $('<div class="row"> <br/> <paper-card heading="' + song.name + '" >  <div class="card-content"> <p>'+ song.description +'</p>  <audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio> </div>  <div class="card-actions"> <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button></div></paper-card></div>').appendTo( $(songListSelector) );
                          
                         var likeToggle = document.querySelector('paper-icon-button.' + songClass);
                         var userLikesSong = song.upvotes.indexOf(userId) >= 0;
@@ -124,7 +145,9 @@
                         }
 
                     } );
-                });            
+                };
+
+                $.getJSON( ajaxUrl , searchFunction);            
             });
         } );
     </script>

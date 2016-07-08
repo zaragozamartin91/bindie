@@ -70,6 +70,7 @@ exports.registerSchema = function() {
         if (!genre || genre === "" || genre == "*" || genre == "any") {
             this.find({}).populate('band').exec(callback);
         } else {
+            genre = genre.toLowerCase();
             this.find({
                 genres: {
                     $elemMatch: {
@@ -77,6 +78,39 @@ exports.registerSchema = function() {
                     }
                 }
             }).populate('band').exec(callback);
+        }
+    };
+
+    SongSchema.statics.searchByName = function(name, callback) {
+        if (!name || name === "" || name == "*" || name == "any") {
+            this.find({}).populate('band').exec(callback);
+        } else {
+            this.find({
+                name: new RegExp(name, 'i')
+            }).populate('band').exec(callback);
+        }
+    };
+
+    SongSchema.statics.searchByBandName = function(bandName, callback) {
+        var self = this;
+        var Band = mongoose.model('Band');
+
+        if (!bandName || bandName === "" || bandName == "*" || bandName == "any") {
+            this.find({}).populate('band').exec(callback);
+        } else {
+            Band.findOne({
+                name: new RegExp(bandName, 'i')
+            }, function(err, band) {
+                if (!band) {
+                    return callback(null, []);
+                }
+
+                console.log("BUSCANDO CANCIONES DE BANDA: ");
+                console.log(band);
+                self.find({
+                    band: band._id
+                }).populate('band').exec(callback);
+            });
         }
     };
 
