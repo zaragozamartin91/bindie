@@ -53,7 +53,7 @@ exports.registerSchema = function() {
             console.log("Votante no encontrado, agregando voto...");
             this.upvotes.push(voterId);
         } else {
-            console.log("Usuario: " + voterId + " ya voto esta cancion!");
+            console.log("USUARIO: " + voterId + " YA VOTO ESTA CANCION!");
         }
     };
 
