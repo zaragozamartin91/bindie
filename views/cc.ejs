@@ -1,0 +1,22 @@
+                <div class="row">
+                    <div class="col-sm-8">
+                        <paper-input name="name" label="Nombre en la tarjeta" required></paper-input>
+                    </div>
+                </div>
+                <div class="row">                    
+                    <div class="col-sm-8">
+                        <paper-input name="cc-number" label="Número de tarjeta" auto-validate required pattern="[0-9]*" error-message="Número inválido!"></paper-input>                    
+                        <!--<gold-cc-input name="cc-number" required value="4000 0000 0000 0002"       auto-validate card-type="{{cardType}}"></gold-cc-input>-->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <paper-input name="cc-expiration" label="Vencimiento (MM/YY)" auto-validate required pattern="(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})" error-message="Fecha de expiración inválida!"></paper-input>   
+                        <!--<gold-cc-expiration-input name="cc-expiration" required label="Expiration"></gold-cc-expiration-input>-->
+                    </div>
+                    <div class="col-md-4">
+                        <!--<gold-cc-cvc-input name="cc-cvc" required card-type="[[cardType]]"></gold-cc-cvc-input>-->
+                        <paper-input name="cc-cvc" label="CVC (3 números)" auto-validate required pattern="[0-9][0-9][0-9]" error-message="CVC inválido!"></paper-input>                           
+                    </div>    
+                </div> 
