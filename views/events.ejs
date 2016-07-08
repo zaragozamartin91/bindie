@@ -1,0 +1,29 @@
+<body>    
+    <h1><%= title %></h1>
+    
+    <% include messages %>
+
+    <form class="form" id="userEventsForm" action='/users/events' method='post'>
+    
+    <% if (locals.events) { 
+        events.forEach(function(event) { %>
+            <script type="text/javascript">
+                $('document').ready(function(){
+			var eventName = "<%= event.name %>";
+		        var eventDescription = "<%= event.description %>";
+		        var eventBand = "<%= event.band %>";
+		        var eventDate = "<%= event.date %>";
+
+	    
+		        var eventDescriptionP = '<p>' + eventDescription + '</p>';
+		        var eventBandP = '<p>' + "Banda: " + eventBand + '</p>';
+			var eventDateP = '<p>' + "Fecha: " + eventDate + '</p>';
+    
+                    $('<paper-card heading="' + eventName + '" >  <div class="card-content">'+ eventDescriptionP + eventBandP + eventDateP + '  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="icons:build"></iron-icon>Configurar</paper-button></div></paper-card>').appendTo( $('#events') );});
+            </script>
+            
+        <% }) 
+    } %>
+
+    </form>
+</body>

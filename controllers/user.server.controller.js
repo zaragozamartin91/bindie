@@ -303,3 +303,27 @@ exports.browseMyLocations = function(req, res, next) {
         });
     });
 };
+
+/*No realiza paginacion. En browseEvent.ejs se expondran todos los eventos...*/
+exports.browseMyEvents = function(req, res, next) {
+    var userId = req.session.uid;
+
+    if (!userId) {
+        res.error("No has iniciado sesion para ver tus lugares!");
+        return res.redirect("back");
+    }
+
+    User.findEvents(userId, function(err, events) {
+        if (err) {
+            var errorMessage = getErrorMessage(err);
+            res.error(errorMessage);
+            return res.redirect("back");
+        }
+
+        req.events = res.locals.events = events;
+        res.render('events', {
+            title: "Eventos",
+            events: events
+        });
+    });
+};

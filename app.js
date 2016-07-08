@@ -70,6 +70,7 @@ var bandRoutes = require('./routes/band.server.routes').config(app);
 var songRoutes = require('./routes/song.server.routes').config(app);
 var locationRoutes = require('./routes/location.server.routes').config(app);
 var adRoutes = require('./routes/ad.server.routes').config(app);
+var eventsRoutes = require('./routes/event.server.routes').config(app);
 
 
 // catch 404 and forward to error handler

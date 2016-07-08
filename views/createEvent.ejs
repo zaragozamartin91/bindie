@@ -1,0 +1,72 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head> -->
+
+<link rel="stylesheet" href="/stylesheets/bootstrap-multiselect.css">
+
+<body>
+    
+    <h1><%= title %></h1>
+    
+    <% include messages %>
+    
+    <form class="form" id="createEventForm" action='/events/create' method='post'>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Datos del evento
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input name="name" label="Nombre del evento" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-textarea name="description" label="Descripcion del evento"></paper-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input name="band" label="Nombre de la banda" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input name="date" label="Fecha del evento" type="date" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label>Lugares: </label>
+                        <% include locationSelect %>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label>Miembros: </label>
+                        <% include memberSelect %>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row text-center">
+                    <input class="btn btn-lg btn-primary" type='submit' value='Crear!' />
+                </div>
+            </div>
+        </div>
+
+    
+    </form>
+</body>
+</html>

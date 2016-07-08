@@ -18,6 +18,7 @@ exports.config = function(app) {
     app.get('/users/logout', userController.logout);
     app.get('/users/bands', userController.browseMyBands);
     app.get('/users/locations', userController.browseMyLocations);
+    app.get('/users/events', userController.browseMyEvents);
 
 
     console.log("Rutas de usuario configuradas!");
