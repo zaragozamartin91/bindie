@@ -32,19 +32,34 @@ exports.registerSchema = function() {
 
     /*busca una unica banda por nombre.*/
     BandSchema.statics.findOneByName = function(name, callback) {
-        console.log("Buscando banda: " + name);
+        console.log("BUSCANDO BANDA: " + name);
         this.findOne({
             name: name
         }, callback);
+    };
+
+    BandSchema.statics.searchByGenre = function(genre, callback) {
+        if (!genre || genre === "" || genre == "*" || genre == "any") {
+            this.find({}, callback);
+        } else {
+            genre = genre.toLowerCase();
+            this.find({
+                genres: {
+                    $elemMatch: {
+                        $eq: genre
+                    }
+                }
+            }, callback);
+        }
     };
 
     /*A post middleware is defined using the post() method of the schema object*/
     /*esta funcion correra despues de ejecutar save() sobre mongo.*/
     BandSchema.post('save', function(next) {
         if (this.isNew) {
-            console.log('Se creo una banda nueva!');
+            console.log('SE CREO UNA BANDA NUEVA!');
         } else {
-            console.log('Se actualizo una banda!');
+            console.log('SE ACTUALIZO UNA BANDA!');
         }
     });
 

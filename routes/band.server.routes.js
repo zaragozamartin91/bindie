@@ -10,6 +10,8 @@ exports.config = function(app) {
 
     app.get('/api/bands/id/:bandId',bandController.getById);
 
+    app.get('/api/bands/genre/:genre?',bandController.searchByGenreApi);
+
 
     /* Rutas con vistas para manipular bandas... */
     app.get('/bands/create', bandController.createForm);

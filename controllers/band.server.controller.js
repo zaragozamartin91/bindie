@@ -269,3 +269,13 @@ exports.createContract = function(req, res, next) {
         });
     });
 };
+
+
+exports.searchByGenreApi = function(req, res) {
+    var genre = req.params.genre;
+
+    Band.searchByGenre(genre, function(err, bands) {
+        console.log("BANDAS DE GENERO " + genre + " ENCONTRADAS: " + bands);
+        res.json(bands);
+    });
+};

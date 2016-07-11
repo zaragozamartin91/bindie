@@ -1,80 +1,121 @@
-<body>    
-	<style type="text/css">
-        paper-button[active] {
-            background-color: green;
-            color: white;
-        }	
+<link rel="stylesheet" href="/stylesheets/bootstrap-multiselect.css">
+
+<body>
+    <h1><%= title %></h1>
+    <p>Busca tus bandas favoritas.</p>
+
+    <style type="text/css">
+        #searchInput {
+            width: 100%;
+        }
+
+        #searchBands {
+            width: 30%;
+        }       
+
+
+        body{
+            padding-bottom: 70px;
+        }
+
+        #criteriaSelectContainer {
+            margin: 5px;
+        }
+
+        #searchBands {
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+
+        #bandList {
+            width: 100%;
+        }
 
         paper-card {
-            margin-right: 10px;
-            margin-bottom: 10px;
             width: 100%;
-        }	
-	</style>
+            margin-top: 5px;
+        }
 
-    <h1><%= title %></h1>
-    
-    <% include messages %>
-
-    <% if (locals.user) { %>
-     <script>
-        userEmail = "<%= locals.user.email %>";
-        userId = "<%= locals.user._id %>";
-     </script>
-    <% } %>
+    </style>
 
     <div class="row">
-        <div class="col-md-10 col-sm-10 col-xs-8">
-            <!-- <input id="bandNameInput" class="form-control" type='text' name='bandName' placeholder='Nombre banda' /> -->
-            <paper-input id="bandNameInput" name='bandName' label='Nombre banda' />
+        <div class="col-md-10 col-sm-9 col-xs-8">
+            <!-- <input id="searchInput" type="text" class="form-control" name="genre" id="genre"> -->
+            <paper-input label="Busqueda" name="genre" id="searchInput"></paper-input>
         </div>
-        <div class="col-md-2 col-sm-2 col-xs-4">
-        	<!-- <button id="searchBandsButton" class="btn btn-primary fa fa-search" ></button> -->
-            <paper-button id="searchBandsButton" raised>Buscar</paper-button>
+        <div class="col-md-2 col-sm-3 col-xs-4">
+            <paper-button raised id="searchBands">Buscar</paper-button>
         </div>
-    </div>    
-    
+    </div>
+
+    <!-- <button class="btn btn-primary" id="searchBands">Buscar</button> -->
+
+    <div id="criteriaSelectContainer">
+        <label>Criterio de selección:</label>
+        <% include bandCriteriaSelect %>  
+    </div>
+
+
     <br/>
 
-    <div id="foundBands"></div>
 
+    <div id="bandList">
+    </div>
+
+    
     <script type="text/javascript">
-    	$('document').ready(function() {
-            console.log("user:");
-            console.log(userEmail);
+        var urlPrefixMap = {
+            genre: "/api/bands/genre/",
+            bandName: "/api/bands/name/"
+        };
 
-	        $('#searchBandsButton').click(function(){
-	            var bandName = $("#bandNameInput").val();
-	            $("#foundBands").html("");
+        $('document').ready( function() {
 
-	            var ajaxUrl = bandName ? ("/api/bands/name/" + bandName) : "/api/bands/name/";
-                /*var ajaxUrl = bandName ? ("http://localhost:3000/api/bands/name/" + bandName) : "http://localhost:3000/api/bands/name/";*/
+            $('#searchBands').click(function() {
+                var bandListSelector = "#bandList";
+                var inputValue = $("#searchInput").val();
+                if(!inputValue || inputValue === ""){
+                    inputValue = "*";
+                }
 
-	            $.getJSON( ajaxUrl , function( data ) {
-	                data.forEach( function(band) {
-	                    console.log("Banda: ");
-	                    console.log(band);
+                
+                var criteriaSelect = document.querySelector('#criteriaSelect');
+                var criteria = criteriaSelect.value || 'bandName';
 
-                        var bandDescriptionP = '<p>' + band.description + '</p>';
-                        var genresUl = 'Generos: <ul>';
-                        band.genres.forEach( function(genre){
-                            genresUl+='<li>' + genre + '</li>';
-                        } );
-                        genresUl+='</ul>';
+                var ajaxUrlPrefix = urlPrefixMap[criteria];
+                var ajaxUrl = ajaxUrlPrefix + inputValue;
 
-                        var contractButtonId = "band_" + band.id;
 
-                        $('<paper-card heading="' + band.name + '" >  <div class="card-content">'+ bandDescriptionP + genresUl + '  </div>  <div class="card-actions"> <paper-button id="' + contractButtonId + '"><iron-icon icon="bookmark"></iron-icon>Contratar</paper-button></div></paper-card>')
-                        .appendTo( $("#foundBands") );
+                $(bandListSelector).html("");
 
-	                    //$('<p>'+band.name+'</p>').appendTo( $("#foundBands") );
-                       
-                        document.querySelector("#" + contractButtonId).addEventListener('transitionend', function(e) {
-                            location.href = '/bands/contract/' + band.id;
-                        });
-	                } );
-	            });            
-	        });
-    	});
+                var processBand = function(band) {
+                    console.log("BANDA: ");
+                    console.log(band);
+
+                    var bandDescription = band.description;
+                    var bandGenres = band.genres;
+
+                    var bandDescriptionP = '<p>' + bandDescription + '</p>';
+                    var genresUl = 'Generos: <ul>';
+                    bandGenres.forEach( function(genre){
+                        genresUl += '<li>' + genre + '</li>';
+                    } );
+                    genresUl+='</ul>';
+
+                    $('<paper-card heading="' + band.name + '" >  <div class="card-content">'+ bandDescriptionP + genresUl + '  </div>  <div class="card-actions"> </div></paper-card>')
+                    .appendTo($(bandListSelector));
+                };
+
+                var searchFunction = function( data ) {
+                    if(data.forEach) {
+                        data.forEach(processBand);
+                    } else {
+                        processBand(data);
+                    }
+                };
+
+                $.getJSON( ajaxUrl , searchFunction);            
+            });
+        } );
     </script>
 </body>
