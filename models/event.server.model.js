@@ -15,29 +15,22 @@ exports.registerSchema = function() {
             default: 'Descripcion no disponible'
         },
         location: {
-            type: String,
-            required: 'El nombre del lugar del evento no puede ser vacio!'
-        },
-        address: {
-            type: String,
-            required: 'La direccion del lugar del evento no puede ser vacio!'
+            type: Schema.Types.ObjectId,
+            ref: 'Location'
         },
         /*Campo que guarda la fecha de creacion del evento*/
         date: {
             type: Date,
             required: 'La fecha del evento no puede ser vacio!'
         },
-        band: {
-            type: String,
-            required: 'El nombre de la banda del evento no puede ser vacio!'
-        },
-        genres: [{
-            type: String
-        }],
         members: [{
             type: Schema.Types.ObjectId,
             ref: 'User'
-        }]
+        }],
+        band: {
+            type: Schema.Types.ObjectId,
+            ref: 'Band'
+        },
     });
 
     /*busca un unico evento por nombre.*/

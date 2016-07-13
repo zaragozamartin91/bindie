@@ -34,12 +34,6 @@
 
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
-                        <paper-input name="band" label="Nombre de la banda" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-8 col-sm-12 col-xs-12">
                         <paper-input name="date" label="Fecha del evento" type="date" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
                     </div>
                 </div>
@@ -48,13 +42,18 @@
 
                 <div class="row">
                     <div class="col-md-3 col-sm-12 col-xs-12">
-                        <label>Lugares: </label>
+                        <label>Lugar: </label>
                         <% include locationSelect %>
                     </div>
 
                     <div class="col-md-3 col-sm-12 col-xs-12">
-                        <label>Miembros: </label>
+                        <label>Invitados: </label>
                         <% include memberSelect %>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label>Banda: </label>
+                        <% include bandSelect %>
                     </div>
                 </div>
 

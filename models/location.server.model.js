@@ -42,7 +42,7 @@ exports.registerSchema = function() {
     LocationSchema.statics.findOneByName = function(name, callback) {
         console.log("Buscando lugar: " + name);
         this.findOne({
-            name: name
+            name: new RegExp(name,'i')
         }, callback);
     };
 

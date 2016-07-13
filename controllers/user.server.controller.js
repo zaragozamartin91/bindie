@@ -314,11 +314,16 @@ exports.browseMyEvents = function(req, res, next) {
     }
 
     User.findEvents(userId, function(err, events) {
+        console.log("EVENTOS ENCONTRADOS:");
+        console.log(events);
+
         if (err) {
             var errorMessage = getErrorMessage(err);
             res.error(errorMessage);
             return res.redirect("back");
         }
+
+        console.log("RENDERIZANDO events.ejs");
 
         req.events = res.locals.events = events;
         res.render('events', {

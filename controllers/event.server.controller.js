@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Event = mongoose.model('Event');
+var Location = mongoose.model('Location');
+var Band = mongoose.model('Band');
 var ObjectId = mongoose.Types.ObjectId;
 
 
@@ -39,9 +41,19 @@ exports.createForm = function(req, res, next) {
     User.find({}, function(err, users) {
         req.users = res.locals.users = users;
 
-        res.render('createEvent', {
-            title: 'Crear evento',
-            users: users
+        Location.find({}, function(err, locations) {
+            req.locations = res.locals.locations = locations;
+
+            Band.find({}, function(err, bands) {
+                req.bands = res.locals.bands = bands;
+
+                res.render('createEvent', {
+                    title: 'Crear evento',
+                    users: users,
+                    locations: locations,
+                    bands: bands
+                });
+            });
         });
     });
 };
@@ -94,24 +106,32 @@ exports.createSubmit = function(req, res, next) {
             }
 
             console.log("Socios del lugar del evento: " + data.members);
-            event = new Event(data);
 
-            console.log("Evento a guardar:" + event);
-            event.save(function(err) {
-                if (err) {
-                    var message = getErrorMessage(err);
-                    console.log("Algo salio mal: " + err);
-                    res.error(message);
-                    return res.redirect('back');
-                }
+            Location.findOneByName(data.location, function(err, location) {
+                data.location = new ObjectId(location._id);
 
-                console.log("Evento creado:");
-                console.log(event);
-                res.success("Evento " + event.name + " creado exitosamente!");
-                res.redirect("back");
+                Band.findOneByName(data.band, function(err,band){
+                    data.band = new ObjectId(band._id);
+
+                    event = new Event(data);
+
+                    console.log("Evento a guardar:" + event);
+                    event.save(function(err) {
+                        if (err) {
+                            var message = getErrorMessage(err);
+                            console.log("Algo salio mal: " + err);
+                            res.error(message);
+                            return res.redirect('back');
+                        }
+
+                        console.log("Evento creado:");
+                        console.log(event);
+                        res.success("Evento " + event.name + " creado exitosamente!");
+                        res.redirect("back");
+                    });
+                });
             });
         });
-
     });
 };
 

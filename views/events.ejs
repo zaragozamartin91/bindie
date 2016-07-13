@@ -5,22 +5,21 @@
 
     <form class="form" id="userEventsForm" action='/users/events' method='post'>
     
-    <% if (locals.events) { 
+    <% if(locals.events) { 
         events.forEach(function(event) { %>
-            <script type="text/javascript">
-                $('document').ready(function(){
-			var eventName = "<%= event.name %>";
-		        var eventDescription = "<%= event.description %>";
-		        var eventBand = "<%= event.band %>";
-		        var eventDate = "<%= event.date %>";
 
-	    
-		        var eventDescriptionP = '<p>' + eventDescription + '</p>';
-		        var eventBandP = '<p>' + "Banda: " + eventBand + '</p>';
-			var eventDateP = '<p>' + "Fecha: " + eventDate + '</p>';
-    
-                    $('<paper-card heading="' + eventName + '" >  <div class="card-content">'+ eventDescriptionP + eventBandP + eventDateP + '  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="icons:build"></iron-icon>Configurar</paper-button></div></paper-card>').appendTo( $('#events') );});
-            </script>
+            <paper-card heading="<%= event.name %>" animated-shadow="false">
+              <div class="card-content">
+                <ul>
+                    <li>Descripcion: <%= event.description %></li>
+                    <li>Fecha: <%= event.date %></li>
+                    <li>Banda: <%= event.band.name %></li>
+                </ul>
+              </div>
+              <div class="card-actions">
+                    <paper-button ><iron-icon icon="icons:check"></iron-icon>Asistir</paper-button>
+              </div>
+            </paper-card>
             
         <% }) 
     } %>

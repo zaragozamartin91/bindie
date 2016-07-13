@@ -80,32 +80,21 @@ exports.registerSchema = function() {
                 }
             }
         }).populate('members').exec(callback);
-    };
-
-     /*Busca las bandas correspondientes a un usuario*/
-    UserSchema.statics.findLocations = function(plainUserId, callback) {
-        var Location = mongoose.model('Location');
-
-        Location.find({
-            members: {
-                $elemMatch: {
-                    $eq: plainUserId
-                }
-            }
-        }).populate('members').exec(callback);
-    };    
+    };   
 
     /*Busca los eventos correspondientes a un usuario*/
-    UserSchema.statics.findEvents = function(plainUserId, callback) {
+    UserSchema.statics.findEvents = function(userId, callback) {
         var Event = mongoose.model('Event');
+
+        var id = userId._id ? userId._id : userId;
 
         Event.find({
             members: {
                 $elemMatch: {
-                    $eq: plainUserId
+                    $eq: userId
                 }
             }
-        }).populate('members').exec(callback);
+        }).populate('members').populate('location').populate('band').exec(callback);
     };
 
     /*is used to hash a password string by utilizing Node.js' crypto module*/
