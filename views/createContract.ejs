@@ -14,6 +14,9 @@
     
     <% include messages %>
     
+    <div id="someMessages">
+    </div>
+
     <form class="form" id="createContractBandForm" action='/bands/createcontract' method='post'>
 
         <div class="panel panel-success">
@@ -32,7 +35,7 @@
                         <!-- <paper-input name="eventDate" label="Fecha del evento" auto-validate required="required" error-message="No puede ser vacio!"></paper-input> -->
                         <!-- <paper-dialog-calendar></paper-dialog-calendar> -->
                         <!-- <paper-span-calendar></paper-span-calendar> -->
-                        <vaadin-date-picker name="eventDate" label="Fecha"></vaadin-date-picker>
+                        <vaadin-date-picker id="eventPicker" name="eventDate" label="Fecha"></vaadin-date-picker>
                     </div>
                 </div>
 
@@ -61,7 +64,7 @@
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
                         <!-- <paper-input name="expirationDate" label="Fecha de caducacion de la propuesta" auto-validate required="required" error-message="No puede ser vacio!"></paper-input> -->
-                        <vaadin-date-picker name="expirationDate" name="eventDate" label="Fecha"></vaadin-date-picker>
+                        <vaadin-date-picker id="expirationPicker" name="expirationDate" name="eventDate" label="Fecha expiracion/cancelacion"></vaadin-date-picker>
                     </div>
                 </div>
 
@@ -78,19 +81,34 @@
 
 
     <script type="text/javascript">
-       /* $(document).ready(function(){
-            var bandId = "<%= band.id %>";
-            var bandName = "<%= band.name %>";
+        $(document).ready(function(){
+            document.querySelector('#submitButton').onclick = function(event) {
+                var eventDateString = document.querySelector('#eventPicker').value;
+                var expirationDateString = document.querySelector('#expirationPicker').value;
 
-            var eventDate = document.querySelector("#eventDate");
-
-            var submitButton = document.querySelector('#submitButton');
-            submitButton.onclick = function(event) {
-                if(eventDate.invalid) {
+                if(!eventDateString || !expirationDateString) {
                     event.preventDefault();
+                    document.querySelector('#someMessages').innerHTML = '<p class="alert alert-warning">Las fechas no pueden estar vacias.</p>';
+                    return;
+                }
+
+                var eventDate = new Date(eventDateString);
+                var expirationDate = new Date(expirationDateString);
+
+                if( (expirationDate - eventDate) >= 0 ) {
+                    event.preventDefault();
+                    document.querySelector('#someMessages').innerHTML = '<p class="alert alert-warning">La fecha de expiracion debe ser anterior a la del evento.</p>';
+                    return;
+                }
+
+                var today = new Date();
+                if((eventDate - today) < 0) {
+                    event.preventDefault();
+                    document.querySelector('#someMessages').innerHTML = '<p class="alert alert-warning">La fecha del evento debe ser posterior al día de hoy.</p>';
+                    return;
                 }
             };
-        });*/
+        });
     </script>
 </body>
 </html>

@@ -4,6 +4,11 @@
 
     <% include messages %>
 
+    <h1>Bindie</h1>
+    <% if(locals.user) { %>
+        <h3>Bienvenido <%= user.name %></h3>
+    <% } %>
+
     <div id="goldAds">
     <% if (locals.goldAds) { 
         goldAds.forEach(function(ad) {
@@ -65,6 +70,7 @@
         <% }) 
     } %>
     </div>
+
   </body>
 </html>
 
