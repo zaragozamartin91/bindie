@@ -27,7 +27,7 @@ exports.config = function(app) {
     app.post('/songs/create', upload.single('song'), songController.createSubmit);
 
 
-    app.get('/songs/browse', songController.browse);    
+    app.get('/songs/browse/:checkBand?', songController.browse);    
 
     app.get('/songs/favorite', songController.browseFavorite);
 

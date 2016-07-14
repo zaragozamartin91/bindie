@@ -98,15 +98,19 @@
                     genresUl+='</ul>';
 
 
-                    var contractButtonId = "band_" + band.id;
+                    var contractButtonId = "contract_band_" + band.id;
+                    var checkSongsButtonId = "check_band_" + band.id;
 
 
-                    $('<paper-card heading="' + band.name + '" >  <div class="card-content">'+ bandDescriptionP + genresUl + '  </div>  <div class="card-actions"> <paper-button id="' + contractButtonId + '"><iron-icon icon="bookmark"></iron-icon>Contratar</paper-button> </div></paper-card>')
+                    $('<paper-card heading="' + band.name + '" >  <div class="card-content">'+ bandDescriptionP + genresUl + '  </div>  <div class="card-actions"> <paper-button id="' + contractButtonId + '"><iron-icon icon="bookmark"></iron-icon>Contratar</paper-button> <paper-button id="' + checkSongsButtonId + '"><iron-icon icon="forward"></iron-icon>Musica</paper-button> </div></paper-card>')
                     .appendTo($(bandListSelector));
 
 
                     document.querySelector("#" + contractButtonId).addEventListener('transitionend', function(e) {
                         location.href = '/bands/contract/' + band.id;
+                    });
+                    document.querySelector("#" + checkSongsButtonId).addEventListener('transitionend', function(e) {
+                        location.href = '/songs/browse/' + band.id;
                     });
                 };
 

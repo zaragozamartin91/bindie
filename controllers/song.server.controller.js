@@ -138,9 +138,27 @@ exports.browse = function(req, res) {
         return res.redirect("back");
     }
 
-    res.render('browseSongs', {
-        title: 'Buscar canciones'
-    });
+    var title = 'Buscar canciones';
+
+    var checkBand = req.params.checkBand;
+
+    if (checkBand) {
+        Song.searchByBand(checkBand, function(err, songs) {
+            console.log("CANCIONES DE BANDA " + checkBand + " ENCONTRADAS:");
+            console.log(songs);
+
+            req.songs = res.locals.songs = songs;
+
+            res.render('browseSongs', {
+                title: title,
+                songs: songs
+            });
+        });
+    } else {
+        res.render('browseSongs', {
+            title: title
+        });
+    }
 };
 
 

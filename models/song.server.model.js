@@ -48,9 +48,9 @@ exports.registerSchema = function() {
     SongSchema.methods.addUpvote = function(voter, callback) {
         var voterId = voter._id ? voter._id : voter;
 
-        console.log("Buscando votante " + voterId);
+        console.log("BUSCANDO VOTANTE " + voterId);
         if (this.upvotes.indexOf(voterId) < 0) {
-            console.log("Votante no encontrado, agregando voto...");
+            console.log("VOTANTE NO ENCONTRADO, AGREGANDO VOTO...");
             this.upvotes.push(voterId);
         } else {
             console.log("USUARIO: " + voterId + " YA VOTO ESTA CANCION!");
@@ -59,11 +59,21 @@ exports.registerSchema = function() {
 
     /*busca una unica banda por nombre.*/
     SongSchema.statics.findOneByNameAndBand = function(name, bandId, callback) {
-        console.log("Buscando cancion: " + name);
+        console.log("BUSCANDO CANCION: " + name);
         this.findOne({
             name: name,
             band: new ObjectId(bandId)
         }, callback);
+    };
+
+    /*busca canciones por banda.*/
+    SongSchema.statics.searchByBand = function(bandId, callback) {
+        console.log("BUSCANDO CANCIONES DE BANDA: " + bandId);
+        bandId = bandId._id ? bandId._id : bandId;
+
+        this.find({
+            band: bandId
+        }).populate('band').exec(callback);
     };
 
     SongSchema.statics.searchByGenre = function(genre, callback) {
