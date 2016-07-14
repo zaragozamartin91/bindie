@@ -123,7 +123,7 @@ exports.registerSchema = function() {
                     $eq: uid
                 }
             }
-        }, callback);
+        }).populate('band').exec(callback);
     };
 
     SongSchema.set('toJSON', {

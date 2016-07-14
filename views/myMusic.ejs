@@ -32,58 +32,31 @@
 
     </style>
 
-    <!-- <button class="btn btn-primary" id="searchSongs">Buscar</button> -->
 
     <br/>
 
     <table class="table">
         <thead> 
             <tr>
-                <th>#</th> 
-                <th>Nombre</th> 
-                <th>Descripción</th>
-                <th>Duración</th>
-                <th>Acción</th> 
+                <th>Nom</th> 
+                <th>Banda</th>
+                <th>Durac</th>
+                <th>Votos</th>
             </tr> 
         </thead>
         <tbody id="songList"> 
+            <% if(locals.songs) {
+                songs.forEach( function(song) { 
+                    var minutes = Math.floor(song.duration / 60);
+                    var seconds = Math.floor(song.duration % 60);
+                    var duration = minutes + ':' + seconds; %>
+
+                    <tr><td> <%= song.name %></td> <td> <%= song.band.name %> </td> <td> <%= duration %></td> <td> <%= song.upvotes.length %> </td> <td> <paper-icon-button class="playSong" data-songurl="/songs/<%= song.fileName %>" icon="icons:send" title="play" ></paper-icon-button> </td> </tr>
+                <% } )
+            } %>
         </tbody>
     </table>
 
-
-    
-    <script type="text/javascript">
-        $('document').ready( function(){
-            $('#searchSongs').click(function() {
-                var songListSelector = "#songList";
-                var genreValue = $("#genreInput").val();
-                if(!genreValue || genreValue == ""){
-                    genreValue = "any";
-                }
-
-                
-                var ajaxUrl = "/api/songs/genre/" + genreValue;
-
-
-                $(songListSelector).html("");
-
-                $.getJSON( ajaxUrl , function( data ) {
-                    var i = 1;
-                    data.forEach( function(song){
-                        console.log("Cancion: ");
-                        console.log(song);
-
-                        /*$('<audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio>')
-                                .appendTo( $(songListSelector) );*/
-
-                        // $('<div class="row"> <br/> <paper-card heading="' + song.name + '" >  <div class="card-content"> <p>'+ song.description +'</p>  <audio controls="controls"><source src="/songs/' + song.fileName + '" type="audio/mpeg">Tu Browser no soporta el elemento "audio" de HTML5.</audio> </div>  <div class="card-actions"> <paper-button toggles><iron-icon icon="check"></iron-icon>Like</paper-button></div></paper-card></div>').appendTo( $(songListSelector) );
-
-                        $('<tr><th scope="row">' + i + '</th> <td>' + song.name + '</td> <td>' + song.description + '</td><td>' + song.duration + '</td> <td> <paper-icon-button class="playSong" data-songurl="/songs/' + song.fileName + '" icon="icons:send" title="play" style="color:darkcyan"></paper-icon-button> </td> </tr>').appendTo($(songListSelector));
-                    } );
-                });            
-            });
-        } );
-    </script>
     <script type="text/javascript" src="/custom/CustomStyleJs/AudioPlayer.js"></script>
     <script type="text/javascript" src="/custom/CustomStyleJs/MusicSearch.js"></script>
 </body>
