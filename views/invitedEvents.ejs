@@ -8,38 +8,43 @@
     <% if(locals.events && locals.songs) {
 	var bandsSet = {};
 	events.forEach(function(event) {
-		var likedSongs = [];
-		var band;
-		songs.forEach(function(song) {
-	    		if(song.band.id == event.band) {
-				likedSongs.push(song.name);
-				if(!(bandsSet.hasOwnProperty(song.band.id))) { 
-					bandsSet[song.band.id] = song.name;
-					band = song.band.name
+		if(event.date > Date.now()) {
+			var likedSongs = [];
+			var band;
+			var mostrar = false;
+			songs.forEach(function(song) {
+		    		if(song.band.id == event.band) {
+					likedSongs.push(song.name);
+					mostrar = true;
+					if(!(bandsSet.hasOwnProperty(song.band.id))) { 
+						bandsSet[song.band.id] = song.name;
+						band = song.band.name
+					}
 				}
-			}
-		}) %>
-		   <paper-card heading="<%= event.name %>" animated-shadow="false">
-		      <div class="card-content">
-			<ul>
-			    <li>Descripcion: <%= event.description %></li>
-			    <li>Fecha: <%= event.date %></li>
-			    <li>Banda: <%= band %></li>
-			    <li>Canciones que te gustaron:
+			}) 
+			if (mostrar) { %>
+			   <paper-card heading="<%= event.name %>" animated-shadow="false">
+			      <div class="card-content">
 				<ul>
-					<% likedSongs.forEach(function(song){ %>
-						<li><%= song %></li>
-					<% }); %>
+				    <li>Descripcion: <%= event.description %></li>
+				    <li>Fecha: <%= event.date %></li>
+				    <li>Banda: <%= band %></li>
+				    <li>Canciones que te gustaron:
+					<ul>
+						<% likedSongs.forEach(function(song){ %>
+							<li><%= song %></li>
+						<% }); %>
+					</ul>
+				    </li>
 				</ul>
-			    </li>
-			</ul>
-		      </div>
-		      <div class="card-actions">
-			    <paper-button ><iron-icon icon="icons:check"></iron-icon>Asistir</paper-button>
-		      </div>
-		    </paper-card>
-
-	 <% }) 
+			      </div>
+			      <div class="card-actions">
+				    <paper-button ><iron-icon icon="icons:check"></iron-icon>Asistir</paper-button>
+			      </div>
+		    	   </paper-card>
+			<% }
+		}
+	}) 
     } %>
 
     </form>
