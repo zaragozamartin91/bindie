@@ -19,7 +19,7 @@ exports.config = function(app) {
     app.get('/users/bands', userController.browseMyBands);
     app.get('/users/locations', userController.browseMyLocations);
     app.get('/users/events', userController.browseMyEvents);
-
+    app.get('/users/invitedEvents', userController.browseAllEvents);
 
     console.log("Rutas de usuario configuradas!");
 };

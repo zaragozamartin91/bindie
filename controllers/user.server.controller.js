@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Band = mongoose.model('Band');
 var Location = mongoose.model('Location');
+var Event = mongoose.model('Event');
+var Song = mongoose.model('Song');
 var ObjectId = mongoose.Types.ObjectId;
 // var path = require('path');
 
@@ -331,4 +333,56 @@ exports.browseMyEvents = function(req, res, next) {
             events: events
         });
     });
+};
+
+
+
+
+
+/*Busca todos los eventos*/
+exports.browseAllEvents = function(req, res, next) {
+
+    	var userId = req.session.uid;
+	/*Song.searchByLike(userId, function(err, songs) {
+		console.log("CANCIONES ENCONTRADAS:");
+		console.log(songs);
+
+		if (err) {
+		    var errorMessage = getErrorMessage(err);
+		    res.error(errorMessage);
+		    return res.redirect("back");
+		}
+		req.songs = res.locals.songs = songs;
+
+		res.render('invitedEvents', {
+		    title: "Songs",
+		    songs: songs
+		});
+        });*/
+
+	Event.find({}, function(err, events) {
+		Song.searchByLike(userId, function(errSong, songs) {
+			console.log("CANCIONES ENCONTRADAS:");
+			console.log(songs);
+
+			if (errSong) {
+			    var errorMessage = getErrorMessage(err);
+			    res.error(errorMessage);
+			    return res.redirect("back");
+			}
+			req.songs = res.locals.songs = songs;
+
+			if (err) throw err;
+			console.log("EVENTOS ENCONTRADOS:");
+			console.log(events);
+			req.events = res.locals.events = events;
+
+			console.log("RENDERIZANDO events.ejs");
+			res.render('invitedEvents', {
+			    title: "Eventos",
+			    events: events,
+				songs: songs
+			});
+		});
+	});
 };
