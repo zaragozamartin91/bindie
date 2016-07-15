@@ -329,7 +329,7 @@ exports.browseMyEvents = function(req, res, next) {
 
         req.events = res.locals.events = events;
         res.render('events', {
-            title: "Eventos",
+            title: "Eventos creados",
             events: events
         });
     });
@@ -362,7 +362,7 @@ exports.browseAllEvents = function(req, res, next) {
 
 			console.log("RENDERIZANDO events.ejs");
 			res.render('invitedEvents', {
-			    title: "Eventos",
+			    title: "Eventos a los que has sido invitado",
 			    events: events,
 			    songs: songs
 			});

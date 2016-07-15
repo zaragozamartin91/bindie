@@ -111,7 +111,11 @@ exports.createSubmit = function(req, res, next) {
                 data.location = new ObjectId(location._id);
 
                 Band.findOneByName(data.band, function(err,band){
-                    data.band = new ObjectId(band._id);
+		    if (band) {
+                    	data.band = new ObjectId(band._id);
+		    } else {
+			data.band = null;
+		    }
 
                     event = new Event(data);
 

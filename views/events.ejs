@@ -13,7 +13,9 @@
 		        <ul>
 		            <li>Descripcion: <%= event.description %></li>
 		            <li>Fecha: <%= event.date %></li>
-		            <li>Banda: <%= event.band.name %></li>
+			    <% if(event.band) {  %>
+		            	<li>Banda: <%= event.band.name %></li>
+			    <% } %>
 		        </ul>
 		      </div>
 		      <div class="card-actions">
