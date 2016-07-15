@@ -111,5 +111,5 @@ module.exports = app;
 
 var port = 3000;
 app.listen(port, function() {
-  console.log("Alicacion levantada en http://localhost:" + port);
+  console.log("Aplicacion levantada en http://localhost:" + port);
 });

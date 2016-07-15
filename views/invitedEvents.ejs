@@ -5,29 +5,41 @@
 
     <form class="form" id="userInvitedEventsForm" action='/users/invitedEvents' method='post'>
     
-    <% if(locals.events) { 
+    <% if(locals.events && locals.songs) {
+	var bandsSet = {};
 	events.forEach(function(event) {
-		if(locals.songs) { 
-        		songs.forEach(function(song) {
-		    		if(song.band.id == event.band) { %>
+		var likedSongs = [];
+		var band;
+		songs.forEach(function(song) {
+	    		if(song.band.id == event.band) {
+				likedSongs.push(song.name);
+				if(!(bandsSet.hasOwnProperty(song.band.id))) { 
+					bandsSet[song.band.id] = song.name;
+					band = song.band.name
+				}
+			}
+		}) %>
+		   <paper-card heading="<%= event.name %>" animated-shadow="false">
+		      <div class="card-content">
+			<ul>
+			    <li>Descripcion: <%= event.description %></li>
+			    <li>Fecha: <%= event.date %></li>
+			    <li>Banda: <%= band %></li>
+			    <li>Canciones que te gustaron:
+				<ul>
+					<% likedSongs.forEach(function(song){ %>
+						<li><%= song %></li>
+					<% }); %>
+				</ul>
+			    </li>
+			</ul>
+		      </div>
+		      <div class="card-actions">
+			    <paper-button ><iron-icon icon="icons:check"></iron-icon>Asistir</paper-button>
+		      </div>
+		    </paper-card>
 
-					    <paper-card heading="<%= event.name %>" animated-shadow="false">
-					      <div class="card-content">
-						<ul>
-						    <li>Descripcion: <%= event.description %></li>
-						    <li>Fecha: <%= event.date %></li>
-						    <li>Banda: <%= song.band.name %></li>
-						</ul>
-					      </div>
-					      <div class="card-actions">
-						    <paper-button ><iron-icon icon="icons:check"></iron-icon>Asistir</paper-button>
-					      </div>
-					    </paper-card>
-				<% }
-    
-		 	}) 
-		}
-        }) 
+	 <% }) 
     } %>
 
     </form>

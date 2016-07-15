@@ -341,24 +341,7 @@ exports.browseMyEvents = function(req, res, next) {
 
 /*Busca todos los eventos*/
 exports.browseAllEvents = function(req, res, next) {
-
     	var userId = req.session.uid;
-	/*Song.searchByLike(userId, function(err, songs) {
-		console.log("CANCIONES ENCONTRADAS:");
-		console.log(songs);
-
-		if (err) {
-		    var errorMessage = getErrorMessage(err);
-		    res.error(errorMessage);
-		    return res.redirect("back");
-		}
-		req.songs = res.locals.songs = songs;
-
-		res.render('invitedEvents', {
-		    title: "Songs",
-		    songs: songs
-		});
-        });*/
 
 	Event.find({}, function(err, events) {
 		Song.searchByLike(userId, function(errSong, songs) {
@@ -381,7 +364,7 @@ exports.browseAllEvents = function(req, res, next) {
 			res.render('invitedEvents', {
 			    title: "Eventos",
 			    events: events,
-				songs: songs
+			    songs: songs
 			});
 		});
 	});
