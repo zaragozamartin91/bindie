@@ -4,31 +4,36 @@
     <% include messages %>
 
     <form class="form" id="userInvitedEventsForm" action='/users/invitedEvents' method='post'>
-    
-    <% if(locals.events && locals.songs) {
+
+    <%  if(locals.events && locals.songs) {
 	var bandsSet = {};
 	events.forEach(function(event) {
 		if(event.date > Date.now()) {
 			var likedSongs = [];
-			var band;
 			var mostrar = false;
 			songs.forEach(function(song) {
-		    		if(song.band.id == event.band) {
+		    		if(event.band && (song.band.id == event.band.id)) {
 					likedSongs.push(song.name);
 					mostrar = true;
 					if(!(bandsSet.hasOwnProperty(song.band.id))) { 
 						bandsSet[song.band.id] = song.name;
-						band = song.band.name
 					}
 				}
 			}) 
-			if (mostrar) { %>
+			if (mostrar) { 
+				var eventDate = new Date(event.date);
+				var hours = (eventDate.getHours()<10?'0':'') + eventDate.getHours();
+				var mins = (eventDate.getMinutes()<10?'0':'') + eventDate.getMinutes();
+				var day = (eventDate.getDate()<10?'0':'') + eventDate.getDate();
+				var month = ((eventDate.getMonth() + 1)<10?'0':'') + (eventDate.getMonth() + 1);
+				var year = eventDate.getFullYear(); %>
 			   <paper-card heading="<%= event.name %>" animated-shadow="false">
 			      <div class="card-content">
 				<ul>
 				    <li>Descripcion: <%= event.description %></li>
-				    <li>Fecha: <%= event.date %></li>
-				    <li>Banda: <%= band %></li>
+				    <li>Fecha: <%= day %>/<%= month %>/<%= year %> a las <%= hours %>:<%= mins %></li>
+				    <li>Lugar: <%= event.location.name %></li>
+				    <li>Banda: <%= event.band.name %></li>
 				    <li>Canciones que te gustaron:
 					<ul>
 						<% likedSongs.forEach(function(song){ %>
