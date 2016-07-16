@@ -212,16 +212,17 @@ exports.contract = function(req, res) {
 
 /*funcion para procesar la creacion de un contrato para una banda...*/
 exports.createContract = function(req, res, next) {
-    console.log("Contrato para una banda a subir: ");
     var data = req.body;
-    /*var dataResult = {};
-    dataResult.eventDate = data.eventDate;
-    dataResult.description = data.description;
-    dataResult.cash = data.cash;
-    dataResult.expirationDate = data.cash;*/
+    
     data.eventDate = new Date(data.eventDate);
     data.expirationDate = new Date(data.expirationDate);
 
+    var hours = data.eventTime.split(":")[0];
+    var minutes = data.eventTime.split(":")[1];
+    data.eventDate.setHours(hours);
+    data.eventDate.setMinutes(minutes);
+
+    console.log("DATOS DE CONTRATO RECIBIDOS: ");
     console.log(data);
 
     Band.findOneByName(data.band, function(err, band) {
@@ -230,7 +231,7 @@ exports.createContract = function(req, res, next) {
         }
 
         if (!band) {
-            res.error("La banda " + data.band + " no existe!");
+            res.error("LA BANDA " + data.band + " NO EXISTE!");
             return res.redirect("back");
         }
 
@@ -244,7 +245,7 @@ exports.createContract = function(req, res, next) {
             }
 
             if (!location) {
-                res.error("El lugar " + data.location + " no existe!");
+                res.error("EL LUGAR " + data.location + " NO EXISTE!");
                 return res.redirect("back");
             }
 
@@ -252,7 +253,8 @@ exports.createContract = function(req, res, next) {
 
             contract = new Contract(data);
 
-            console.log("Contrato a guardar:" + contract);
+            console.log("CONTRATO A GUARDAR:");
+            console.log(contract);
             contract.save(function(err) {
                 if (err) {
                     var message = getErrorMessage(err);

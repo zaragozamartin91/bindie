@@ -9,6 +9,10 @@
         <h3>Bienvenido <%= user.name %></h3>
     <% } %>
 
+    <% if (locals.goldAds || locals.silverAds) { %>
+        <h4>Eventos:</h4>
+    <% } %>
+
     <div id="goldAds">
     <% if (locals.goldAds) { 
         goldAds.forEach(function(ad) {
