@@ -1,6 +1,8 @@
 /*DEFINE EL SCHEMA Y REGISTRA EL MODELO DE USUARIO */
 // -----------------------------------------------------------------
 
+var _ = require('underscore');
+
 exports.registerSchema = function() {
     var mongoose = require('mongoose');
     var crypto = require('crypto');
@@ -80,7 +82,7 @@ exports.registerSchema = function() {
                 }
             }
         }).populate('members').exec(callback);
-    };   
+    };
 
     /*Busca los eventos correspondientes a un usuario*/
     UserSchema.statics.findEvents = function(userId, callback) {
@@ -110,6 +112,31 @@ exports.registerSchema = function() {
         return this.password === this.hashPassword(password);
     };
 
+    /* busca fanaticos de una banda */
+    UserSchema.statics.searchBandFans = function(bandId, callback) {
+        var Song = mongoose.model('Song');
+
+        Song.searchByBand(bandId, function(err, songs) {
+            if (err) {
+                callback(err, {
+                    error: err
+                });
+            }
+
+            var fans = [];
+            var objectIds = [];
+
+            _.each(songs, function(song) {
+                fans = _.union(fans, song.upvotes);
+            });
+
+            // _.each(fans, function(fan){
+            //     objectIds.push(new ObjectId(fan));
+            // });
+
+            return callback(err, fans);
+        });
+    };
 
 
     /*pre-save middleware to handle the hashing of your users' passwords.*/

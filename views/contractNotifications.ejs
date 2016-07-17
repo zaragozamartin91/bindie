@@ -18,8 +18,8 @@
 
     <% if(locals.contracts) {
         contracts.forEach(function(contract) { 
-            var band = contract.band;
-            var location = contract.location;
+            var band = contract.band || {_id:""};
+            var location = contract.location || {_id:""};
 
             if(band && band.members.indexOf(user._id) >= 0) {
                 var userBelongsToBand = true;
@@ -35,13 +35,17 @@
                 rejected: 'RECHAZADO'
             };
 
-            var monthEventDate = contract.eventDate.getMonth()+1;
+            var monthEventDate = contract.eventDate.getMonth() + 1;
+            var __monthEventDate = contract.eventDate.getMonth();
             var dayEventDate = contract.eventDate.getDate();
             var yearEventDate = contract.eventDate.getFullYear();
+            var hoursEventDate = contract.eventDate.getHours();
+            var minutesEventDate = contract.eventDate.getMinutes();
 
             var monthExpirationDate = contract.expirationDate.getMonth()+1;
             var dayExpirationDate = contract.expirationDate.getDate();
             var yearExpirationDate = contract.expirationDate.getFullYear();
+
 
         %>
 
@@ -90,9 +94,29 @@
                     var acceptButton = document.querySelector('#accept_<%=contract._id%>');
 
                     if(rejectButton) {
-                            document.querySelector('#reject_<%=contract._id%>').onclick = function() {
+                        document.querySelector('#reject_<%=contract._id%>').onclick = function() {
                             var dialog = document.querySelector('#reject_dialog_<%=contract._id%>');
                             dialog.toggle();
+                        };
+                    }
+
+                    if(acceptButton) {
+                        document.querySelector('#accept_<%=contract._id%>').onclick = function() {
+                            $.post('/api/contracts/accept/<%=contract._id%>',{
+                                bandId: "<%=band._id %>",
+                                locationId: "<%=location._id %>",
+                                year: "<%=yearEventDate %>",
+                                month: "<%=__monthEventDate %>",
+                                day: "<%=dayEventDate %>",
+                                hours: "<%=hoursEventDate %>",
+                                minutes: "<%=minutesEventDate %>"
+                            }, function(res){
+                                if(res.ok) {
+                                    console.log("DESHABILITANDO COMPONENTES...");
+                                    document.querySelector('#reject_<%=contract._id%>').disabled = true;
+                                    document.querySelector('#accept_<%=contract._id%>').disabled = true;
+                                }
+                            });
                         };
                     }
 
@@ -112,6 +136,8 @@
                             }
                         });
                     };
+
+
                 });
             </script>
         <% }) 

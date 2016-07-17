@@ -17,8 +17,9 @@
     "mongoose": "^4.5.0",
     "morgan": "~1.6.1",
     "multer": "^1.1.0",
+    "musicmetadata": "2.0.4",
     "node-rest-client": "1.0.0",
     "serve-favicon": "~2.3.0",
-    "musicmetadata" : "2.0.4"
+    "underscore": "^1.8.3"
   }
 }

@@ -64,32 +64,100 @@ exports.reject = function(req, res) {
             rejectReason: rejectReason
         }
     }, function(err) {
-        console.log("CONTRATO RECHAZADO!");
-        return res.json({ok:'rechazado'});
-    });
-
-
-    /*    Contract.findOne({
-        _id: contractId
-    }, function(err, contract) {
         if (err) {
-            return res.json(err);
+            return res.json({
+                error: err
+            });
         }
 
-        console.log("CONTRATO ENCONTRADO:");
-        console.log(contract);
+        console.log("CONTRATO " + contractId + " RECHAZADO!");
+        return res.json({
+            ok: 'rechazado'
+        });
+    });
+};
 
-        contract.type = 'rejected';
-        contract.rejectReason = rejectReason;
-        contract.save(function(err) {
-            if (err) {
-                return res.json(err);
-            }
 
-            console.log("CONTRATO " + contractId + " RECHAZADO");
-            return res.json({
-                ok: 'Contrato ' + contractId + ' rechazado'
+exports.accept = function(req, res) {
+    var userId = req.session.uid;
+
+    if (!userId) {
+        return res.json({
+            error: 'Necesita iniciar sesion para aceptar un contrato!'
+        });
+    }
+
+    var contractId = req.params.contractId;
+
+    if (!contractId || contractId === "") {
+        return res.json({
+            error: 'Id de contrato no indicado'
+        });
+    }
+
+    var data = req.body;
+
+    console.log("CONTRATO A ACEPTAR: " + contractId);
+
+    // bandId: "<%=band_id %>",
+    // locationId: "<%=location._id %>",
+    // year: "<%=yearEventDate %>",
+    // month: "<%=monthEventDate %>",
+    // day: "<%=dayEventDate %>",
+    // hours: "<%=hoursEventDate %>",
+    // minutes: "<%=minutesEventDate %>"
+
+    Band.findOne({
+        _id: new ObjectId(data.bandId)
+    }, function(err, band) {
+        Location.findOne({
+            _id: new ObjectId(data.locationId)
+        }, function(err, location) {
+            User.searchBandFans(data.bandId, function(err, userIds) {
+                console.log("USUARIOS FANATICOS DE " + band.name);
+                console.log(userIds);
+
+                var eventData = {
+                    name: 'Banda ' + band.name + ' toca en ' + location.name,
+                    description: 'Te invitamos a escuchar a ' + band.name + ' en ' + location.name,
+                    location: new ObjectId(location._id),
+                    date: new Date(data.year, data.month, data.day, data.hours, data.minutes, 0, 0),
+                    members: userIds,
+                    band: new ObjectId(band._id)
+                };
+
+                var newEvent = new Event(eventData);
+
+                newEvent.save(function(err) {
+                    if (err) {
+                        console.log("OCURRIO UN ERROR AL CREAR UN NUEVO EVENTO:");
+                        console.log(err);
+                        return res.json({
+                            error: err
+                        });
+                    }
+
+                    console.log("SE GUARDO EL EVENTO: ");
+                    console.log(newEvent);
+
+                    Contract.update({
+                        _id: contractId
+                    }, {
+                        $set: {
+                            status: 'accepted'
+                        }
+                    }, function(err) {
+                        console.log("CONTRATO " + contractId + " ACEPTADO!");
+
+                        return res.json({
+                            ok: 'aceptado'
+                        });
+                    });
+
+
+                });
             });
         });
-    });*/
+    });
+
 };

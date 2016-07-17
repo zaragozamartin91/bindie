@@ -5,6 +5,7 @@ exports.config = function(app) {
     app.get('/contracts/notifications', contractController.notifications);
 
     app.post('/api/contracts/reject/:contractId', contractController.reject);
+    app.post('/api/contracts/accept/:contractId', contractController.accept);
 
     console.log("Rutas de contratos configuradas!");
 };
