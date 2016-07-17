@@ -4,7 +4,6 @@
             margin:10px; 
             font-weight: bolder; 
             text-align: right; 
-            color:purple;
         }
 
         paper-dialog {
@@ -31,10 +30,11 @@
                 var userOwnsLocation = true;
             }
 
+
             var state = {
-                pending: 'PENDIENTE',
-                accepted: 'ACEPTADO',
-                rejected: 'RECHAZADO'
+                pending: {caption: 'PENDIENTE', color: 'purple'},
+                accepted: {caption: 'ACEPTADO', color: 'green'},
+                rejected: {caption: 'RECHAZADO', color: 'red'}
             };
 
             var monthEventDate = contract.eventDate.getMonth() + 1;
@@ -60,7 +60,10 @@
                     <p>Monto: $ <%=contract.cash %></p>
                     <p>Fecha del evento: <%=dayEventDate%>/<%=monthEventDate%>/<%=yearEventDate%></p>
                     <p><%=contract.description %></p>
-                    <p>Fecha de expiracion de la propuesta: <%=dayExpirationDate%>/<%=monthExpirationDate%>/<%=yearExpirationDate%></p> 
+                    <p>Fecha de expiracion de la propuesta: <%=dayExpirationDate%>/<%=monthExpirationDate%>/<%=yearExpirationDate%></p>
+                    <% if(contract.status == 'rejected') { %>
+                        <p style="color: red; font-weight: bolder;">Motivo rechazo: <%=contract.rejectReason %></p>
+                    <% } %> 
                 </div>  
                 <% if((contract.status == "pending") && (((contract.type == 'toBand') && userBelongsToBand) || ((contract.type == 'toLocation') && userOwnsLocation))) { %>
                     <div class="card-actions"> 
@@ -73,7 +76,7 @@
                     </div>
                 <% } else { %>
                     <div class="card-actions"> 
-                        <p><%=state[contract.status] %></p>
+                        <p style="color: <%=state[contract.status].color %>"><%=state[contract.status].caption %></p>
                     </div>
                 <% } %>
             </paper-card>
@@ -119,6 +122,7 @@
                                     console.log("DESHABILITANDO COMPONENTES...");
                                     document.querySelector('#reject_<%=contract._id%>').disabled = true;
                                     document.querySelector('#accept_<%=contract._id%>').disabled = true;
+                                    document.querySelector('#someMessages').innerHTML = '<p class="alert alert-success">Contrato aceptado!</p>';
                                 }
 
                                 if(res.error) {
