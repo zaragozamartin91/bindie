@@ -169,14 +169,14 @@ exports.getById = function(req, res) {
 
 exports.contract = function(req, res) {
     var userId = req.session.uid;
-    if(!userId) {
+    if (!userId) {
         res.error("Debe iniciar sesion para contratar a una banda!");
         return res.redirect("back");
     }
 
     var bandId = req.params.bandId;
 
-    if(bandId) {
+    if (bandId) {
         Band.findOne({
             _id: bandId
         }, function(err, band) {
@@ -196,14 +196,14 @@ exports.contract = function(req, res) {
                 req.locations = res.locals.locations = locations;
                 req.band = res.locals.band = band;
 
-                return res.render('createContract',{
+                return res.render('createContract', {
                     title: "Contratar banda",
                     band: band,
                     locations: locations
                 });
             });
 
-        });        
+        });
     } else {
         res.error("No se indico el id de la banda a contratar!");
         return res.redirect("back");
@@ -213,7 +213,7 @@ exports.contract = function(req, res) {
 /*funcion para procesar la creacion de un contrato para una banda...*/
 exports.createContract = function(req, res, next) {
     var data = req.body;
-    
+
     data.eventDate = new Date(data.eventDate);
     data.expirationDate = new Date(data.expirationDate);
 
@@ -221,6 +221,8 @@ exports.createContract = function(req, res, next) {
     var minutes = data.eventTime.split(":")[1];
     data.eventDate.setHours(hours);
     data.eventDate.setMinutes(minutes);
+
+    data.type = 'toBand';
 
     console.log("DATOS DE CONTRATO RECIBIDOS: ");
     console.log(data);
@@ -280,4 +282,19 @@ exports.searchByGenreApi = function(req, res) {
         console.log("BANDAS DE GENERO " + genre + " ENCONTRADAS: " + bands);
         res.json(bands);
     });
+};
+
+exports.searchMemberApi = function(req,res) {
+    var member = req.params.member;
+
+    Band.searchByMembers(member, function(req, bands){
+        console.log("BANDAS CON MIEMBRO " + member + " ENCONTRADAS: ");
+        console.log(bands);
+        res.json(bands);
+    });
+};
+
+
+exports.listContractsApi = function(req, res) {
+    
 };

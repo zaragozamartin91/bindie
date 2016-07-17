@@ -60,7 +60,7 @@ exports.registerSchema = function() {
         if (!owner) {
             this.find({}, callback);
         } else {
-            var ownerId = owner._id ? new ObjectId(owner._id) : new ObjectId(owner);
+            var ownerId = owner._id ? owner._id : owner;
 
             this.find({
                 owners: {

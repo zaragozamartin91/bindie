@@ -53,6 +53,19 @@ exports.registerSchema = function() {
         }
     };
 
+    /*busca bandas a las que un usuario determinado pertenece*/
+    BandSchema.statics.searchByMembers = function(userId, callback) {
+        userId = userId._id ? userId._id : userId;
+
+        this.find({
+            members: {
+                $elemMatch: {
+                    $eq: userId
+                }
+            }
+        }, callback);
+    };
+
     /*A post middleware is defined using the post() method of the schema object*/
     /*esta funcion correra despues de ejecutar save() sobre mongo.*/
     BandSchema.post('save', function(next) {

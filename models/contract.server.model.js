@@ -1,7 +1,7 @@
-/*DEFINE EL SCHEMA Y REGISTRA EL MODELO DE USUARIO */
+/*DEFINE EL SCHEMA Y REGISTRA EL MODELO DE CONTRATOS */
 // -----------------------------------------------------------------
 
-/*considero que los nombres de bandas deben ser unicos...*/
+
 exports.registerSchema = function() {
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
@@ -30,6 +30,7 @@ exports.registerSchema = function() {
             type: Date,
             default: Date.now
         },
+        /*condiciones/descripcion del contrato*/
         description: {
             type: String,
             default: 'Descripcion no disponible'
@@ -37,6 +38,18 @@ exports.registerSchema = function() {
         cash: {
             type: Number,
             default: 0
+        },
+        /*estado del contrato: PENDIENTE, ACEPTADO, RECHAZADO*/
+        status: {
+            type: String,
+            enum: ['pending', 'accepted', 'rejected'],
+            default: 'pending'
+        },
+        /*describe el tipo de contrato: hacia una banda o hacia un lugar*/
+        type: {
+            type: String,
+            enum: ['toBand', 'toLocation'],
+            required: 'El contrato debe tener un tipo!'
         }
     });
 
@@ -54,6 +67,52 @@ exports.registerSchema = function() {
         this.find({
             location: id
         }, callback);
+    };
+
+    ContractSchema.statics.searchByBand = function(bandId, callback) {
+        bandId = bandId._id ? bandId._id : bandId;
+
+        this.find({
+            band: bandId
+        }).populate('band').populate('location').exec(callback);
+    };
+
+    ContractSchema.statics.searchByLocation = function(locationId, callback) {
+        locationId = locationId._id ? locationId._id : locationId;
+
+        this.find({
+            location: locationId
+        }).populate('band').populate('location').exec(callback);
+    };
+
+    /*realiza busqueda de todos los contratos que conciernen a un usuario en particular (relacionados con bandas 
+    del usuario y lugares del usuario).*/
+    ContractSchema.statics.searchByUser = function(userId, callback) {
+        var self = this;
+        var Band = mongoose.model('Band');
+        var Location = mongoose.model('Location');
+
+        Band.searchByMembers(userId, function(err, bands) {
+            Location.searchByOwner(userId, function(err, locations) {
+                var queryArray = [];
+
+                bands.forEach(function(band) {
+                    queryArray.push({
+                        band: band
+                    });
+                });
+
+                locations.forEach(function(location) {
+                    queryArray.push({
+                        location: location
+                    });
+                });
+
+                self.find({
+                    $or: queryArray
+                }).populate('band').populate('location').exec(callback);
+            });
+        });
     };
 
     /*A post middleware is defined using the post() method of the schema object*/
