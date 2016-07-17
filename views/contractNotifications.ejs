@@ -15,30 +15,47 @@
             if(location && location.members.indexOf(user._id) >= 0) {
                 var userOwnsLocation = true;
             }
+
+            var state = {
+                pending: 'PENDIENTE',
+                accepted: 'ACEPTADO',
+                rejected: 'RECHAZADO'
+            };
+
+            var monthEventDate = contract.eventDate.getMonth()+1;
+            var dayEventDate = contract.eventDate.getDate();
+            var yearEventDate = contract.eventDate.getFullYear();
+
+            var monthExpirationDate = contract.expirationDate.getMonth()+1;
+            var dayExpirationDate = contract.expirationDate.getDate();
+            var yearExpirationDate = contract.expirationDate.getFullYear();
+
         %>
 
             <% if(contract.type == 'toBand') { %>
                 <paper-card heading="Contrato de <%=contract.location.name %> para <%=contract.band.name %>" >
             <% } else { %>
-                <paper-card heading="COntrato de <%=contract.band.name %> para <%=contract.location.name %>" >
+                <paper-card heading="Contrato de <%=contract.band.name %> para <%=contract.location.name %>" >
             <% } %>
                 <div class="card-content">
                     <p>Monto: $ <%=contract.cash %></p>
-                    <p>Fecha del evento: <%=contract.eventDate %></p>
+                    <p>Fecha del evento: <%=dayEventDate%>/<%=monthEventDate%>/<%=yearEventDate%></p>
                     <p><%=contract.description %></p>
-                    <p>Fecha de expiracion de la propuesta: <%=contract.expirationDate %></p> 
+                    <p>Fecha de expiracion de la propuesta: <%=dayExpirationDate%>/<%=monthExpirationDate%>/<%=yearExpirationDate%></p> 
                 </div>  
                 <% if(((contract.type == 'toBand') && userBelongsToBand) || ((contract.type == 'toLocation') && userOwnsLocation)) { %>
                     <div class="card-actions"> 
                         <paper-button >
-                            <iron-icon icon="icons:build"></iron-icon>Aceptar
+                            <iron-icon icon="icons:check"></iron-icon>Aceptar
                         </paper-button>
                         <paper-button >
-                            <iron-icon icon="icons:build"></iron-icon>Rechazar
+                            <iron-icon icon="icons:close"></iron-icon>Rechazar
                         </paper-button>
                     </div>
                 <% } else { %>
-                    <p>Estado de la propuesta: <%=contract.status %></p> 
+                    <div class="card-actions"> 
+                        <p style="margin:10px; font-weight: bolder; text-align: right; color:purple;"><%=state[contract.status] %></p>
+                    </div>
                 <% } %>
             </paper-card>
 
