@@ -4,11 +4,13 @@
     <% include messages %>
 
     <div id="myAds">
-    <% if (locals.ads) { 
+    <% if (locals.ads) {
+        var i = 0;
         ads.forEach(function(ad) {
             var adType;
             var adReference;
             var adVisibility;
+            i = i + 1;
             
             if (ad.type === "band" )  {
                 adType = "Banda";
@@ -22,17 +24,73 @@
                 adVisibility = "Gold";
             } else {
                 adVisibility = "Silver"
-            }             
+            }
+
+            // get total seconds between the times
+            var date_future = new Date(ad.expiration);
+            var date_now = new Date();
+            var delta = Math.abs(date_future - date_now) / 1000;
+
+            // calculate (and subtract) whole days
+            var days = Math.floor(delta / 86400);
+            delta -= days * 86400;
+
+            // calculate (and subtract) whole hours
+            var hours = Math.floor(delta / 3600) % 24;
+            delta -= hours * 3600;
+
+            // calculate (and subtract) whole minutes
+            var minutes = Math.floor(delta / 60) % 60;
+            delta -= minutes * 60;
+
+            // what's left is seconds
+            var seconds = delta % 60;  // in theory the modulus is not required
+            var expDate = "en " + days + " días, " + hours + " hs, " + minutes + " min";
+        
         %>
             <paper-card heading="<%= adType %>" >
                 <div class="card-content">
-                    <p><%= adReference %></p>
-                    <p>Expira: <%= ad.expiration %></p>
-                    <p>Duración: <%= ad.duration %> días</p>
-                    <p>Visibilidad: <%= ad.visibility %></p>
+                    
+
+                    <div class="row">
+                        <div class="col-md-1">
+                            <p><b>Nombre:</b></p>
+                        </div>                    
+                        <div class="col-md-3">
+                            <p><%= adReference %></p>
+                        </div>
+                    </div> 
+
+                    <div class="row">
+                        <div class="col-md-1">
+                            <p><b>Expira:</b></p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><%= expDate %></p>
+                        </div>                        
+                    </div> 
+
+                    <div class="row">
+                        <div class="col-md-1">
+                            <p><b>Duración:</b></p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><%= ad.duration %> días</p>
+                        </div>                        
+                    </div> 
+
+                    <div class="row">
+                        <div class="col-md-1">
+                            <p><b>Visibilidad:</b></p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><%= adVisibility %></p>
+                        </div>                        
+                    </div>
+
                 </div>
                 <div class="card-actions">
-                    <paper-button ><a href="/ads/delete/<%= ad.id %>"><iron-icon icon="icons:delete"></iron-icon></a></paper-button>
+                    <a href="/ads/delete/<%= ad.id %>"><paper-button ><iron-icon icon="icons:delete"></iron-icon></paper-button></a>
                 </div>
             </paper-card>
             

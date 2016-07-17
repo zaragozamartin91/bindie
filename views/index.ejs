@@ -4,7 +4,6 @@
 
     <% include messages %>
 
-    <h1>Bindie</h1>
     <% if(locals.user) { %>
         <h3>Bienvenido <%= user.name %></h3>
     <% } %>
@@ -26,49 +25,52 @@
             } else {
                 adType = "Lugar"
                 adReference = ad.location.name;
-            }
-
-            if (ad.visibility === "gold" )  {
-                adVisibility = "Gold";
-            } else {
-                adVisibility = "Silver"
-            }             
+            }        
         %>
-            <paper-card heading="<%= adType %>" >
+            <paper-card heading="<%= adReference %>" >
                 <div class="card-content">
-                    <p><%= adReference %></p>
-                </div>
-            </paper-card>
-            
-        <% }) 
-    } %>
-    </div>
+                    <p><%= ad.description %></p>
+                    
+                    <% if (ad.type === "band" ) { %>
+                        Géneros:
+                    <ul>
+                    %>
+                    <%
+                        var bandGenres = ad.band.genres;
+                        bandGenres.forEach( function(genre){
+                    %>
+                        <li> <%= genre %> </li>
+                    <%  } );%>
+                    
+                    </ul>
 
-   <div id="silverAds">
-    <% if (locals.silverAds) { 
-        silverAds.forEach(function(ad) {
-            var adType;
-            var adReference;
-            var adVisibility;
-            
-            if (ad.type === "band" )  {
-                adType = "Banda";
-                adReference = ad.band.name;
-            } else {
-                adType = "Lugar"
-                adReference = ad.location.name;
-            }
+                    <% } %>
 
-            if (ad.visibility === "gold" )  {
-                adVisibility = "Gold";
-            } else {
-                adVisibility = "Silver"
-            }             
-        %>
-            <paper-card heading="<%= adType %>" >
-                <div class="card-content">
-                    <p><%= adReference %></p>
+                    <% if (ad.type === "location" ) { %>
+                        <p> <%= ad.location.address %> </p>
+                        <p> <%= ad.location.location %> </p>
+                    <% } %>                    
                 </div>
+
+                <div class="card-actions">
+                    <% if (ad.type === "band" ) { %>
+                        <a href="/songs/browse/<%= ad.band.id %>">
+                            <paper-button>
+                                <iron-icon icon="forward"></iron-icon>Música
+                            </paper-button>
+                        </a>
+                    <% } %>
+
+                    <% if (ad.type === "location" ) { %>
+                    <!--
+                        <a href="/locations/browse/<%= ad.location.id %>">
+                            <paper-button>
+                                <iron-icon icon="forward"></iron-icon>Más info
+                            </paper-button>
+                        </a>
+                    -->
+                    <% } %>                    
+                </div>            
             </paper-card>
             
         <% }) 
