@@ -49,7 +49,7 @@ exports.registerSchema = function() {
     AdSchema.statics.removeAd = function(id, callback) {
         console.log("Aviso borrado: " + id);
         this.findOneAndRemove({'_id' : id}, callback);
-    }
+    };
 
     AdSchema.post('save', function(next) {
         if (this.isNew) {
@@ -59,12 +59,11 @@ exports.registerSchema = function() {
         }
     });
 
-    AdSchema.statics.findActiveByVisibility = function(visibility, callback) {
+    AdSchema.statics.findActiveByVisibility = function(callback) {
         console.log("Aviso por usuario: ");
         this.find({
             expiration: { $gte: new Date() },
-            visibility: visibility
-        }).populate('band').populate('location').exec(callback);
+        }, null, {  sort:{ visibility: -1 }}).populate('band').populate('location').exec(callback);
     };    
 
     AdSchema.set('toJSON', {
