@@ -63,7 +63,7 @@ exports.registerSchema = function() {
             var ownerId = owner._id ? owner._id : owner;
 
             this.find({
-                owners: {
+                members: {
                     $elemMatch: {
                         $eq: ownerId
                     }

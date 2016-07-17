@@ -4,9 +4,44 @@
     <% include messages %>
 
     <% if(locals.contracts) {
-        contracts.forEach(function(contract) { %>
+        contracts.forEach(function(contract) { 
+            var band = contract.band;
+            var location = contract.location;
 
-        
-        <% }) %>
-    <% } %>
+            if(band && band.members.indexOf(user._id) >= 0) {
+                var userBelongsToBand = true;
+            }
+
+            if(location && location.members.indexOf(user._id) >= 0) {
+                var userOwnsLocation = true;
+            }
+        %>
+
+            <% if(contract.type == 'toBand') { %>
+                <paper-card heading="Contrato de <%=contract.location.name %> para <%=contract.band.name %>" >
+            <% } else { %>
+                <paper-card heading="COntrato de <%=contract.band.name %> para <%=contract.location.name %>" >
+            <% } %>
+                <div class="card-content">
+                    <p>Monto: $ <%=contract.cash %></p>
+                    <p>Fecha del evento: <%=contract.eventDate %></p>
+                    <p><%=contract.description %></p>
+                    <p>Fecha de expiracion de la propuesta: <%=contract.expirationDate %></p> 
+                </div>  
+                <% if(((contract.type == 'toBand') && userBelongsToBand) || ((contract.type == 'toLocation') && userOwnsLocation)) { %>
+                    <div class="card-actions"> 
+                        <paper-button >
+                            <iron-icon icon="icons:build"></iron-icon>Aceptar
+                        </paper-button>
+                        <paper-button >
+                            <iron-icon icon="icons:build"></iron-icon>Rechazar
+                        </paper-button>
+                    </div>
+                <% } else { %>
+                    <p>Estado de la propuesta: <%=contract.status %></p> 
+                <% } %>
+            </paper-card>
+
+        <% }) 
+     } %>
 </body>

@@ -98,13 +98,13 @@ exports.registerSchema = function() {
 
                 bands.forEach(function(band) {
                     queryArray.push({
-                        band: band
+                        band: band._id
                     });
                 });
 
                 locations.forEach(function(location) {
                     queryArray.push({
-                        location: location
+                        location: location._id
                     });
                 });
 
