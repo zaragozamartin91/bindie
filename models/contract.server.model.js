@@ -50,6 +50,10 @@ exports.registerSchema = function() {
             type: String,
             enum: ['toBand', 'toLocation'],
             required: 'El contrato debe tener un tipo!'
+        },
+        rejectReason: {
+            type: String,
+            default: 'Razon no especificada'
         }
     });
 

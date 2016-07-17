@@ -1,4 +1,17 @@
 <body>    
+    <style type="text/css">
+        div.card-actions p {
+            margin:10px; 
+            font-weight: bolder; 
+            text-align: right; 
+            color:purple;
+        }
+
+        paper-dialog {
+            /*width: 100%;*/
+        }
+    </style>
+
     <h1><%= title %></h1>
     
     <% include messages %>
@@ -45,20 +58,63 @@
                 </div>  
                 <% if((contract.status == "pending") && (((contract.type == 'toBand') && userBelongsToBand) || ((contract.type == 'toLocation') && userOwnsLocation))) { %>
                     <div class="card-actions"> 
-                        <paper-button >
+                        <paper-button id="accept_<%=contract._id%>">
                             <iron-icon icon="icons:check"></iron-icon>Aceptar
                         </paper-button>
-                        <paper-button >
+                        <paper-button id="reject_<%=contract._id%>">
                             <iron-icon icon="icons:close"></iron-icon>Rechazar
                         </paper-button>
                     </div>
                 <% } else { %>
                     <div class="card-actions"> 
-                        <p style="margin:10px; font-weight: bolder; text-align: right; color:purple;"><%=state[contract.status] %></p>
+                        <p><%=state[contract.status] %></p>
                     </div>
                 <% } %>
             </paper-card>
 
+            <paper-dialog modal id="reject_dialog_<%=contract._id%>">
+                <h2>Rechazo</h2>
+                <paper-dialog-scrollable>
+                    Detalle las razones del rechazo:
+                </paper-dialog-scrollable>
+                <paper-input id="reject_input_<%=contract._id%>" label="Rechazo porque..."></paper-input>
+                <div class="buttons">
+                    <paper-button dialog-confirm id="reject_dialog_confirm_<%=contract._id%>">Ok</paper-button>
+                </div>
+            </paper-dialog>
+
+
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    var rejectButton = document.querySelector('#reject_<%=contract._id%>');
+                    var acceptButton = document.querySelector('#accept_<%=contract._id%>');
+
+                    if(rejectButton) {
+                            document.querySelector('#reject_<%=contract._id%>').onclick = function() {
+                            var dialog = document.querySelector('#reject_dialog_<%=contract._id%>');
+                            dialog.toggle();
+                        };
+                    }
+
+                    document.querySelector('#reject_dialog_confirm_<%=contract._id%>').onclick = function(event) {
+                        var rejectReason = document.querySelector('#reject_input_<%=contract._id%>').value;
+                        if(!rejectReason || rejectReason === "") {
+                            return event.preventDefault();
+                        }
+
+                        $.post('/api/contracts/reject/<%=contract._id%>',{rejectReason: rejectReason}, function(res){
+                            console.log("$.post res:");
+                            console.log(res);
+                            if(res.ok) {
+                                console.log("DESHABILITANDO COMPONENTES...");
+                                document.querySelector('#reject_<%=contract._id%>').disabled = true;
+                                document.querySelector('#accept_<%=contract._id%>').disabled = true;
+                            }
+                        });
+                    };
+                });
+            </script>
         <% }) 
      } %>
+
 </body>
