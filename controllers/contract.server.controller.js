@@ -17,7 +17,12 @@ exports.notifications = function(req, res) {
 
     var userId = req.session.uid;
 
-    Contract.searchByUser(userId, function(contracts) {
+    Contract.searchByUser(userId, function(err, contracts) {
+        console.log("CONTRATOS DE USUARIO " + userId);
+        console.log(contracts);
+
+        req.contracts = res.locals.contracts = contracts;
+
         res.render('contractNotifications', {
             title: 'Notificaciones de contrato',
             contracts: contracts
