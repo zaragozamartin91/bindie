@@ -17,5 +17,10 @@ exports.config = function(app) {
     app.get('/locations/browse', locationController.browseLocations);
 
 
+    /*Ruta para contratar un lugar. La cola del Url debe ser el id del lugar.*/
+    app.get('/locations/contract/:locationId', locationController.contract); 
+    app.post('/locations/createcontract/', locationController.createContract);   
+
+
     console.log("Rutas de lugares configuradas!");
 };

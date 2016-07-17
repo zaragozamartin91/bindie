@@ -45,21 +45,35 @@
                 /*var ajaxUrl = locationName ? ("http://localhost:3000/api/bands/name/" + bandName) : "http://localhost:3000/api/bands/name/";*/
 
                 $.getJSON( ajaxUrl , function( data ) {
-                    data.forEach( function(location) {
+                    data.forEach( function(place) {
                         console.log("Lugar: ");
-                        console.log(location);
+                        console.log(place);
 
-                        var locationAddressP = '<p>' + "Direccion: " + location.address + ", " + location.location + '</p>';
-                        var locationDescriptionP = '<p>' + location.description + '</p>';
+                        var locationAddressP = '<p>' + "Direccion: " + place.address + ", " + place.location + '</p>';
+                        var locationDescriptionP = '<p>' + place.description + '</p>';
                         var genresUl = 'Generos: <ul>';
-                        location.genres.forEach( function(genre){
+                        place.genres.forEach( function(genre){
                             genresUl+='<li>' + genre + '</li>';
                         } );
                         genresUl+='</ul>';
 
-                        $('<paper-card heading="' + location.name + '" >  <div class="card-content">'+ locationDescriptionP + locationAddressP + genresUl + '  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="bookmark"></iron-icon>Contratar</paper-button></div></paper-card>').appendTo( $("#foundLocations") );
+                        var contractButtonId = "contract_location_" + place.id;
 
-                        //$('<p>'+band.name+'</p>').appendTo( $("#foundBands") );
+                        $('<paper-card heading="' + place.name + '" >  <div class="card-content">'+ locationDescriptionP + locationAddressP + genresUl + '  </div>  <div class="card-actions"> <paper-button id="' + contractButtonId + '"><iron-icon icon="bookmark"></iron-icon>Contratar</paper-button> <paper-button id="').appendTo( $("#foundLocations") );
+
+                        document.querySelector("#" + contractButtonId).addEventListener('transitionend', function(e) {
+                            location.href = '/locations/contract/' + place.id;
+                        });
+                        /*
+                        var searchFunction = function( data ) {
+                            if(data.forEach) {
+                                data.forEach(processLocation);
+                            } else {
+                                processLocation(data);
+                            }
+                        };
+
+                        $.getJSON( ajaxUrl , searchFunction);*/
                     } );
                 });            
             });

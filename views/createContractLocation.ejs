@@ -1,0 +1,129 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head> -->
+
+<link rel="stylesheet" href="/stylesheets/bootstrap-multiselect.css">
+
+<body>
+    
+    <h1><%= title %></h1>
+    <h2><%= location.name %></h2>
+    
+    <% include messages %>
+    
+    <div id="someMessages">
+    </div>
+
+    <form class="form" id="createContractLocationForm" action='/locations/createcontract' method='post'>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Propuesta
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input name="location" label="Nombre del lugar" value="<%= location.name %>"></paper-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <!-- <paper-input name="eventDate" label="Fecha del evento" auto-validate required="required" error-message="No puede ser vacio!"></paper-input> -->
+                        <!-- <paper-dialog-calendar></paper-dialog-calendar> -->
+                        <!-- <paper-span-calendar></paper-span-calendar> -->
+                        <vaadin-date-picker id="eventPicker" name="eventDate" label="Fecha"></vaadin-date-picker>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input id="timeInput" name="eventTime" label="Hora del evento" type="time" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-textarea name="description" label="Condiciones"></paper-input>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label>Banda: </label>
+                        <% include bandSelect %>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <paper-input name="cash" id="cashInput" label="Monto" auto-validate required="required" error-message="No puede ser vacio!">
+                            <div prefix>$</div>
+                        </paper-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <!-- <paper-input name="expirationDate" label="Fecha de caducacion de la propuesta" auto-validate required="required" error-message="No puede ser vacio!"></paper-input> -->
+                        <vaadin-date-picker id="expirationPicker" name="expirationDate" name="eventDate" label="Fecha expiracion/cancelacion"></vaadin-date-picker>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row text-center">
+                    <input id="submitButton" class="btn btn-lg btn-primary" type='submit' value='Enviar propuesta!' />
+                </div>
+            </div>
+        </div>
+
+    
+    </form>
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            document.querySelector('#submitButton').onclick = function(event) {
+                var eventDateString = document.querySelector('#eventPicker').value;
+                var expirationDateString = document.querySelector('#expirationPicker').value;
+
+                if(!eventDateString || !expirationDateString) {
+                    event.preventDefault();
+                    document.querySelector('#someMessages').innerHTML = '<p class="alert alert-warning">Las fechas no pueden estar vacias.</p>';
+                    return;
+                }
+
+                var eventDate = new Date(eventDateString);
+                var expirationDate = new Date(expirationDateString);
+
+                if( (expirationDate - eventDate) >= 0 ) {
+                    event.preventDefault();
+                    document.querySelector('#someMessages').innerHTML = '<p class="alert alert-warning">La fecha de expiracion debe ser anterior a la del evento.</p>';
+                    return;
+                }
+
+                var today = new Date();
+                if((eventDate - today) < 0) {
+                    event.preventDefault();
+                    document.querySelector('#someMessages').innerHTML = '<p class="alert alert-warning">La fecha del evento debe ser posterior al día de hoy.</p>';
+                    return;
+                }
+
+                var time = document.querySelector('#timeInput').value;
+                if(!time || time === "") {
+                    event.preventDefault();
+                    document.querySelector('#someMessages').innerHTML = '<p class="alert alert-warning">La hora del evento no puede ser vacio!.</p>';
+                    return;
+                }
+            };
+        });
+    </script>
+</body>
+</html>

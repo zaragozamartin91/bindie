@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Location = mongoose.model('Location');
+var Band = mongoose.model('Band');
+var Contract = mongoose.model('Contract');
 var ObjectId = mongoose.Types.ObjectId;
 
 
@@ -168,5 +170,111 @@ exports.getById = function(req, res) {
         _id: locationId
     }, function(err, location) {
         res.json(location);
+    });
+};
+
+exports.contract = function(req, res) {
+    var userId = req.session.uid;
+    if (!userId) {
+        res.error("Debe iniciar sesion para contratar a un lugar!");
+        return res.redirect("back");
+    }
+
+    var locationId = req.params.locationId;
+
+    if (locationId) {
+        Location.findOne({
+            _id: locationId
+        }, function(err, location) {
+            if (err) {
+                var errorMessage = getErrorMessage(err);
+                res.error(errorMessage);
+                return res.redirect("back");
+            }
+
+            User.findBands(userId, function(err, bands) {
+                if (err) {
+                    var errorMessage = getErrorMessage(err);
+                    res.error(errorMessage);
+                    return res.redirect("back");
+                }
+
+                req.bands = res.locals.bands = bands;
+                req.location = res.locals.location = location;
+
+                return res.render('createContractLocation', {
+                    title: "Contratar lugar",
+                    bands: bands,
+                    location: location
+                });
+            });
+
+        });
+    } else {
+        res.error("No se indico el id del lugar a contratar!");
+        return res.redirect("back");
+    }
+};
+
+/*funcion para procesar la creacion de un contrato para un lugar...*/
+exports.createContract = function(req, res, next) {
+    var data = req.body;
+
+    data.eventDate = new Date(data.eventDate);
+    data.expirationDate = new Date(data.expirationDate);
+
+    var hours = data.eventTime.split(":")[0];
+    var minutes = data.eventTime.split(":")[1];
+    data.eventDate.setHours(hours);
+    data.eventDate.setMinutes(minutes);
+
+    data.type = 'toLocation';
+
+    console.log("DATOS DE CONTRATO RECIBIDOS: ");
+    console.log(data);
+
+    Location.findOneByName(data.location, function(err, location) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!location) {
+            res.error("EL LUGAR " + data.location + " NO EXISTE!");
+            return res.redirect("back");
+        }
+
+        data.location = new ObjectId(location._id);
+
+
+        Band.findOneByName(data.band, function(err, band) {
+            if (err) {
+                return next(err);
+            }
+
+            if (!band) {
+                res.error("LA BANDA " + data.band + " NO EXISTE!");
+                return res.redirect("back");
+            }
+
+            data.band = new ObjectId(band._id);
+
+            contract = new Contract(data);
+
+            console.log("CONTRATO A GUARDAR:");
+            console.log(contract);
+            contract.save(function(err) {
+                if (err) {
+                    var message = getErrorMessage(err);
+                    console.log("Algo salio mal: " + err);
+                    res.error(message);
+                    return res.redirect('back');
+                }
+
+                console.log("Contrato creado:");
+                console.log(contract);
+                res.success("Contrato creado exitosamente!");
+                res.redirect("back");
+            });
+        });
     });
 };
