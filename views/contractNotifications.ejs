@@ -43,7 +43,7 @@
                     <p><%=contract.description %></p>
                     <p>Fecha de expiracion de la propuesta: <%=dayExpirationDate%>/<%=monthExpirationDate%>/<%=yearExpirationDate%></p> 
                 </div>  
-                <% if(((contract.type == 'toBand') && userBelongsToBand) || ((contract.type == 'toLocation') && userOwnsLocation)) { %>
+                <% if((contract.status == "pending") && (((contract.type == 'toBand') && userBelongsToBand) || ((contract.type == 'toLocation') && userOwnsLocation))) { %>
                     <div class="card-actions"> 
                         <paper-button >
                             <iron-icon icon="icons:check"></iron-icon>Aceptar
