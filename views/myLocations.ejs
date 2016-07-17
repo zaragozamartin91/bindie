@@ -2,30 +2,23 @@
     <h1><%= title %></h1>
     
     <% include messages %>
-
-    <div id="myLocations"></div>
     
     <% if (locals.locations) { 
         locations.forEach(function(location) { %>
-            <script type="text/javascript">
-                $('document').ready(function(){
-                    var locationDescription = "<%= location.description %>";
-                    var locationAddress = "<%= location.address %>";
-                    var locationLocation = "<%= location.location %>";
-                    var locationName = "<%= location.name %>";
-                    var locationGenres = "<%= location.genres %>".split(',');
-                    console.log(locationGenres);
-    
-                    var locationDescriptionP = '<p>' + locationDescription + '</p>';
-                    var locationAddressP = '<p>' + "Direccion: " + locationAddress + ", " + locationLocation + '</p>';
-                    var genresUl = 'Generos: <ul>';
-                    locationGenres.forEach( function(genre){
-                        genresUl+='<li>' + genre + '</li>';
-                    } );
-                    genresUl+='</ul>';
-    
-                    $('<paper-card heading="' + locationName + '" >  <div class="card-content">'+ locationDescriptionP + locationAddressP + genresUl + '  </div>  <div class="card-actions"> <paper-button ><iron-icon icon="icons:build"></iron-icon>Configurar</paper-button></div></paper-card>').appendTo( $('#myLocations') );});
-            </script>
+            <paper-card heading="<%=location.name %>" >  
+                <div class="card-content">
+                    <p><%=location.description %></p>
+                    <p>Direccion: <%=location.address %>, <%=location.location %></p>
+                    Generos: <ul>
+                        <% location.genres.forEach(function(genre){ %>
+                            <li><%=genre %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+                <div class="card-actions"> 
+                    <paper-button ><iron-icon icon="icons:build"></iron-icon>Configurar</paper-button>
+                </div>
+            </paper-card>
             
         <% }) 
     } %>
