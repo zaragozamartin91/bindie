@@ -65,7 +65,14 @@ exports.registerSchema = function() {
                 }
             }, callback);
         }
-    };  
+    };
+
+    /*Busca todos los eventos*/
+    EventSchema.statics.findAllEvents = function(callback) {
+        var Event = mongoose.model('Event');
+
+        Event.find({}).populate('members').populate('location').populate('band').exec(callback);
+    };
 
     /*This will force Mongoose to include getters when converting the MongoDB document to a JSON representation and will allow the
     output of documents using res.json(). Tambien habilita los campos virtuales como fullName.*/

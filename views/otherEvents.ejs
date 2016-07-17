@@ -3,23 +3,22 @@
     
     <% include messages %>
 
-    <form class="form" id="userEventsForm" action='/users/events' method='post'>
+    <form class="form" id="userOtherEventsForm" action='/users/otherEvents' method='post'>
     
     <% if(locals.events) { 
         events.forEach(function(event) {
-		if(event.date > Date.now()) { 
+		if(event.date > Date.now()) {
 			var eventDate = new Date(event.date);
 			var hours = (eventDate.getHours()<10?'0':'') + eventDate.getHours();
 			var mins = (eventDate.getMinutes()<10?'0':'') + eventDate.getMinutes();
 			var day = (eventDate.getDate()<10?'0':'') + eventDate.getDate();
 			var month = ((eventDate.getMonth() + 1)<10?'0':'') + (eventDate.getMonth() + 1);
-			var year = eventDate.getFullYear(); %> %>
+			var year = eventDate.getFullYear(); %>
 		    <paper-card heading="<%= event.name %>" animated-shadow="false">
 		      <div class="card-content">
 		        <ul>
 		            <li>Descripcion: <%= event.description %></li>
 		            <li>Fecha: <%= day %>/<%= month %>/<%= year %> a las <%= hours %>:<%= mins %></li>
-			    <li>Lugar: <%= event.location.name %></li>
 			    <% if(event.band) {  %>
 		            	<li>Banda: <%= event.band.name %></li>
 			    <% } %>
