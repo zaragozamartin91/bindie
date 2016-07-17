@@ -110,9 +110,21 @@ exports.accept = function(req, res) {
     Band.findOne({
         _id: new ObjectId(data.bandId)
     }, function(err, band) {
+        if(!band) {
+            return res.json({
+                error: "Banda " + data.bandId + " no encontrada!"
+            });
+        }
+
         Location.findOne({
             _id: new ObjectId(data.locationId)
         }, function(err, location) {
+            if(!location) {
+                return res.json({
+                    error: "Lugar " + data.locationId + " no encontrado!"
+                });
+            }
+
             User.searchBandFans(data.bandId, function(err, userIds) {
                 console.log("USUARIOS FANATICOS DE " + band.name);
                 console.log(userIds);

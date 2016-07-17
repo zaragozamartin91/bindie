@@ -123,14 +123,7 @@ exports.createSubmit = function(req, res, next) {
 exports.getByName = function(req, res) {
     var bandName = req.params.bandName;
 
-    if (!bandName || bandName === "") {
-        bandName = ".*";
-    }
-
-    Band.find({
-        /*Busco una banda ignorando mayusculas y minusculas*/
-        name: new RegExp(bandName, "i")
-    }, function(err, bands) {
+    var bandFoundCallback = function(err, bands) {
         if (err) {
             return res.json({
                 error: err
@@ -138,7 +131,16 @@ exports.getByName = function(req, res) {
         }
 
         return res.json(bands);
-    });
+    };
+
+    if (!bandName || bandName === "" || bandName == "*") {
+        Band.find({}, bandFoundCallback);
+    } else {
+        Band.find({
+            /*Busco una banda ignorando mayusculas y minusculas*/
+            name: new RegExp(bandName, "i")
+        }, bandFoundCallback);
+    }
 };
 
 /*No realiza paginacion. En browseBands.ejs se expondran todas las bandas...*/
@@ -284,10 +286,10 @@ exports.searchByGenreApi = function(req, res) {
     });
 };
 
-exports.searchMemberApi = function(req,res) {
+exports.searchMemberApi = function(req, res) {
     var member = req.params.member;
 
-    Band.searchByMembers(member, function(req, bands){
+    Band.searchByMembers(member, function(req, bands) {
         console.log("BANDAS CON MIEMBRO " + member + " ENCONTRADAS: ");
         console.log(bands);
         res.json(bands);
@@ -296,5 +298,5 @@ exports.searchMemberApi = function(req,res) {
 
 
 exports.listContractsApi = function(req, res) {
-    
+
 };
