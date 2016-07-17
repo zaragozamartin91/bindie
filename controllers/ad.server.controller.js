@@ -142,28 +142,19 @@ exports.browseAds = function(req, res, next) {
 
 exports.showAds = function(req, res, next) {
 
-    Ad.findActiveByVisibility("gold", function(err, ads) {
+    Ad.findActiveByVisibility(function(err, ads) {
         if (err) {
             var errorMessage = getErrorMessage(err);
             res.error(errorMessage);
             return res.redirect("back");
         }
 
-        req.goldAds = res.locals.goldAds = ads;
-        Ad.findActiveByVisibility("silver", function(err, ads) {
-            if (err) {
-                var errorMessage = getErrorMessage(err);
-                res.error(errorMessage);
-                return res.redirect("back");
-            }
+        req.allAds = res.locals.allAds = ads;
 
-            req.silverAds = res.locals.silverAds = ads;
-            res.render('index', {
-                title: 'Bindie',
-                goldAds: req.goldAds,
-                silverAds: req.silverAds
-            });
-        }); 
+        res.render('index', {
+            title: 'Bindie',
+            allAds: req.allAds,
+        });
 
     });    
 };

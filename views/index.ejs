@@ -8,13 +8,13 @@
         <h3>Bienvenido <%= user.name %></h3>
     <% } %>
 
-    <% if (locals.goldAds || locals.silverAds) { %>
+    <% if (locals.allAds) { %>
         <h4>Avisos:</h4>
     <% } %>
 
-    <div id="goldAds">
-    <% if (locals.goldAds) { 
-        goldAds.forEach(function(ad) {
+    <div id="allAds">
+    <% if (locals.allAds) { 
+        allAds.forEach(function(ad) {
             var adType;
             var adReference;
             var adVisibility;
