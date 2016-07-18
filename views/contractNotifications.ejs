@@ -48,6 +48,8 @@
             var dayExpirationDate = contract.expirationDate.getDate();
             var yearExpirationDate = contract.expirationDate.getFullYear();
 
+            var date = new Date();
+
 
         %>
 
@@ -66,18 +68,30 @@
                     <% } %> 
                 </div>  
                 <% if((contract.status == "pending") && (((contract.type == 'toBand') && userBelongsToBand) || ((contract.type == 'toLocation') && userOwnsLocation))) { %>
-                    <div class="card-actions"> 
-                        <paper-button id="accept_<%=contract._id%>">
-                            <iron-icon icon="icons:check"></iron-icon>Aceptar
-                        </paper-button>
-                        <paper-button id="reject_<%=contract._id%>">
-                            <iron-icon icon="icons:close"></iron-icon>Rechazar
-                        </paper-button>
-                    </div>
+                    <% if(contract.expirationDate < date) { %>
+                        <div class="card-actions"> 
+                            <p style="color: blue; font-weight: bolder;"> VENCIDO </p>
+                        </div>
+                    <% } else { %>
+                        <div class="card-actions"> 
+                            <paper-button id="accept_<%=contract._id%>">
+                                <iron-icon icon="icons:check"></iron-icon>Aceptar
+                            </paper-button>
+                            <paper-button id="reject_<%=contract._id%>">
+                                <iron-icon icon="icons:close"></iron-icon>Rechazar
+                            </paper-button>
+                        </div>
+                    <% } %>
                 <% } else { %>
-                    <div class="card-actions"> 
-                        <p style="color: <%=state[contract.status].color %>"><%=state[contract.status].caption %></p>
-                    </div>
+                    <% if(contract.expirationDate < date) { %>
+                         <div class="card-actions"> 
+                            <p style="color: blue; font-weight: bolder;"> VENCIDO </p>
+                        </div>
+                    <% } else { %>
+                        <div class="card-actions"> 
+                            <p style="color: <%=state[contract.status].color %>"><%=state[contract.status].caption %></p>
+                        </div>
+                    <% } %>    
                 <% } %>
             </paper-card>
 
