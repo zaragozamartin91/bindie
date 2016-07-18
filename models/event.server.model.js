@@ -18,7 +18,7 @@ exports.registerSchema = function() {
             type: Schema.Types.ObjectId,
             ref: 'Location'
         },
-        /*Campo que guarda la fecha de creacion del evento*/
+        /*Campo que guarda la fecha del evento*/
         date: {
             type: Date,
             required: 'La fecha del evento no puede ser vacio!'
