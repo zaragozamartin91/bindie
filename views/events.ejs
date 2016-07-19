@@ -16,14 +16,14 @@
 			var year = eventDate.getFullYear(); %> %>
 		    <paper-card heading="<%= event.name %>" animated-shadow="false">
 		      <div class="card-content">
-		        <ul>
-		            <li>Descripcion: <%= event.description %></li>
-		            <li>Fecha: <%= day %>/<%= month %>/<%= year %> a las <%= hours %>:<%= mins %></li>
-			    <li>Lugar: <%= event.location.name %></li>
+		      
+		        <p>Descripcion: <%= event.description %></p>
+		        <p>Fecha: <%= day %>/<%= month %>/<%= year %> a las <%= hours %>:<%= mins %></p>
+			    <p>Lugar: <%= event.location.name %></p>
 			    <% if(event.band) {  %>
-		            	<li>Banda: <%= event.band.name %></li>
+		            <p>Banda: <%= event.band.name %></p>
 			    <% } %>
-		        </ul>
+
 		      </div>
 		      <div class="card-actions">
 		            <paper-button ><iron-icon icon="icons:check"></iron-icon>Asistir</paper-button>

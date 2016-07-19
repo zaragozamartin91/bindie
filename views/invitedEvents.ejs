@@ -29,19 +29,19 @@
 				var year = eventDate.getFullYear(); %>
 			   <paper-card heading="<%= event.name %>" animated-shadow="false">
 			      <div class="card-content">
-				<ul>
-				    <li>Descripcion: <%= event.description %></li>
-				    <li>Fecha: <%= day %>/<%= month %>/<%= year %> a las <%= hours %>:<%= mins %></li>
-				    <li>Lugar: <%= event.location.name %></li>
-				    <li>Banda: <%= event.band.name %></li>
-				    <li>Canciones que te gustaron:
+
+				    <p>Descripcion: <%= event.description %></p>
+				    <p>Fecha: <%= day %>/<%= month %>/<%= year %> a las <%= hours %>:<%= mins %></p>
+				    <p>Lugar: <%= event.location.name %></p>
+				    <p>Banda: <%= event.band.name %></p>
+				    <p>Canciones que te gustaron:
 					<ul>
 						<% likedSongs.forEach(function(song){ %>
 							<li><%= song %></li>
 						<% }); %>
 					</ul>
-				    </li>
-				</ul>
+				    </p>
+
 			      </div>
 			      <div class="card-actions">
 				    <paper-button ><iron-icon icon="icons:check"></iron-icon>Asistir</paper-button>
