@@ -35,14 +35,17 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-8 col-sm-12 col-xs-12">
+                    <!-- <div class="col-md-8 col-sm-12 col-xs-12">
                         <paper-input name="date" label="Fecha del evento" type="date" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                    </div> -->
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <vaadin-date-picker id="eventPicker" name="date" label="Fecha"></vaadin-date-picker>
                     </div>
                 </div>
 
-		<div class="row">
+		        <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
-                        <paper-input name="date" label="Hora del evento" type="time" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
+                        <paper-input name="time" label="Hora del evento" type="time" auto-validate required="required" error-message="No puede ser vacio!"></paper-input>
                     </div>
                 </div>
 

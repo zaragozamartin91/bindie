@@ -66,6 +66,14 @@ exports.createSubmit = function(req, res, next) {
     var data = req.body;
     console.log(data);
 
+    data.date = new Date(data.date);
+
+    var hours = data.time.split(":")[0];
+    var minutes = data.time.split(":")[1];
+    data.date.setHours(hours);
+    data.date.setMinutes(minutes);
+
+
     Event.findOneByName(data.name, function(err, event) {
         if (err) {
             return next(err);
@@ -105,21 +113,21 @@ exports.createSubmit = function(req, res, next) {
                 data.members.push(new ObjectId(users));
             }
 
-            console.log("Socios del lugar del evento: " + data.members);
+            console.log("SOCIOS DEL LUGAR DEL EVENTO: " + data.members);
 
             Location.findOneByName(data.location, function(err, location) {
                 data.location = new ObjectId(location._id);
 
-                Band.findOneByName(data.band, function(err,band){
-		    if (band) {
-                    	data.band = new ObjectId(band._id);
-		    } else {
-			data.band = null;
-		    }
+                Band.findOneByName(data.band, function(err, band) {
+                    if (band) {
+                        data.band = new ObjectId(band._id);
+                    } else {
+                        data.band = null;
+                    }
 
                     event = new Event(data);
 
-                    console.log("Evento a guardar:" + event);
+                    console.log("EVENTO A GUARDAR:" + event);
                     event.save(function(err) {
                         if (err) {
                             var message = getErrorMessage(err);
