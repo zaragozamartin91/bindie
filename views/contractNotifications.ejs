@@ -17,6 +17,11 @@
 
     <div id="someMessages" ></div>
 
+    <% if(! locals.contracts) {
+    %>
+        <div class="alert alert-info">Aún no hay notificaciones de contrataciones! </div>
+    <% } %>
+
     <% if(locals.contracts) {
         contracts.forEach(function(contract) { 
             var band = contract.band || {_id:""};
