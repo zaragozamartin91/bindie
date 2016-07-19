@@ -394,3 +394,32 @@ exports.browseAllEvents = function(req, res, next) {
         });
     });
 };
+
+/* Lista las notificaciones de hitos de canciones de bandas */
+exports.getNotificationMusic = function(req, res){
+	var userId = req.session.uid;
+
+    if (!userId) {
+        res.error("Debe iniciar sesion para ver las notificaciones!");
+        return res.redirect("back");
+    }
+	
+	var notificationSongs = [];
+	var bandsArray = [];
+	
+	console.log("Entrando a bandas");
+    Song.searchByMember(userId, function(err, songs) {
+        if (err) {
+            var errorMessage = getErrorMessage(err);
+            res.error(errorMessage);
+            return res.redirect("back");
+        }
+		
+		res.notifications = notificationSongs;
+        res.render('musicNotifications', {
+            title: "Notificaciones de Música",
+            bandSongs: songs
+        });
+		
+    });
+}

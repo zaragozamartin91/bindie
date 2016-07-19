@@ -75,6 +75,26 @@ exports.registerSchema = function() {
             band: bandId
         }).populate('band').exec(callback);
     };
+	
+	/* Busca canciones de las bandas al que el usuario pertenece */
+	SongSchema.statics.searchByMember = function(userId, callback) {
+		var self = this;
+        var Band = mongoose.model('Band');
+		
+		Band.searchByMembers(userId, function(err, bands) {
+			var queryArray = [];
+
+			bands.forEach(function(band) {
+				queryArray.push({
+					band: band._id
+				});
+			});
+
+			self.find({
+				$or: queryArray
+			}).populate('band').exec(callback);
+        });
+	}
 
     SongSchema.statics.searchByGenre = function(genre, callback) {
         if (!genre || genre === "" || genre == "*" || genre == "any") {

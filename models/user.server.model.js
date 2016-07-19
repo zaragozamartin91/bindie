@@ -112,6 +112,8 @@ exports.registerSchema = function() {
         return this.password === this.hashPassword(password);
     };
 
+	
+	
     /* busca fanaticos de una banda */
     UserSchema.statics.searchBandFans = function(bandId, callback) {
         var Song = mongoose.model('Song');

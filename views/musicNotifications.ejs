@@ -1,0 +1,42 @@
+<body>    
+
+    <h1><%= title %></h1>
+    
+    <% include messages %>
+    
+	<% var noNotifications = false;
+	
+	bandSongs.forEach(function(song) {
+		if(song.upvotes.length < 10){ 
+			noNotifications = true;
+		}
+	});
+
+	if (noNotifications) { %>
+	
+		<div class="alert alert-info">Aún no hay notificaciones sobre la musica de tus bandas! </div>
+	<%} else { 
+		bandSongs.forEach(function(song) { %>
+		
+		<div class="bs-callout bs-callout-info">
+			<h4><%= song.name %></h4>
+			
+			<% if(song.upvotes.length >= 10 && song.upvotes.length < 50) { %>
+			
+				<p>Tu cancion ha llegado a mas de 10 likes! (likes en este momento: <%= song.upvotes.length %>)</p>
+			
+			<% } else if(song.upvotes.length >= 50 && song.upvotes.length < 100) { %>
+			
+				<p>Tu cancion ha llegado a mas de 50 likes! (likes en este momento: <%= song.upvotes.length %>)</p>
+			
+			<% } else if(song.upvotes.length > 100) { %>
+			
+				<p>Tu cancion tiene mas de 100 likes! (likes en este momento: <%= song.upvotes.length %>)</p>
+			
+			<% } %>
+			
+		</div>
+		
+	<% })} %>
+
+</body>
