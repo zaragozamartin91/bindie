@@ -26,9 +26,9 @@ exports.registerSchema = function() {
             validate: [
 
                 function(password) {
-                    return password && password.length >= 6;
+                    return password && password.length >= 4;
                 },
-                'Password debe contener al menos 6 caracteres...'
+                'Password debe contener al menos 4 caracteres...'
             ],
             required: 'Se debe ingresar un password!'
         },
