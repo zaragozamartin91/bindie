@@ -26,9 +26,19 @@
                     <paper-button >
                         <iron-icon icon="icons:build"></iron-icon>Configurar
                     </paper-button>
+                    <paper-button id="check_<%=band._id %>">
+                        <iron-icon icon="forward"></iron-icon>Musica
+                    </paper-button>
                 </div>
             </paper-card>
 
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    document.querySelector('#check_<%=band._id %>').addEventListener('transitionend', function() {
+                        location.href = '/songs/browse/<%=band._id %>';
+                    });
+                });
+            </script>
         <% }) 
     } %>
 
