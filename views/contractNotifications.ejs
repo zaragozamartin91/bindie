@@ -83,7 +83,7 @@
                         </div>
                     <% } %>
                 <% } else { %>
-                    <% if(contract.expirationDate < date) { %>
+                    <% if((contract.expirationDate < date) && (contract.status == "pending")) { %>
                          <div class="card-actions"> 
                             <p style="color: blue; font-weight: bolder;"> VENCIDO </p>
                         </div>
