@@ -411,7 +411,7 @@ exports.getNotificationMusic = function(req, res){
     Song.searchByMember(userId, function(err, songs) {
         if (err) {
             var errorMessage = getErrorMessage(err);
-            res.error(errorMessage);
+            res.error("Aún no perteneces a ninguna banda!");
             return res.redirect("back");
         }
 		
