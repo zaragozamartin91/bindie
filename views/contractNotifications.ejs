@@ -64,10 +64,10 @@
                 <paper-card heading="Contrato de <%=contract.band.name %> para <%=contract.location.name %>" >
             <% } %>
                 <div class="card-content">
-                    <p>Monto: $ <%=contract.cash %></p>
-                    <p>Fecha del evento: <%=dayEventDate%>/<%=monthEventDate%>/<%=yearEventDate%></p>
-                    <p><%=contract.description %></p>
-                    <p>Fecha de expiracion de la propuesta: <%=dayExpirationDate%>/<%=monthExpirationDate%>/<%=yearExpirationDate%></p>
+                    <p><strong>Monto: </strong> $ <%=contract.cash %></p>
+                    <p><strong>Fecha del evento: </strong><%=dayEventDate%>/<%=monthEventDate%>/<%=yearEventDate%></p>
+                    <p><strong>Condicion: </strong><%=contract.description %></p>
+                    <p><strong>Fecha de expiracion de la propuesta: </strong><%=dayExpirationDate%>/<%=monthExpirationDate%>/<%=yearExpirationDate%></p>
                     <% if(contract.status == 'rejected') { %>
                         <p style="color: red; font-weight: bolder;">Motivo rechazo: <%=contract.rejectReason %></p>
                     <% } %> 

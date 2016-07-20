@@ -16,6 +16,7 @@
             <paper-card heading="<%=band.name %>" >
                 <div class="card-content">
                     <p><%=band.description %></p> 
+                    <p><strong> Generos: </strong></p>
                     <ul>
                         <% band.genres.forEach(function(genre) { %>
                             <li><%=genre %></li>

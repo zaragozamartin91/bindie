@@ -30,11 +30,11 @@
 			   <paper-card heading="<%= event.name %>" animated-shadow="false">
 			      <div class="card-content">
 
-				    <p>Descripcion: <%= event.description %></p>
-				    <p>Fecha: <%= day %>/<%= month %>/<%= year %> a las <%= hours %>:<%= mins %></p>
-				    <p>Lugar: <%= event.location.name %></p>
-				    <p>Banda: <%= event.band.name %></p>
-				    <p>Canciones que te gustaron:
+				    <p><strong>Descripcion: </strong><%= event.description %></p>
+				    <p><strong>Fecha: </strong><%= day %>/<%= month %>/<%= year %> a las <%= hours %>:<%= mins %></p>
+				    <p><strong>Lugar: </strong><%= event.location.name %></p>
+				    <p><strong>Banda: </strong><%= event.band.name %></p>
+				    <p><strong>Canciones que te gustaron: </strong>
 					<ul>
 						<% likedSongs.forEach(function(song){ %>
 							<li><%= song %></li>

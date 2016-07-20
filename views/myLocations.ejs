@@ -8,8 +8,8 @@
             <paper-card heading="<%=location.name %>" >  
                 <div class="card-content">
                     <p><%=location.description %></p>
-                    <p>Direccion: <%=location.address %>, <%=location.location %></p>
-                    Generos: <ul>
+                    <p><strong>Direccion: </strong><%=location.address %>, <%=location.location %></p>
+                    <strong>Generos: </strong> <ul>
                         <% location.genres.forEach(function(genre){ %>
                             <li><%=genre %></li>
                         <% }) %>
