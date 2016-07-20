@@ -389,7 +389,7 @@ exports.browseAllEvents = function(req, res, next) {
 
         req.events = res.locals.events = events;
         res.render('events', {
-            title: "Otros eventos",
+            title: "Todos los eventos",
             events: events
         });
     });
