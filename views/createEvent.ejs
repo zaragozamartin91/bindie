@@ -15,12 +15,14 @@
     
     <form class="form" id="createEventForm" action='/events/create' method='post'>
 
-	<% const EVENT_PUBLICATION_PRICE = 10 %>
+	<% const EVENT_PUBLICATION_PRICE = 10 
+	if(locals.locations && locations.length != 0) { %>
 
         <div class="panel panel-success">
             <div class="panel-heading">
                 Datos del evento
             </div>
+
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
@@ -77,6 +79,10 @@
             </div>
         </div>
     
+	<% } else { %>
+		<p class="alert alert-info">No tienes lugares registrados. No puedes crear eventos.</p>
+	<% } %>
+
     </form>
 </body>
 </html>
