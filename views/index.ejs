@@ -8,30 +8,23 @@
         <h3>Bienvenido <%= user.name %></h3>
     <% } %>
 
-    <% if (locals.allAds) { %>
-        <h4>Avisos:</h4>
+    <% if (locals.bandAds.length > 0) { %>
+        <h4>Bandas recomendadas:</h4>
     <% } %>
 
-    <div id="allAds">
-    <% if (locals.allAds) { 
-        allAds.forEach(function(ad) {
+    <div id="bandAds">
+    <% if (locals.bandAds) { 
+        bandAds.forEach(function(ad) {
             var adType;
             var adReference;
             var adVisibility;
             
-            if (ad.type === "band" )  {
-                adType = "Banda";
-                adReference = ad.band.name;
-            } else {
-                adType = "Lugar"
-                adReference = ad.location.name;
-            }        
+            adType = "Banda";
+            adReference = ad.band.name;      
         %>
             <paper-card heading="<%= adReference %>" >
                 <div class="card-content">
                     <p><%= ad.description %></p>
-                    
-                    <% if (ad.type === "band" ) { %>
                         Géneros:
                     <ul>
                     %>
@@ -42,35 +35,42 @@
                         <li> <%= genre %> </li>
                     <%  } );%>
                     
-                    </ul>
-
-                    <% } %>
-
-                    <% if (ad.type === "location" ) { %>
-                        <p> <%= ad.location.address %> </p>
-                        <p> <%= ad.location.location %> </p>
-                    <% } %>                    
+                    </ul>           
                 </div>
 
                 <div class="card-actions">
-                    <% if (ad.type === "band" ) { %>
                         <a href="/songs/browse/<%= ad.band.id %>">
                             <paper-button>
                                 <iron-icon icon="forward"></iron-icon>Música
                             </paper-button>
-                        </a>
-                    <% } %>
-
-                    <% if (ad.type === "location" ) { %>
-                    <!--
-                        <a href="/locations/browse/<%= ad.location.id %>">
-                            <paper-button>
-                                <iron-icon icon="forward"></iron-icon>Más info
-                            </paper-button>
-                        </a>
-                    -->
-                    <% } %>                    
+                        </a>                
                 </div>            
+            </paper-card>
+            
+        <% }) 
+    } %>
+    </div>
+
+    <% if (locals.locationAds.length > 0) { %>
+        <h4>Lugares recomendados:</h4>
+    <% } %>
+
+    <div id="locationAds">
+    <% if (locals.locationAds) { 
+        locationAds.forEach(function(ad) {
+            var adType;
+            var adReference;
+            var adVisibility;
+            
+            adType = "Lugar"
+            adReference = ad.location.name;      
+        %>
+            <paper-card heading="<%= adReference %>" >
+                <div class="card-content">
+                    <p><%= ad.description %></p>
+                    <p><%= ad.location.address %></p>
+                    <p><%= ad.location.location %></p>
+                </div>         
             </paper-card>
             
         <% }) 

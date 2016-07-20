@@ -59,10 +59,11 @@ exports.registerSchema = function() {
         }
     });
 
-    AdSchema.statics.findActiveByVisibility = function(callback) {
+    AdSchema.statics.findActiveByVisibility = function(type, callback) {
         console.log("Aviso por usuario: ");
         this.find({
-            expiration: { $gte: new Date() },
+            type: type,
+            expiration: { $gte: new Date() }
         }, null, {  sort:{ visibility: -1 }}).populate('band').populate('location').exec(callback);
     };    
 

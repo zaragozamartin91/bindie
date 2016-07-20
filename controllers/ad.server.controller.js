@@ -142,19 +142,31 @@ exports.browseAds = function(req, res, next) {
 
 exports.showAds = function(req, res, next) {
 
-    Ad.findActiveByVisibility(function(err, ads) {
+    Ad.findActiveByVisibility("band", function(err, ads) {
         if (err) {
             var errorMessage = getErrorMessage(err);
             res.error(errorMessage);
             return res.redirect("back");
         }
 
-        req.allAds = res.locals.allAds = ads;
+        req.bandAds = res.locals.bandAds = ads;
 
-        res.render('index', {
-            title: 'Bindie',
-            allAds: req.allAds,
-        });
+        Ad.findActiveByVisibility("location", function(err, ads) {
+            if (err) {
+                var errorMessage = getErrorMessage(err);
+                res.error(errorMessage);
+                return res.redirect("back");
+            }
+
+            req.locationAds = res.locals.locationAds = ads;
+
+            res.render('index', {
+                title: 'Bindie',
+                bandAds: req.bandAds,
+                locationAds: req.locationAds
+            });
+
+        });         
 
     });    
 };
