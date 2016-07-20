@@ -71,7 +71,7 @@ exports.registerSchema = function() {
     EventSchema.statics.findAllEvents = function(callback) {
         var Event = mongoose.model('Event');
 
-        Event.find({}).populate('members').populate('location').populate('band').exec(callback);
+        Event.find({}).sort({date:1}).populate('members').populate('location').populate('band').exec(callback);
     };
 
     /*This will force Mongoose to include getters when converting the MongoDB document to a JSON representation and will allow the

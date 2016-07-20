@@ -74,6 +74,12 @@ exports.createSubmit = function(req, res, next) {
         }
 
         var memberEmails = data.members;
+
+        if (!memberEmails) {
+            res.error("Es necesario seleccionar miembros!");
+            return res.redirect("back");
+        }
+
         var queryArray = [];
 
         if (memberEmails.forEach) {

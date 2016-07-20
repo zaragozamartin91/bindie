@@ -82,7 +82,7 @@ exports.createSubmit = function(req, res, next) {
     }
     data.user = userId;
     var date = new Date();
-    date.setTime( date.getTime() + data.duration * 86400000);
+    date.setTime( date.getTime() + data.duration * 86400000 * 30);
     data.expiration = date;
     // data.duration;
     // data.visibility;
