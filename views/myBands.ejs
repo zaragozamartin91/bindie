@@ -9,8 +9,14 @@
     <h1><%= title %></h1>
     
     <% include messages %>
-    
+
 	<% if (locals.bands) { 
+
+        if(bands.length == 0) { %>
+            <p class="alert alert-info">No perteneces a ninguna banda!</p>
+        <% } %>
+
+        <%
         bands.forEach(function(band) { %>
 
             <paper-card heading="<%=band.name %>" >

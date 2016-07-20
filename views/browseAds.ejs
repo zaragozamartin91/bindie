@@ -5,6 +5,12 @@
 
     <div id="myAds">
     <% if (locals.ads) {
+
+        if(ads.length == 0) { %>
+            <p class="alert alert-info">No publicaste ningun aviso!</p>
+        <% } %>
+
+        <%
         var i = 0;
         ads.forEach(function(ad) {
             var adType;

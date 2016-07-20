@@ -6,6 +6,13 @@
     <form class="form" id="userInvitedEventsForm" action='/users/invitedEvents' method='post'>
 
     <%  if(locals.events && locals.songs) {
+
+    if((events.length == 0) || (songs.length == 0)){ %>
+            <p class="alert alert-info">Aun no te invitaron a ningun evento!</p>
+        <% } %>
+
+        <%
+
 	var bandsSet = {};
 	events.forEach(function(event) {
 		if(event.date > Date.now()) {

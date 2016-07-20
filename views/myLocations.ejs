@@ -4,6 +4,13 @@
     <% include messages %>
     
     <% if (locals.locations) { 
+
+        if(locations.length == 0) { %>
+            <p class="alert alert-info">No sos socio de ningun lugar!</p>
+        <% } %>
+
+        <%
+
         locations.forEach(function(location) { %>
             <paper-card heading="<%=location.name %>" >  
                 <div class="card-content">

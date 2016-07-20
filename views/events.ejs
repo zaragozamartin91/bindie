@@ -6,6 +6,13 @@
     <form class="form" id="userEventsForm" action='/users/events' method='post'>
     
     <% if(locals.events) { 
+
+    	if(events.length == 0) { %>
+            <p class="alert alert-info">No hay eventos cercanos!</p>
+        <% } %>
+
+        <%
+
         events.forEach(function(event) {
 		if(event.date > Date.now()) { 
 			var eventDate = new Date(event.date);
