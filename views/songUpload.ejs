@@ -4,112 +4,113 @@
 
     <h1><%= title %></h1>
 
-    <br />
-
-    <p class="alert alert-info">Selecciona una cancion para subir.</p>
-
     <% include messages %>
 
+    <% if(locals.bands && locals.bands.length > 0)  { %>
+        <p class="alert alert-info">Selecciona una cancion para subir.</p>
     
-    <form id="songUpload" class="form" method='post' enctype='multipart/form-data'>
+        <form id="songUpload" class="form" method='post' enctype='multipart/form-data'>
 
-    <div class="row">
-        <div class="col-md-8 col-sm-12 col-xs-12">
-            <input type='file' name='song'/>
+        <div class="row">
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <input type='file' name='song'/>
+            </div>
         </div>
-    </div>
-        
-    <br />
-
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            Contanos sobre tu canción!
-        </div>
-        <div class="panel-body">
-
-            <div class="row">
-                <div class="col-md-8 col-sm-12 col-xs-12">
-                    <!-- <input class="form-control" type='text' name='name' placeholder='Nombre de la cancion'/> -->
-                    <paper-input label="Nombre Cancion" name="name"></paper-input>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-8 col-sm-12 col-xs-12">
-                    <!-- <input class="form-control" type='text' name='name' placeholder='Nombre de la cancion'/> -->
-                    <paper-textarea label="Descripcion" name="description"></paper-textarea>
-                </div>
-            </div>
-
-            <br />
-
-            <div class="row">
-                <div class="col-md-3 col-sm-12 col-xs-12">
-                    <label>Generos: </label>
-                    <% include genreSelect %>
-                </div>
-
-                <div class="col-md-3 col-sm-12 col-xs-12">
-                    <label>Banda: </label>
-                    <% include bandSelect %>
-                </div>
-            </div>
-
-            <hr />
-
-            <div class="row text-center">
-                <div class="col-md-12s col-sm-12 col-xs-12">
-                    <input class="btn btn-lg btn-primary" type='submit' value='Subir!'/>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-        
-
-    </form>
-
-    <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        $( "#songUpload" ).submit(function( event ) {
-
-            var messages = null;
             
-            var nameValue = $("input[name='name']").val();
-            console.log("nameValue: " + nameValue);
-            if(!nameValue) {
-                messages = messages || [];
-                messages.push("Nombre no puede ser vacio!");
-            }
+        <br />
 
-            var songValue = $("input[name='song']").val();
-            console.log("songValue: " + songValue);
-            if(!songValue) {
-                messages = messages || [];
-                messages.push("Seleccione un archivo de cancion!");
-            }
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Contanos sobre tu canción!
+            </div>
+            <div class="panel-body">
 
-            var genreValue = $('select[name="genres"]').val();
-            console.log($("#genreSelect"));
-            console.log("genreValue: " + genreValue);
-            if(!genreValue || genreValue == "") {
-                messages = messages || [];
-                messages.push("Seleccione al menos un genero!");
-            }
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <!-- <input class="form-control" type='text' name='name' placeholder='Nombre de la cancion'/> -->
+                        <paper-input label="Nombre Cancion" name="name"></paper-input>
+                    </div>
+                </div>
 
-            var bandValue = $("select[name='band']").val();
-            console.log("bandValue: " + bandValue);
-            if(!bandValue) {
-                messages = messages || [];
-                messages.push("Seleccione una banda!");
-            }
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <!-- <input class="form-control" type='text' name='name' placeholder='Nombre de la cancion'/> -->
+                        <paper-textarea label="Descripcion" name="description"></paper-textarea>
+                    </div>
+                </div>
 
-            if(messages) {
-                event.preventDefault();
-                alert( messages.join('\n') );
-            } 
-        });
-    </script>
+                <br />
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label>Generos: </label>
+                        <% include genreSelect %>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label>Banda: </label>
+                        <% include bandSelect %>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row text-center">
+                    <div class="col-md-12s col-sm-12 col-xs-12">
+                        <input class="btn btn-lg btn-primary" type='submit' value='Subir!'/>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        </form>
+
+        <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript">
+            $( "#songUpload" ).submit(function( event ) {
+
+                var messages = null;
+                
+                var nameValue = $("input[name='name']").val();
+                console.log("nameValue: " + nameValue);
+                if(!nameValue) {
+                    messages = messages || [];
+                    messages.push("Nombre no puede ser vacio!");
+                }
+
+                var songValue = $("input[name='song']").val();
+                console.log("songValue: " + songValue);
+                if(!songValue) {
+                    messages = messages || [];
+                    messages.push("Seleccione un archivo de cancion!");
+                }
+
+                var genreValue = $('select[name="genres"]').val();
+                console.log($("#genreSelect"));
+                console.log("genreValue: " + genreValue);
+                if(!genreValue || genreValue == "") {
+                    messages = messages || [];
+                    messages.push("Seleccione al menos un genero!");
+                }
+
+                var bandValue = $("select[name='band']").val();
+                console.log("bandValue: " + bandValue);
+                if(!bandValue) {
+                    messages = messages || [];
+                    messages.push("Seleccione una banda!");
+                }
+
+                if(messages) {
+                    event.preventDefault();
+                    alert( messages.join('\n') );
+                } 
+            });
+        </script>
+
+    <% } else { %>
+       <p class="alert alert-info">No perteneces a ninguna banda!</p> 
+    <% } %>
+
 </body>
 </html>

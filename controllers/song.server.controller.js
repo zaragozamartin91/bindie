@@ -45,10 +45,10 @@ exports.createForm = function(req, res, next) {
 
     User.findBands(userId, function(err, bands) {
         console.log("bandas: " + bands);
-        if (!bands || !bands.length) {
+        /*if (!bands || !bands.length) {
             res.error("No perteneces a ninguna banda!");
             return res.redirect('back');
-        }
+        }*/
 
         req.bands = res.locals.bands = bands;
 
