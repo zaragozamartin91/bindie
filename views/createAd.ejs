@@ -15,6 +15,8 @@
     
     <form class="form" id="createAdForm" action='/ads/create' method='post'>
 
+	<% if((locals.locations && locations.length != 0) || (locals.bands && bands.length != 0)) { %>
+
         <div class="panel panel-success">
             <div class="panel-heading">
                 Datos del Aviso
@@ -23,8 +25,12 @@
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
                         <label>¿Banda o Lugar?</label>
-                        <label class="radio-inline"><input type="radio" id="bandRadio" value="band" name="type" checked="checked">Banda</label>
-                        <label class="radio-inline"><input type="radio" id="locationRadio" value="location" name="type">Lugar</label>
+			<% if(locals.bands && bands.length != 0) { %>
+                       		<label class="radio-inline"><input type="radio" id="bandRadio" value="band" name="type" checked="checked">Banda</label>
+			<% }
+			if(locals.locations && locations.length != 0) { %>
+                        	<label class="radio-inline"><input type="radio" id="locationRadio" value="location" name="type">Lugar</label>
+			<% } %>
                     </div>
                 </div>
                 <br />
@@ -177,6 +183,10 @@
             </div>
         </div>
     
+	<% } else { %>
+		<p class="alert alert-info">No tienes ni bandas ni lugares registrados. No puedes crear avisos.</p>
+	<% } %>
+
     </form>
 </body>
 </html>
