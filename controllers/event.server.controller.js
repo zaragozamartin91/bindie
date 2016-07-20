@@ -40,8 +40,7 @@ exports.createForm = function(req, res, next) {
 
     User.find({}, function(err, users) {
         req.users = res.locals.users = users;
-
-        Location.find({}, function(err, locations) {
+	User.findLocations(req.session.uid, function(err, locations) {
             req.locations = res.locals.locations = locations;
 
             Band.find({}, function(err, bands) {
