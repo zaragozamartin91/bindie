@@ -412,7 +412,7 @@ exports.getNotificationMusic = function(req, res){
         if (err) {
             var errorMessage = getErrorMessage(err);
             res.error("Aún no perteneces a ninguna banda!");
-            return res.redirect("back");
+			songs = [];
         }
 		
 		res.notifications = notificationSongs;
