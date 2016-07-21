@@ -13,6 +13,14 @@
     <h2><%= location.name %></h2>
     
     <% include messages %>
+
+    <% if (bands.length === 0) {
+    %>
+        <div class="alert alert-info">No puede crear ningun contrato porque no es miembre de una banda! </div>
+    <% } %>
+    
+    <% if (! (bands.length === 0)) { 
+    %>
     
     <div id="someMessages">
     </div>
@@ -125,5 +133,6 @@
             };
         });
     </script>
+    <% } %>
 </body>
 </html>
