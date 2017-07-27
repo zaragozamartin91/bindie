@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var viewRoutes = require('./routes/view-routes');
-var apiRoutes = require('./routes/api-routes');
 
 var app = express();
 
@@ -17,12 +16,14 @@ app.set('view engine', 'ejs');
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', viewRoutes);
-app.use('/api', apiRoutes);
+//app.use('/api', apiRoutes);
+var apiRoutes = require('./routes/api-routes');
+apiRoutes.config(app);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
