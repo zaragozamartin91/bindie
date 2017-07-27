@@ -3,28 +3,42 @@ import ReactDom from 'react-dom';
 
 import axios from 'axios';
 
+var $ = require("jquery");
+
 const SongsApp = React.createClass({
-    getInitialState: function () {
-        return { data_uri: null }
+    uploadFile: function (e) {
+        var fd = new FormData();
+        console.log("this.refs.file.files[0]:");
+        console.log(this.refs.file.files[0]);
+        fd.append('file', this.refs.file.files[0]);
+
+        console.log("UPLOADING FILE");
+
+        $.ajax({
+            url: '/api/song/upload',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+                console.log("SUCCESS!");
+            }, error: function (xhr, status, error) {
+                console.log("ERROR:");
+                console.log(error);
+            }
+        });
+        e.preventDefault()
     },
-
-    componentDidMount: function () {
-        console.log("SongsApp did mount!");
-
-    },
-
-    render() {
+    render: function () {
         return (
             <div>
-            
-                <form id="songUpload" method="POST" encType="multipart/form-data"
-                    action="/api/song/upload">
-                    <input type='file' name='song' />
-                    <input type='submit' value='Subir!' />
+                <form ref="uploadForm" className="uploader" encType="multipart/form-data" >
+                    Cancion: <input ref="file" type="file" name="song" className="upload-file" />
+                    User: <input type="text" name="user" />
+                    <input type="button" ref="button" value="Upload" onClick={this.uploadFile} />
                 </form>
-
             </div>
-        )
+        );
     }
 });
 
