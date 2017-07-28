@@ -3,6 +3,8 @@ import ReactDom from 'react-dom';
 
 import axios from 'axios';
 
+import SongPlayer from './SongPlayer';
+
 const SongsApp = React.createClass({
     getInitialState: function () {
         return { band: "UNKNOWN" }
@@ -55,6 +57,8 @@ const SongsApp = React.createClass({
     },
 
     render: function () {
+        let songPlayer = <SongPlayer />;
+
         return (
             <div>
                 <form
@@ -73,12 +77,7 @@ const SongsApp = React.createClass({
                     <input type="button" value="Upload" onClick={this.uploadSample} />
                 </form>
 
-                <audio
-                    style={{ padding: "10px" , width:"100%" }}
-                    controls>
-                    <source src="/songs/Kalimba.mp3" type="audio/mpeg" />
-                    Your browser does not support the audio element.
-                </audio>
+                {songPlayer}
             </div>
         );
     }
