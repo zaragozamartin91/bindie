@@ -3,25 +3,23 @@ import ReactDom from 'react-dom';
 
 import axios from 'axios';
 
-var $ = require("jquery");
-
 const SongsApp = React.createClass({
     getInitialState: function () {
-        return { user: "UNKNOWN" }
+        return { band: "UNKNOWN" }
     },
 
     uploadFile: function (e) {
         let fd = new FormData();
         console.log("this.file.files[0]:");
         console.log(this.file.files[0]);
-        console.log(`this.refs.user.value = ${this.refs.user.value}`);
+        console.log(`this.refs.band.value = ${this.refs.band.value}`);
         
         fd.append('file', this.file.files[0]);
         fd.append('foo', 'bar');
 
         console.log("UPLOADING FILE");
 
-        let user = this.state.user;
+        let band = this.state.band;
 
         var config = {
             onUploadProgress: function (progressEvent) {
@@ -30,7 +28,7 @@ const SongsApp = React.createClass({
             }
         };
 
-        axios.post('/api/song/upload/' + user, fd, config)
+        axios.post('/api/song/upload/' + band, fd, config)
             .then(function (res) {
                 console.log(res);
             })
@@ -41,10 +39,10 @@ const SongsApp = React.createClass({
         e.preventDefault()
     },
 
-    onUserChange: function (e) {
-        let user = e.target.value;
-        this.setState({ user });
-        console.log(`new user: ${user}`);
+    onBandChange: function (e) {
+        let band = e.target.value;
+        this.setState({ band });
+        console.log(`new band: ${band}`);
     },
 
     uploadSample: function () {
@@ -63,7 +61,7 @@ const SongsApp = React.createClass({
                     method="POST"
                     encType="application/json"  >
                     Cancion: <input ref={file => { this.file = file }} type="file" name="song" className="upload-file" />
-                    User: <input type="text" name="user" onChange={this.onUserChange} ref="user" />
+                    Band: <input type="text" name="band" onChange={this.onBandChange} ref="band" />
                     <input type="button" ref="button" value="Upload" onClick={this.uploadFile} />
                 </form>
 

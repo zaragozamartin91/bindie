@@ -5,11 +5,12 @@ const formidable = require('formidable');
 const songsDir = path.join(__dirname, '..', 'public', 'songs');
 
 /* TODAS LAS RUTAS DE TIPO API TIENEN EL PREFIJO /api INCORPORADO AUTOMATICAMENTE */
-router.post('/song/upload/:user', (req, res, next) => {
-    let form = new formidable.IncomingForm();
-    console.log(req.params.user);
+router.post('/song/upload/:band', (req, res, next) => {
+    console.log(`req.params.band: ${req.params.band}`);
     console.log("body");
     console.log(req.body);
+
+    let form = new formidable.IncomingForm();
 
     form.on('fileBegin', function (name, file) {
         console.log("fileBegin!");
