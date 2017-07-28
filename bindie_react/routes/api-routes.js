@@ -3,9 +3,9 @@ exports.config = function (app) {
     var formidable = require('formidable');
 
     /* TODAS LAS RUTAS DE TIPO API TIENEN EL PREFIJO /api INCORPORADO AUTOMATICAMENTE */
-    app.post('/api/song/upload', (req, res, next) => {
+    app.post('/api/song/upload/:user', function (req, res, next) {
         var form = new formidable.IncomingForm();
-        form.parse(req);
+        console.log(req.params.user);
 
         form.on('fileBegin', function (name, file) {
             console.log("fileBegin!");
@@ -15,9 +15,15 @@ exports.config = function (app) {
 
         form.on('file', function (name, file) {
             console.log('Uploaded ' + file.name);
-            res.send({msg:`file ${file.name} uploaded!`});
+            res.send({ msg: `file ${file.name} uploaded!` });
         });
 
-        console.log(`user: ${req.body.user}`);
+        form.parse(req);
+    });
+
+    app.post('/api/sample/:user', function (req, res, next) {
+        console.log(req.body);
+        console.log(req.params.user);
+        res.send({ data: "ok" });
     });
 };
