@@ -9,6 +9,8 @@ import MenuItem from 'material-ui/MenuItem';
 import Index from './Index';
 import SongsApp from './songs/SongsApp';
 
+import SongPlayer from './songs/SongPlayer';
+
 /* ESTE FRAGMENTO DE CODIGO ES REQUERIDO PARA LOS EVENTOS DE TIPO TOUCH O CLICK EN COMPONENTES MATERIAL-UI */
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
@@ -55,6 +57,8 @@ const MainApp = React.createClass({
                         <MenuItem onTouchTap={e => this.gotoPage('index')}>Principal</MenuItem>
                         <MenuItem onTouchTap={e => this.gotoPage('songs')}>Canciones</MenuItem>
                     </Drawer>
+
+                    <SongPlayer />
 
                     {currentPage}
                 </div>
