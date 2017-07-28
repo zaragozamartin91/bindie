@@ -5,23 +5,29 @@ const SongPlayer = React.createClass({
     getDefaultProps: function () {
         return {
             song: "Fake Tales Of San Francisco.mp3",
-            nextSong: () => {}
+            nextSong: () => { }
         }
     },
 
     onSongEnd: function (e) {
         console.log("SONG ENDED!");
-        let nextSong = this.props.nextSong();
-        this.audio.src = `/songs/${this.nextSong}`;
-        this.audio.load();
-        this.audio.play();
+        this.props.nextSong();
     },
 
-    componentDidUpdate: function(prevProps, prevState) {
-        
+    componentDidUpdate: function (prevProps, prevState) {
+        console.log("SongPlayer did update!");
+        let prevSong = prevProps.song || "";
+        let currSong = this.props.song || "";
+        if (prevSong.valueOf() != currSong.valueOf()) {
+            console.log(`prevSong: ${prevSong} | currSong: ${currSong}`);
+            this.audio.src = `/songs/${currSong}`;
+            this.audio.load();
+            this.audio.play();
+        }
     },
 
     render: function () {
+        console.log("RENDERING SongPlayer!");
         let src = `/songs/${this.props.song}`;
 
         return (

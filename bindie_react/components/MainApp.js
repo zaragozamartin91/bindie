@@ -9,7 +9,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Index from './Index';
 import SongsApp from './songs/SongsApp';
 
-//import SongPlayer from './songs/SongPlayer';
+import SongPlayer from './songs/SongPlayer';
 
 /* ESTE FRAGMENTO DE CODIGO ES REQUERIDO PARA LOS EVENTOS DE TIPO TOUCH O CLICK EN COMPONENTES MATERIAL-UI */
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -26,7 +26,8 @@ const MainApp = React.createClass({
     getInitialState: function () {
         return {
             currPage: 'index',
-            drawerOpen: false
+            drawerOpen: false,
+            songIndex: 0
         }
     },
 
@@ -53,31 +54,19 @@ const MainApp = React.createClass({
             "Fake Tales Of San Francisco.mp3",
             "Take Me Out.mp3"
         ];
-        this.songIndex = 0;
     },
 
-    componentDidMount: function() {
-        console.log("MainApp did mount!");
-        this.playNext();
-    },
-
-    onSongEnd: function() {
-        console.log('SONG ENDED');
-        this.songIndex = (this.songIndex + 1) % this.playlist.length;
-        console.log(`songIndex: ${this.songIndex}`);
-        this.playNext();
-    },
-
-    playNext: function() {
-        let nextSong = this.playlist[this.songIndex];
-        console.log(`nextSong: ${nextSong}`);
-        this.audio.src = `/songs/${nextSong}`;
-        this.audio.load();
-        this.audio.play();
+    nextSong: function () {
+        if (this.playlist.length) {
+            let songIndex = (this.state.songIndex + 1) % this.playlist.length;
+            this.setState({ songIndex });
+        }
     },
 
     render: function () {
+        console.log("RENDERING MainApp!");
         let currentPage = PAGES[this.state.currPage];
+        let song = this.playlist[this.state.songIndex];
 
         return (
             <MuiThemeProvider>
@@ -89,14 +78,7 @@ const MainApp = React.createClass({
                         <MenuItem onTouchTap={e => this.gotoPage('songs')}>Canciones</MenuItem>
                     </Drawer>
 
-                    <audio
-                        ref={audio => this.audio = audio}
-                        onEnded={this.onSongEnd}
-                        style={{ width: "100%" }}
-                        controls>
-                        <source src="" type="audio/mpeg" />
-                        <p>Your browser does not support the audio element.</p>
-                    </audio>
+                    <SongPlayer nextSong={this.nextSong} song={song} />
 
                     {currentPage}
                 </div>
