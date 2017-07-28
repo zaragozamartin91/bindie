@@ -13,7 +13,7 @@ const SongsApp = React.createClass({
         console.log("this.file.files[0]:");
         console.log(this.file.files[0]);
         console.log(`this.refs.band.value = ${this.refs.band.value}`);
-        
+
         fd.append('file', this.file.files[0]);
         fd.append('foo', 'bar');
 
@@ -58,6 +58,7 @@ const SongsApp = React.createClass({
         return (
             <div>
                 <form
+                    style={{ padding: "10px" }}
                     method="POST"
                     encType="application/json"  >
                     Cancion: <input ref={file => { this.file = file }} type="file" name="song" className="upload-file" />
@@ -66,10 +67,18 @@ const SongsApp = React.createClass({
                 </form>
 
                 <form
+                    style={{ padding: "10px" }}
                     method="POST" >
                     User: <input type="text" name="user" />
                     <input type="button" value="Upload" onClick={this.uploadSample} />
                 </form>
+
+                <audio
+                    style={{ padding: "10px" , width:"100%" }}
+                    controls>
+                    <source src="/songs/Kalimba.mp3" type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                </audio>
             </div>
         );
     }
