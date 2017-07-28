@@ -12,27 +12,32 @@ const SongsApp = React.createClass({
 
     uploadFile: function (e) {
         let fd = new FormData();
-        console.log("this.refs.file.files[0]:");
-        console.log(this.refs.file.files[0]);
-        fd.append('file', this.refs.file.files[0]);
+        console.log("this.file.files[0]:");
+        console.log(this.file.files[0]);
+        console.log(`this.refs.user.value = ${this.refs.user.value}`);
+        
+        fd.append('file', this.file.files[0]);
+        fd.append('foo', 'bar');
 
         console.log("UPLOADING FILE");
 
         let user = this.state.user;
 
-        $.ajax({
-            url: '/api/song/upload/' + user,
-            data: fd,
-            processData: false,
-            contentType: false,
-            type: 'POST',
-            success: function (data) {
-                console.log("SUCCESS!");
-            }, error: function (xhr, status, error) {
-                console.log("ERROR:");
-                console.log(error);
+        var config = {
+            onUploadProgress: function (progressEvent) {
+                var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                console.log(`percentage: ${percentCompleted}`);
             }
-        });
+        };
+
+        axios.post('/api/song/upload/' + user, fd, config)
+            .then(function (res) {
+                console.log(res);
+            })
+            .catch(function (err) {
+                console.error(err);
+            });
+
         e.preventDefault()
     },
 
@@ -42,22 +47,30 @@ const SongsApp = React.createClass({
         console.log(`new user: ${user}`);
     },
 
+    uploadSample: function () {
+        axios.post('/api/sample/MARTIN', { user: "MARTIN" })
+            .then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.error(err);
+            })
+    },
+
     render: function () {
         return (
             <div>
                 <form
                     method="POST"
                     encType="application/json"  >
-                    Cancion: <input ref="file" type="file" name="song" className="upload-file" />
-                    User: <input type="text" name="user" onChange={this.onUserChange} />
+                    Cancion: <input ref={file => { this.file = file }} type="file" name="song" className="upload-file" />
+                    User: <input type="text" name="user" onChange={this.onUserChange} ref="user" />
                     <input type="button" ref="button" value="Upload" onClick={this.uploadFile} />
                 </form>
 
                 <form
-                    method="POST"
-                    action="/api/sample/MARTIN" >
+                    method="POST" >
                     User: <input type="text" name="user" />
-                    <input type="submit" ref="button" value="Upload" />
+                    <input type="button" value="Upload" onClick={this.uploadSample} />
                 </form>
             </div>
         );
