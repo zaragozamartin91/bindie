@@ -17,39 +17,52 @@ const SongsApp = React.createClass({
 
     uploadFile: function (e) {
         let fd = new FormData();
-        console.log("this.fileInput.files[0]:");
-        console.log(this.fileInput.files[0]);
+        let file = this.fileInput.files[0];
+
+        console.log("file:");
+        console.log(file);
         console.log(`this.refs.band.value = ${this.refs.band.value}`);
 
-        fd.append('file', this.fileInput.files[0]);
-        fd.append('foo', 'bar');
+        console.log(`file.type=="audio/mpeg": ${file.type == "audio/mpeg"}`);
 
-        console.log("UPLOADING FILE");
+        /* SI EL TIPO DE ARCHIVO ES MUSICA ENTONCES PROCEDO A SUBIR EL ARCHIVO */
+        if (file.type == "audio/mpeg") {
+            fd.append('file', file);
+            fd.append('foo', 'bar');
 
-        let band = this.state.band;
+            console.log("UPLOADING FILE");
 
-        var config = {
-            onUploadProgress: function (progressEvent) {
-                var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                console.log(`percentage: ${percentCompleted}`);
-            }
-        };
+            let band = this.state.band;
 
-        axios.post('/api/song/upload/' + band, fd, config)
-            .then(res => {
-                console.log(res);
-                this.setState({
-                    uploadSuccMsg: "Cancion subida exitosamente",
-                    uploadErrMsg: ""
+            var config = {
+                onUploadProgress: function (progressEvent) {
+                    var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    console.log(`percentage: ${percentCompleted}`);
+                }
+            };
+
+            axios.post('/api/song/upload/' + band, fd, config)
+                .then(res => {
+                    console.log(res);
+                    this.setState({
+                        uploadSuccMsg: "Cancion subida exitosamente",
+                        uploadErrMsg: ""
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.setState({
+                        uploadSuccMsg: "",
+                        uploadErrMsg: "Error al subir cancion"
+                    });
                 });
-            })
-            .catch(err => {
-                console.error(err);
-                this.setState({
-                    uploadSuccMsg: "",
-                    uploadErrMsg: "Error al subir cancion"
-                });
+        } else {
+            /* SI EL ARCHIVO NO ES DE MUSICA INDICO UN MENSAJE DE ERROR */
+            this.setState({
+                uploadSuccMsg: "",
+                uploadErrMsg: "El tipo de archivo no es mp3"
             });
+        }
 
         e.preventDefault()
     },
