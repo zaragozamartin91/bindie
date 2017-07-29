@@ -10,17 +10,18 @@ const SongsApp = React.createClass({
     getInitialState: function () {
         return {
             band: null,
-            uploadSuccMsg: null
+            uploadSuccMsg: null,
+            uploadErrMsg: null
         }
     },
 
     uploadFile: function (e) {
         let fd = new FormData();
-        console.log("this.file.files[0]:");
-        console.log(this.file.files[0]);
+        console.log("this.fileInput.files[0]:");
+        console.log(this.fileInput.files[0]);
         console.log(`this.refs.band.value = ${this.refs.band.value}`);
 
-        fd.append('file', this.file.files[0]);
+        fd.append('file', this.fileInput.files[0]);
         fd.append('foo', 'bar');
 
         console.log("UPLOADING FILE");
@@ -37,10 +38,17 @@ const SongsApp = React.createClass({
         axios.post('/api/song/upload/' + band, fd, config)
             .then(res => {
                 console.log(res);
-                this.setState({ uploadSuccMsg: "Cancion subida exitosamente" });
+                this.setState({
+                    uploadSuccMsg: "Cancion subida exitosamente",
+                    uploadErrMsg: ""
+                });
             })
             .catch(err => {
                 console.error(err);
+                this.setState({
+                    uploadSuccMsg: "",
+                    uploadErrMsg: "Error al subir cancion"
+                });
             });
 
         e.preventDefault()
@@ -49,16 +57,6 @@ const SongsApp = React.createClass({
     onBandChange: function (e) {
         let band = e.target.value;
         this.setState({ band });
-        console.log(`new band: ${band}`);
-    },
-
-    uploadSample: function () {
-        axios.post('/api/sample/MARTIN', { user: "MARTIN" })
-            .then(res => {
-                console.log(res);
-            }).catch(err => {
-                console.error(err);
-            })
     },
 
     render: function () {
@@ -78,15 +76,21 @@ const SongsApp = React.createClass({
             },
         };
 
+        /* SI NO SE INGRESO UNA BANDA, SE DESHABILITA EL BOTON DE SUBIDA DE CANCIONES */
         let uploadButtonDisabled = this.state.band ? false : true;
 
-        let msgElem = this.state.uploadSuccMsg ?
+        let succMsgElem = this.state.uploadSuccMsg ?
             <p style={{ color: "green" }}>{this.state.uploadSuccMsg}</p> :
+            <div />
+
+        let errMsgElem = this.state.uploadErrMsg ?
+            <p style={{ color: "red" }}>{this.state.uploadErrMsg}</p> :
             <div />
 
         return (
             <div>
-                {msgElem}
+                {succMsgElem}
+                {errMsgElem}
 
                 Banda: <input
                     type="text"
@@ -101,9 +105,9 @@ const SongsApp = React.createClass({
                     containerElement="label"
                     icon={<AlbumIcon />}
                     disabled={uploadButtonDisabled} >
-                    
+
                     <input
-                        ref={file => { this.file = file }}
+                        ref={fi => { this.fileInput = fi }}
                         type="file"
                         name="song"
                         className="upload-file"
@@ -111,13 +115,6 @@ const SongsApp = React.createClass({
                         onChange={this.uploadFile}
                         disabled={uploadButtonDisabled} />
                 </FlatButton>
-
-                <form
-                    style={{ padding: "10px" }}
-                    method="POST" >
-                    User: <input type="text" name="user" />
-                    <input type="button" value="Upload" onClick={this.uploadSample} />
-                </form>
             </div>
         );
     }
