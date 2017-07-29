@@ -2,9 +2,12 @@ import React from 'react';
 import ReactDom from 'react-dom';
 
 const SongPlayer = React.createClass({
+    /** song: Nombre del archivo de cancion a reproducir. La cancion se buscara en /public/songs/
+     * nextSong: Callback a invocar para reproducir la siguiente cancion.
+     */
     getDefaultProps: function () {
         return {
-            song: "Fake Tales Of San Francisco.mp3",
+            song: null,
             nextSong: () => { }
         }
     },
@@ -15,7 +18,7 @@ const SongPlayer = React.createClass({
     },
 
     componentDidUpdate: function (prevProps, prevState) {
-        console.log("SongPlayer did update!");
+        console.log("SongPlayer DID UPDATE!");
         let prevSong = prevProps.song || "";
         let currSong = this.props.song || "";
         if (prevSong.valueOf() != currSong.valueOf()) {
@@ -27,19 +30,21 @@ const SongPlayer = React.createClass({
     },
 
     render: function () {
-        console.log("RENDERING SongPlayer!");
-        let src = `/songs/${this.props.song}`;
+        if (this.props.song) {
+            console.log("RENDERING SongPlayer!");
+            let src = `/songs/${this.props.song}`;
 
-        return (
-            <audio
-                ref={audio => this.audio = audio}
-                onEnded={this.onSongEnd}
-                style={{ width: "100%" }}
-                controls>
-                <source src={src} type="audio/mpeg" />
-                <p>Your browser does not support the audio element.</p>
-            </audio>
-        )
+            return (
+                <audio
+                    ref={audio => this.audio = audio}
+                    onEnded={this.onSongEnd}
+                    style={{ width: "100%" }}
+                    controls>
+                    <source src={src} type="audio/mpeg" />
+                    <p>Your browser does not support the audio element.</p>
+                </audio>
+            )
+        }
     }
 });
 

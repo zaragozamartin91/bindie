@@ -3,9 +3,15 @@ import ReactDom from 'react-dom';
 
 import axios from 'axios';
 
+import FlatButton from 'material-ui/FlatButton';
+import AlbumIcon from 'material-ui/svg-icons/av/album';
+
 const SongsApp = React.createClass({
     getInitialState: function () {
-        return { band: "UNKNOWN" }
+        return {
+            band: null,
+            uploadSuccMsg: null
+        }
     },
 
     uploadFile: function (e) {
@@ -29,10 +35,11 @@ const SongsApp = React.createClass({
         };
 
         axios.post('/api/song/upload/' + band, fd, config)
-            .then(function (res) {
+            .then(res => {
                 console.log(res);
+                this.setState({ uploadSuccMsg: "Cancion subida exitosamente" });
             })
-            .catch(function (err) {
+            .catch(err => {
                 console.error(err);
             });
 
@@ -55,17 +62,55 @@ const SongsApp = React.createClass({
     },
 
     render: function () {
+        const styles = {
+            uploadButton: {
+                verticalAlign: 'middle',
+            },
+            uploadInput: {
+                cursor: 'pointer',
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                right: 0,
+                left: 0,
+                width: '100%',
+                opacity: 0,
+            },
+        };
+
+        let uploadButtonDisabled = this.state.band ? false : true;
+
+        let msgElem = this.state.uploadSuccMsg ?
+            <p style={{ color: "green" }}>{this.state.uploadSuccMsg}</p> :
+            <div />
 
         return (
             <div>
-                <form
-                    style={{ padding: "10px" }}
-                    method="POST"
-                    encType="application/json"  >
-                    Cancion: <input ref={file => { this.file = file }} type="file" name="song" className="upload-file" />
-                    Band: <input type="text" name="band" onChange={this.onBandChange} ref="band" />
-                    <input type="button" ref="button" value="Upload" onClick={this.uploadFile} />
-                </form>
+                {msgElem}
+
+                Banda: <input
+                    type="text"
+                    name="band"
+                    onChange={this.onBandChange}
+                    ref="band" />
+
+                <FlatButton
+                    label="Subir una cancion"
+                    labelPosition="before"
+                    style={styles.uploadButton}
+                    containerElement="label"
+                    icon={<AlbumIcon />}
+                    disabled={uploadButtonDisabled} >
+                    
+                    <input
+                        ref={file => { this.file = file }}
+                        type="file"
+                        name="song"
+                        className="upload-file"
+                        style={styles.uploadInput}
+                        onChange={this.uploadFile}
+                        disabled={uploadButtonDisabled} />
+                </FlatButton>
 
                 <form
                     style={{ padding: "10px" }}
