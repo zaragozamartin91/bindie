@@ -71,7 +71,9 @@ const MainApp = React.createClass({
         return (
             <MuiThemeProvider>
                 <div>
-                    <AppBar onLeftIconButtonTouchTap={this.appBarLeftTap} />
+                    <AppBar
+                        onLeftIconButtonTouchTap={this.appBarLeftTap}
+                        title="Bindie" />
 
                     <Drawer open={this.state.drawerOpen} docked={false} onRequestChange={this.onDrawerRequestChange} >
                         <MenuItem onTouchTap={e => this.gotoPage('index')}>Principal</MenuItem>

@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import FlatButton from 'material-ui/FlatButton';
 import AlbumIcon from 'material-ui/svg-icons/av/album';
+import TextField from 'material-ui/TextField';
 
 const SongsApp = React.createClass({
     getInitialState: function () {
@@ -21,7 +22,6 @@ const SongsApp = React.createClass({
 
         console.log("file:");
         console.log(file);
-        console.log(`this.refs.band.value = ${this.refs.band.value}`);
 
         console.log(`file.type=="audio/mpeg": ${file.type == "audio/mpeg"}`);
 
@@ -105,11 +105,10 @@ const SongsApp = React.createClass({
                 {succMsgElem}
                 {errMsgElem}
 
-                Banda: <input
-                    type="text"
-                    name="band"
+                <TextField 
+                    hintText="Banda"
                     onChange={this.onBandChange}
-                    ref="band" />
+                />
 
                 <FlatButton
                     label="Subir una cancion"
