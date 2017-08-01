@@ -20,10 +20,10 @@ const SongsApp = React.createClass({
         let fd = new FormData();
         let file = this.fileInput.files[0];
 
-        console.log("file:");
+        console.log("ARCHIVO A SUBIR:");
         console.log(file);
 
-        console.log(`file.type=="audio/mpeg": ${file.type == "audio/mpeg"}`);
+        console.log(`TIPO DEL ARCHIVO": ${file.type}`);
 
         /* SI EL TIPO DE ARCHIVO ES MUSICA ENTONCES PROCEDO A SUBIR EL ARCHIVO */
         if (file.type == "audio/mpeg") {

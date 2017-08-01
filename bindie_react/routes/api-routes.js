@@ -3,8 +3,10 @@ const router = express.Router();
 const path = require('path');
 const formidable = require('formidable');
 const songsDir = path.join(__dirname, '..', 'public', 'songs');
+const filesystem = require("fs");
 
 /* TODAS LAS RUTAS DE TIPO API TIENEN EL PREFIJO /api INCORPORADO AUTOMATICAMENTE */
+
 router.post('/song/upload/:band', (req, res, next) => {
     console.log(`req.params.band: ${req.params.band}`);
     console.log("body");
@@ -26,10 +28,12 @@ router.post('/song/upload/:band', (req, res, next) => {
     form.parse(req);
 });
 
-router.post('/sample/:user', (req, res, next) => {
-    console.log(req.body);
-    console.log(req.params.user);
-    res.send({ data: "ok" });
+router.post('/allSongs', (req, res, next) => {
+    filesystem.readdir(songsDir, (err, songs) => {
+        if (err) console.log(err);
+        console.log(songs);
+        res.send({ err, songs });
+    });
 });
 
 module.exports = router;

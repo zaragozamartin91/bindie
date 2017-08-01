@@ -11,6 +11,8 @@ import SongsApp from './songs/SongsApp';
 
 import SongPlayer from './songs/SongPlayer';
 
+import axios from 'axios';
+
 /* ESTE FRAGMENTO DE CODIGO ES REQUERIDO PARA LOS EVENTOS DE TIPO TOUCH O CLICK EN COMPONENTES MATERIAL-UI */
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
@@ -27,7 +29,8 @@ const MainApp = React.createClass({
         return {
             currPage: 'index',
             drawerOpen: false,
-            songIndex: 0
+            songIndex: 0,
+            playlist: []
         }
     },
 
@@ -47,18 +50,27 @@ const MainApp = React.createClass({
         this.setState({ currPage: page, drawerOpen: false });
     },
 
-    componentWillMount: function () {
-        console.log("MainApp will mount!");
-        this.playlist = [
-            "babasonicos-carismatico.mp3",
-            "Fake Tales Of San Francisco.mp3",
-            "Take Me Out.mp3"
-        ];
+    componentDidMount: function () {
+        /* SE CARGAN LAS CANCIONES DESPUES QUE EL COMPONENTE HAYA SIDO MONTADO */
+        console.log("MainApp DID MOUNT!");
+
+        axios.post('/api/allSongs')
+            .then(response => {
+                let data = response.data;
+                if (data.err) {
+                    console.error("Error al obtener las canciones");
+                } else {
+                    console.log(`Setting playlist: ${data.songs}`);
+                    this.setState({ playlist: data.songs });
+                }
+            }).catch(error => {
+                console.error(error);
+            });
     },
 
     nextSong: function () {
-        if (this.playlist.length) {
-            let songIndex = (this.state.songIndex + 1) % this.playlist.length;
+        if (this.state.playlist.length) {
+            let songIndex = (this.state.songIndex + 1) % this.state.playlist.length;
             this.setState({ songIndex });
         }
     },
@@ -66,7 +78,9 @@ const MainApp = React.createClass({
     render: function () {
         console.log("RENDERING MainApp!");
         let currentPage = PAGES[this.state.currPage];
-        let song = this.playlist[this.state.songIndex];
+
+        let song = this.state.playlist[this.state.songIndex];
+        let songPlayer = song ? <SongPlayer nextSong={this.nextSong} song={song} /> : <div />
 
         return (
             <MuiThemeProvider>
@@ -80,7 +94,7 @@ const MainApp = React.createClass({
                         <MenuItem onTouchTap={e => this.gotoPage('songs')}>Canciones</MenuItem>
                     </Drawer>
 
-                    <SongPlayer nextSong={this.nextSong} song={song} />
+                    {songPlayer}
 
                     {currentPage}
                 </div>
