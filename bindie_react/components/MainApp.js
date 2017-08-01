@@ -60,7 +60,7 @@ const MainApp = React.createClass({
                 if (data.err) {
                     console.error("Error al obtener las canciones");
                 } else {
-                    console.log(`Setting playlist: ${data.songs}`);
+                    console.log(`CARGANDO PLAYLIST: [${data.songs}]`);
                     this.setState({ playlist: data.songs });
                 }
             }).catch(error => {
@@ -72,6 +72,18 @@ const MainApp = React.createClass({
         if (this.state.playlist.length) {
             let songIndex = (this.state.songIndex + 1) % this.state.playlist.length;
             this.setState({ songIndex });
+        } else {
+            this.setState({ songIndex: 0 });
+        }
+    },
+
+    prevSong: function () {
+        if (this.state.playlist.length) {
+            let songIndex = this.state.songIndex - 1;
+            songIndex = songIndex < 0 ? this.state.playlist.length - 1 : songIndex;
+            this.setState({ songIndex });
+        } else {
+            this.setState({ songIndex: 0 });
         }
     },
 
@@ -80,7 +92,12 @@ const MainApp = React.createClass({
         let currentPage = PAGES[this.state.currPage];
 
         let song = this.state.playlist[this.state.songIndex];
-        let songPlayer = song ? <SongPlayer nextSong={this.nextSong} song={song} /> : <div />
+        let songPlayer = song ?
+            <SongPlayer
+                nextSong={this.nextSong}
+                prevSong={this.prevSong}
+                song={song} /> :
+            <div />
 
         return (
             <MuiThemeProvider>

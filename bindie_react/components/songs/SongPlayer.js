@@ -12,7 +12,8 @@ const SongPlayer = React.createClass({
     getDefaultProps: function () {
         return {
             song: null,
-            nextSong: () => { }
+            nextSong: () => { },
+            prevSong: () => { }
         }
     },
 
@@ -63,11 +64,13 @@ const SongPlayer = React.createClass({
                     </audio>
                     <div style={{ width: "100%" }}>
                         <FlatButton
-                            icon={<PlayNextIcon />}
-                            style={audioCtrlStyle} />
-                        <FlatButton
                             icon={<PlayPreviousIcon />}
-                            style={audioCtrlStyle} />
+                            style={audioCtrlStyle}
+                            onClick={this.props.prevSong} />
+                        <FlatButton
+                            icon={<PlayNextIcon />}
+                            style={audioCtrlStyle}
+                            onClick={this.props.nextSong} />
                     </div>
                 </div>
             )
