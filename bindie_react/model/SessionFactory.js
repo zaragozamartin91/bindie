@@ -1,13 +1,19 @@
 var mysql = require('mysql');
 
-/** Crea una conexion con la BBDD */
-function createConnection() {
-    return mysql.createConnection({
+function getConnectionParams() {
+    return {
         host: "localhost",
         user: "root",
         password: "root",
         database: "bindie"
-    })
+    };
+};
+
+exports.getConnectionParams = getConnectionParams;
+
+/** Crea una conexion con la BBDD */
+function createConnection() {
+    return mysql.createConnection(getConnectionParams());
 }
 
 /**

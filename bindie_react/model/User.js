@@ -24,7 +24,7 @@ function User(id, name, email, password) {
 };
 
 /**
- * @function fromObject Crea un usuario a partir de un objeto.
+ * Crea un usuario a partir de un objeto.
  * 
  * @param {any} obj Objeto con propiedades de usuario.
  * @return {User} Nuevo usuario.
@@ -60,6 +60,7 @@ User.dropTable = function () {
 
 /**
  * Obtiene usuarios a partir de un correo.
+ * 
  * @param {string} email Correo de los usuarios buscados.
  * @param {function} callback Funcion a invocar con los resultados.
  * @return {Array.<User>} {{description}}{{}}
