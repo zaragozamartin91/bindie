@@ -10,20 +10,26 @@ function createConnection() {
     })
 }
 
-/** Realiza una query y cierra sesion. */
+/**
+ * Realiza una query y cierra sesion.
+ * @param {string} sql La query a ejecutar. 
+ * @param {function} callback funcion a ejecutar.
+ */
 exports.query = function (sql, callback) {
     let con = createConnection();
     con.connect(err => {
-        if (err) {
-            callback(err);
-        } else con.query(sql, (err, results) => {
+        if (err) return callback(err);
+        con.query(sql, (err, results) => {
             try {
                 callback(err, results);
             } finally {
+                console.log("CERRANDO SESION");
                 con.end();
             }
         });
     });
 };
 
+
 exports.createConnection = createConnection;
+

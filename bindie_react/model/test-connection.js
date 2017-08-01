@@ -1,14 +1,20 @@
 var User = require('./User');
 var bcrypt = require('bcryptjs');
 
-//  new User(null, "nicolas", "nico@sibi", "pepe").create((err, result) => {
-//      console.log(result);
-//  });
+let user = {
+    name: "mateo",
+    email: "mateo@zaragoza",
+    password: "roberto"
+}
 
-User.getByEmail('nico@sibi', (err, users) => {
-    console.log(users);
-    console.log(bcrypt.compareSync("pepe", users[0].password));
+//User.fromObject(user).create((err, res) => {
+//    if (err) return console.error(err);
+//    console.log(res);
+//})
+
+User.fromObject(user).authenticate((err, res) => {
+    if (err) return console.error(err);
+    console.log("AUTENTICACION OK!");
+    console.log(res);
 });
 
-var hash = bcrypt.hashSync('bacon', 10);
-console.log(bcrypt.compareSync("bacon", hash));
