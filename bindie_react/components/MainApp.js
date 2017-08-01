@@ -6,12 +6,11 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 
+import axios from 'axios';
+
 import Index from './Index';
 import SongsApp from './songs/SongsApp';
-
 import SongPlayer from './songs/SongPlayer';
-
-import axios from 'axios';
 
 /* ESTE FRAGMENTO DE CODIGO ES REQUERIDO PARA LOS EVENTOS DE TIPO TOUCH O CLICK EN COMPONENTES MATERIAL-UI */
 var injectTapEventPlugin = require("react-tap-event-plugin");
