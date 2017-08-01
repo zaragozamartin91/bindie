@@ -34,6 +34,15 @@ const SongPlayer = React.createClass({
         }
     },
 
+    prevSong: function () {
+        console.log(`this.audio.currentTime: ${this.audio.currentTime}`);
+        if (this.audio.currentTime < 3) {
+            this.props.prevSong();
+        } else {
+            this.audio.currentTime = 0;
+        }
+    },
+
     render: function () {
         if (this.props.song) {
             console.log("RENDERING SongPlayer!");
@@ -66,7 +75,7 @@ const SongPlayer = React.createClass({
                         <FlatButton
                             icon={<PlayPreviousIcon />}
                             style={audioCtrlStyle}
-                            onClick={this.props.prevSong} />
+                            onClick={this.prevSong} />
                         <FlatButton
                             icon={<PlayNextIcon />}
                             style={audioCtrlStyle}

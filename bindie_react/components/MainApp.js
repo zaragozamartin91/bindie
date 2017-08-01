@@ -35,8 +35,7 @@ const MainApp = React.createClass({
     },
 
     appBarLeftTap: function () {
-        console.log('AppBar tap!');
-        const drawerOpen = this.state.drawerOpen;
+        let drawerOpen = this.state.drawerOpen;
         this.setState({ drawerOpen: !drawerOpen });
     },
 
