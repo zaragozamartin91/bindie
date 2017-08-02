@@ -3,7 +3,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        mainapp: path.join(__dirname, 'components', 'MainApp.js')
+        mainapp: path.join(__dirname, 'components', 'MainApp.js'),
+        login: path.join(__dirname, 'components', 'login', 'Login.js')
     },
 
     /* Se creara un archivo por cada entrada */
