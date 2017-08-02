@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "build": "node_modules/.bin/webpack -p"
+    "build": "node_modules/.bin/webpack -p",
+    "test":"node_modules/.bin/mocha"
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -33,6 +34,7 @@
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "mocha": "^3.5.0",
     "webpack": "^2.6.1"
   }
 }
