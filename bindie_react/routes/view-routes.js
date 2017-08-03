@@ -8,15 +8,19 @@ router.get('/main', function (req, res, next) {
   res.render('index', { title: 'Bindie' });
 });
 
-router.get('/sample', function (req, res) {
+router.get('/sample/:song', function (req, res) {
   console.log(req.headers);
+  console.log(`SONG: ${req.params.song}`);
 
   if (req.headers.referer) {
     console.log(`REFERER: ${req.headers.referer}`);
     let pathname = url.parse(req.headers.referer).pathname;
     console.log(`PATHNAME: ${pathname}`);
 
-    if (pathname == "/main") res.sendFile(path.join(__dirname, '0956.ogg'));
+    let songPath = path.join(__dirname, '..', 'songs', req.params.song);
+    console.log(`SONG PATH: ${songPath}`);
+
+    if (pathname == "/main") res.sendFile(songPath);
     else res.end("NO DEBERIAS ESTAR AQUI");
   } else {
     res.end("NO DEBERIAS ESTAR AQUI");

@@ -6,8 +6,7 @@ import PlayNextIcon from 'material-ui/svg-icons/av/skip-next';
 import PlayPreviousIcon from 'material-ui/svg-icons/av/skip-previous';
 
 const SongPlayer = React.createClass({
-    /** song: Nombre del archivo de cancion a reproducir. La cancion se buscara en /public/songs/
-     * nextSong: Callback a invocar para reproducir la siguiente cancion.
+    /** song: cancion a reproducir.
      */
     getDefaultProps: function () {
         return {
@@ -28,7 +27,7 @@ const SongPlayer = React.createClass({
         let currSong = this.props.song || "";
         if (prevSong.valueOf() != currSong.valueOf()) {
             console.log(`prevSong: ${prevSong} | currSong: ${currSong}`);
-            this.audio.src = `/songs/${currSong}`;
+            this.audio.src = `/sample/${currSong}`;
             this.audio.load();
             this.audio.play();
         }
@@ -46,7 +45,7 @@ const SongPlayer = React.createClass({
     render: function () {
         if (this.props.song) {
             console.log("RENDERING SongPlayer!");
-            let src = `/songs/${this.props.song}`;
+            let src = `/sample/${this.props.song}`;
 
             const isFirefox = typeof InstallTrigger !== 'undefined';
             const audioCtrlStyle = {

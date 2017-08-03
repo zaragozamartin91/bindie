@@ -5,12 +5,6 @@ var Index = React.createClass({
         return (
             <div>
                 <h1>Bienvenido a Bindie!</h1>
-                <audio
-                    style={{ width: "50%" }}
-                    controls>
-                    <source src="/sample" type="audio/ogg" />
-                    <p>Your browser does not support the audio element.</p>
-                </audio>
             </div>
         );
     }
