@@ -20,49 +20,50 @@ const SongsApp = React.createClass({
         let fd = new FormData();
         let file = this.fileInput.files[0];
 
-        console.log("ARCHIVO A SUBIR:");
-        console.log(file);
+        if (file) {
+            console.log("ARCHIVO A SUBIR:");
+            console.log(file);
+            console.log(`TIPO DEL ARCHIVO": ${file.type}`);
 
-        console.log(`TIPO DEL ARCHIVO": ${file.type}`);
+            /* SI EL TIPO DE ARCHIVO ES MUSICA ENTONCES PROCEDO A SUBIR EL ARCHIVO */
+            if (file.type == "audio/mpeg" || file.type == "audio/mp3") {
+                fd.append('file', file);
+                fd.append('foo', 'bar');
 
-        /* SI EL TIPO DE ARCHIVO ES MUSICA ENTONCES PROCEDO A SUBIR EL ARCHIVO */
-        if (file.type == "audio/mpeg") {
-            fd.append('file', file);
-            fd.append('foo', 'bar');
+                console.log("UPLOADING FILE");
 
-            console.log("UPLOADING FILE");
+                let band = this.state.band;
 
-            let band = this.state.band;
+                var config = {
+                    onUploadProgress: function (progressEvent) {
+                        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        console.log(`percentage: ${percentCompleted}`);
+                    }
+                };
 
-            var config = {
-                onUploadProgress: function (progressEvent) {
-                    var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    console.log(`percentage: ${percentCompleted}`);
-                }
-            };
-
-            axios.post('/api/song/upload/' + band, fd, config)
-                .then(res => {
-                    console.log(res);
-                    this.setState({
-                        uploadSuccMsg: "Cancion subida exitosamente",
-                        uploadErrMsg: ""
+                axios.post('/api/song/upload/' + band, fd, config)
+                    .then(res => {
+                        console.log(res);
+                        this.setState({
+                            uploadSuccMsg: "Cancion subida exitosamente",
+                            uploadErrMsg: ""
+                        });
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        this.setState({
+                            uploadSuccMsg: "",
+                            uploadErrMsg: "Error al subir cancion"
+                        });
                     });
-                })
-                .catch(err => {
-                    console.error(err);
-                    this.setState({
-                        uploadSuccMsg: "",
-                        uploadErrMsg: "Error al subir cancion"
-                    });
+            } else {
+                /* SI EL ARCHIVO NO ES DE MUSICA INDICO UN MENSAJE DE ERROR */
+                this.setState({
+                    uploadSuccMsg: "",
+                    uploadErrMsg: "El tipo de archivo no es mp3"
                 });
-        } else {
-            /* SI EL ARCHIVO NO ES DE MUSICA INDICO UN MENSAJE DE ERROR */
-            this.setState({
-                uploadSuccMsg: "",
-                uploadErrMsg: "El tipo de archivo no es mp3"
-            });
-        }
+            }
+        } else console.log("NO SE INDICO UN ARCHIVO A SUBIR");
 
         e.preventDefault()
     },
@@ -105,7 +106,7 @@ const SongsApp = React.createClass({
                 {succMsgElem}
                 {errMsgElem}
 
-                <TextField 
+                <TextField
                     hintText="Banda"
                     onChange={this.onBandChange}
                 />

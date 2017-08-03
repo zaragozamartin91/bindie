@@ -21,13 +21,17 @@ const SongPlayer = React.createClass({
         this.props.nextSong();
     },
 
+    getSongSrc: function(song) {
+        return `/api/song/${song}`;
+    },
+
     componentDidUpdate: function (prevProps, prevState) {
         console.log("SongPlayer DID UPDATE!");
         let prevSong = prevProps.song || "";
         let currSong = this.props.song || "";
         if (prevSong.valueOf() != currSong.valueOf()) {
             console.log(`prevSong: ${prevSong} | currSong: ${currSong}`);
-            this.audio.src = `/sample/${currSong}`;
+            this.audio.src = this.getSongSrc(currSong);
             this.audio.load();
             this.audio.play();
         }
@@ -45,7 +49,7 @@ const SongPlayer = React.createClass({
     render: function () {
         if (this.props.song) {
             console.log("RENDERING SongPlayer!");
-            let src = `/sample/${this.props.song}`;
+            let src = this.getSongSrc(this.props.song);
 
             const isFirefox = typeof InstallTrigger !== 'undefined';
             const audioCtrlStyle = {

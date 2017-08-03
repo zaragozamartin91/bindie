@@ -5,6 +5,7 @@ const formidable = require('formidable');
 //const songsDir = path.join(__dirname, '..', 'public', 'songs');
 const songsDir = path.join(__dirname, '..', 'songs');
 const filesystem = require("fs");
+const url = require('url');
 
 /* TODAS LAS RUTAS DE TIPO API TIENEN EL PREFIJO /api INCORPORADO AUTOMATICAMENTE */
 
@@ -34,6 +35,25 @@ router.post('/allSongs', (req, res, next) => {
         console.log(songs);
         res.send({ err, songs });
     });
+});
+
+router.get('/song/:song', function (req, res) {
+    console.log(`SONG: ${req.params.song}`);
+
+    if (req.headers.referer) {
+        console.log(`REFERER: ${req.headers.referer}`);
+
+        let pathname = url.parse(req.headers.referer).pathname;
+        console.log(`PATHNAME: ${pathname}`);
+
+        let songPath = path.join(songsDir, req.params.song);
+        console.log(`SONG PATH: ${songPath}`);
+
+        if (pathname == "/main") res.sendFile(songPath);
+        else res.end("NO DEBERIAS ESTAR AQUI");
+    } else {
+        res.end("NO DEBERIAS ESTAR AQUI");
+    }
 });
 
 module.exports = router;
