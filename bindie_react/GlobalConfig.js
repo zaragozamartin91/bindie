@@ -6,6 +6,7 @@ console.log('DEFINIENDO GlobalConfig');
  */
 function GlobalConfig() {
     this.profile = "dev";
+    this.mainPath = "/main";
 }
 
 /**

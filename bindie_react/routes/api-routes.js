@@ -6,6 +6,7 @@ const formidable = require('formidable');
 const songsDir = path.join(__dirname, '..', 'songs');
 const filesystem = require("fs");
 const url = require('url');
+const GlobalConfig = require('../GlobalConfig');
 
 /* TODAS LAS RUTAS DE TIPO API TIENEN EL PREFIJO /api INCORPORADO AUTOMATICAMENTE */
 
@@ -49,7 +50,7 @@ router.get('/song/:song', function (req, res) {
         let songPath = path.join(songsDir, req.params.song);
         console.log(`SONG PATH: ${songPath}`);
 
-        if (pathname == "/main") res.sendFile(songPath);
+        if (pathname == GlobalConfig.mainPath) res.sendFile(songPath);
         else res.end("NO DEBERIAS ESTAR AQUI");
     } else {
         res.end("NO DEBERIAS ESTAR AQUI");
