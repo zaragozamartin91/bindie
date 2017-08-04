@@ -14,11 +14,9 @@ http://mochajs.org/#arrow-functions
 describe('User', function () {
     before(function (done) {
         SessionManager.createDatabase(function (err) {
-            if (err) {
-                console.error(err);
-                done();
-            } else User.createTable(function (err) {
-                if (err) console.error(err);
+            if (err) return done(err);
+            User.createTable(function (err) {
+                if (err) return done(err);
                 done();
             })
         })
@@ -26,10 +24,12 @@ describe('User', function () {
 
     describe('#create()', function () {
         it('debe crear un usuario en la BBDD', function (done) {
-            let user = User.fromObject({ name: "martin", email: "mzaragoza@accusys", password: "pepe" });
+            let user = User.fromObject({ 
+                name: "martin", email: "mzaragoza@accusys", password: "pepe" 
+            });
 
             user.create(function (err, result) {
-                if (err) return assert.fail("Error al dar de alta el usuario en la BBDD");
+                if (err) return done(err);
                 done();
             });
         });
@@ -38,7 +38,7 @@ describe('User', function () {
     describe("#getByEmail()", function () {
         it('debe obtener un usuario de la BBDD', function (done) {
             User.getByEmail('mzaragoza@accusys', function (err, users) {
-                if (err) return assert.fail("Error al obtener el usuario de la BBDD");
+                if (err) return done(err);
                 assert.equal(1, users.length);
                 assert.equal('mzaragoza@accusys', users[0].email);
                 done();
@@ -47,7 +47,7 @@ describe('User', function () {
 
         it('no debe encontrar usuarios con mail equivocado', function (done) {
             User.getByEmail('asd@asd', function (err, users) {
-                if (err) return assert.fail("Error al obtener el usuario de la BBDD");
+                if (err) return done(err);
                 assert.equal(0, users.length);
                 done();
             });
@@ -56,7 +56,7 @@ describe('User', function () {
 
     after(function (done) {
         SessionManager.dropDatabase(function (err) {
-            if (err) console.error(err);
+            if (err) return done(err);
             done();
         });
     });
