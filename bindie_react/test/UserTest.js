@@ -4,6 +4,7 @@ var globalCfg = require('../GlobalConfig');
 globalCfg.setProfile('test');
 
 var SessionManager = require('../model/SessionManager');
+SessionManager.connectionPool.build(10);
 var User = require('../model/User');
 
 /* NO SE RECOMIENDA PASAR ARROW FUNCTIONS A MOCHA:
@@ -28,10 +29,7 @@ describe('User', function () {
             let user = User.fromObject({ name: "martin", email: "mzaragoza@accusys", password: "pepe" });
 
             user.create(function (err, result) {
-                if (err) {
-                    console.error(err);
-                    assert.fail("error al dar de alta usuario");
-                }
+                if (err) return assert.fail("Error al dar de alta el usuario en la BBDD");
                 done();
             });
         });
@@ -40,8 +38,17 @@ describe('User', function () {
     describe("#getByEmail()", function () {
         it('debe obtener un usuario de la BBDD', function (done) {
             User.getByEmail('mzaragoza@accusys', function (err, users) {
-                if (err) return assert.fail("Error la obtener el usuario de la BBDD");
+                if (err) return assert.fail("Error al obtener el usuario de la BBDD");
                 assert.equal(1, users.length);
+                assert.equal('mzaragoza@accusys', users[0].email);
+                done();
+            });
+        });
+
+        it('no debe encontrar usuarios con mail equivocado', function (done) {
+            User.getByEmail('asd@asd', function (err, users) {
+                if (err) return assert.fail("Error al obtener el usuario de la BBDD");
+                assert.equal(0, users.length);
                 done();
             });
         });
