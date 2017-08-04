@@ -1,4 +1,4 @@
-var SessionFactory = require('./SessionFactory');
+var SessionManager = require('./SessionManager');
 var _ = require('underscore');
 var bcrypt = require('bcryptjs');
 
@@ -34,7 +34,7 @@ User.fromObject = function (obj) {
 };
 
 
-User.createTable = function () {
+User.createTable = function (callback) {
     let sql = `CREATE TABLE ${TABLE_NAME} (
             id MEDIUMINT NOT NULL AUTO_INCREMENT, 
             name VARCHAR(64) NOT NULL, 
@@ -43,16 +43,13 @@ User.createTable = function () {
             PRIMARY KEY (id)
         )`;
 
-    SessionFactory.query(sql, (err, results) => {
-        if (err) console.error(err);
-        else console.log(results);
-    });
+    SessionManager.query(sql, callback);
 };
 
 User.dropTable = function () {
     let sql = `DROP TABLE ${TABLE_NAME}`;
 
-    SessionFactory.query(sql, (err, results) => {
+    SessionManager.query(sql, (err, results) => {
         if (err) console.error(err);
         else console.log(results);
     });
@@ -67,7 +64,7 @@ User.dropTable = function () {
  */
 User.getByEmail = function (email, callback) {
     let sql = `SELECT * FROM ${TABLE_NAME} WHERE email='${email}'`;
-    SessionFactory.query(sql, (err, results) => {
+    SessionManager.query(sql, (err, results) => {
         if (err) return callback(err);
         callback(err, _.map(results, User.fromObject));
     });
@@ -83,7 +80,7 @@ User.prototype.create = function (callback) {
         let hash = bcrypt.hashSync(this.password, 10);
         let sql = `INSERT INTO ${TABLE_NAME}(name,email,password) 
                 VALUES('${this.name}', '${this.email}', '${hash}')`;
-        SessionFactory.query(sql, callback);
+        SessionManager.query(sql, callback);
     });
 };
 

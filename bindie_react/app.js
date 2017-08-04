@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
-var SessionFactory = require('./model/SessionFactory');
+var SessionManager = require('./model/SessionManager');
 
 var viewRoutes = require('./routes/view-routes');
 var apiRoutes = require('./routes/api-routes');
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* CONFIGURACION DE SESION ------------------------------------------------------------------------ */
 /* PARA MAS INFORMACION SOBRE LA CONFIGURACION DE LA SESION, VISITAR:
 https://github.com/expressjs/session  */
-let options = SessionFactory.getConnectionParams();
+let options = SessionManager.getDatabaseConnectionParams();
 
 /* PARA MAS INFORMACION SOBRE SESSION STORES, VISITAR:
 https://github.com/expressjs/session#compatible-session-stores
