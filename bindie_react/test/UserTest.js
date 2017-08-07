@@ -30,6 +30,7 @@ describe('User', function () {
 
             user.create(function (err, result) {
                 if (err) return done(err);
+                assert.ok(user.id);
                 done();
             });
         });

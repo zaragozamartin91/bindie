@@ -1,9 +1,6 @@
-var GlobalConfig = require('../GlobalConfig');
-GlobalConfig.setProfile('test');
-
 var SessionManager = require('./SessionManager');
+var User = require('./User');
 
-SessionManager.createDatabase((err, results) => {
+User.createTable(err => {
     console.error(err);
-    console.log(results);
 });

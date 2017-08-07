@@ -40,7 +40,8 @@ User.createTable = function (callback) {
             name VARCHAR(64) NOT NULL, 
             email VARCHAR(64) NOT NULL, 
             password VARCHAR(255),
-            PRIMARY KEY (id)
+            PRIMARY KEY (id),
+            CONSTRAINT UC_${TABLE_NAME} UNIQUE (id,email)
         )`;
 
     SessionManager.query(sql, callback);
