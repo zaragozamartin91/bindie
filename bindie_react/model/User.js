@@ -63,8 +63,8 @@ User.dropTable = function () {
  * @return {Array.<User>} {{description}}{{}}
  */
 User.getByEmail = function (email, callback) {
-    let sql = `SELECT * FROM ${TABLE_NAME} WHERE email='${email}'`;
-    SessionManager.query(sql, (err, results) => {
+    let sql = `SELECT * FROM ${TABLE_NAME} WHERE email=?`;
+    SessionManager.query(sql, [email], (err, results) => {
         if (err) return callback(err);
         callback(err, _.map(results, User.fromObject));
     });
@@ -78,9 +78,11 @@ User.prototype.create = function (callback) {
             new Error(`Ya existe un usuario con el email ${this.email}`));
 
         let hash = bcrypt.hashSync(this.password, 10);
-        let sql = `INSERT INTO ${TABLE_NAME}(name,email,password) 
-                VALUES('${this.name}', '${this.email}', '${hash}')`;
-        SessionManager.query(sql, callback);
+        let sql = `INSERT INTO ${TABLE_NAME}(name,email,password) VALUES(?,?,?)`;
+        SessionManager.query(sql, [this.name, this.email, hash], (err, result) => {
+            if (result) this.id = result.insertId;
+            callback(err, result);
+        });
     });
 };
 

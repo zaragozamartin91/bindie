@@ -58,9 +58,28 @@ function createDatabaseConnection() {
 /**
  * Realiza una query y cierra sesion.
  * @param {string} sql La query a ejecutar. 
+ * @param {Array} values Valores a sustituir en los wildcards de la sql query.
  * @param {function} callback funcion a ejecutar.
  */
-function query(sql, callback) {
+function queryWithValues(sql, values, callback) {
+    /* SI HAY UN POOL DE CONEXIONES DISPONIBLE, LO USO */
+    if (connectionPool.pool) {
+        let pool = connectionPool.pool;
+        pool.query(sql, values, callback);
+    } else {
+        /* SI NO HAY POOL ABRO Y CIERRO LAS CONEXIONES */
+        let con = createDatabaseConnection();
+        con.connect(err => {
+            if (err) return callback(err);
+            con.query(sql, values, (err, results) => {
+                con.end();
+                callback(err, results);
+            });
+        });
+    }
+}
+
+function queryPlain(sql, callback) {
     /* SI HAY UN POOL DE CONEXIONES DISPONIBLE, LO USO */
     if (connectionPool.pool) {
         let pool = connectionPool.pool;
@@ -75,6 +94,14 @@ function query(sql, callback) {
                 callback(err, results);
             });
         });
+    }
+}
+
+function query(sql, values, callback) {
+    if (Array.isArray(values)) {
+        return queryWithValues(sql, values, callback);
+    } else {
+        return queryPlain(sql, values);
     }
 }
 
