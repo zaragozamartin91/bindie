@@ -41,19 +41,15 @@ User.createTable = function (callback) {
             email VARCHAR(64) NOT NULL, 
             password VARCHAR(255),
             PRIMARY KEY (id),
-            CONSTRAINT UC_${TABLE_NAME} UNIQUE (id,email)
+            CONSTRAINT UC_${TABLE_NAME} UNIQUE (email)
         )`;
 
     SessionManager.query(sql, callback);
 };
 
-User.dropTable = function () {
+User.dropTable = function (callback) {
     let sql = `DROP TABLE ${TABLE_NAME}`;
-
-    SessionManager.query(sql, (err, results) => {
-        if (err) console.error(err);
-        else console.log(results);
-    });
+    SessionManager.query(sql, callback);
 };
 
 /**
@@ -71,19 +67,17 @@ User.getByEmail = function (email, callback) {
     });
 };
 
-
+/**
+ * Inserta el usuario en la BBDD.
+ * @param {function} callback Funcion a invocar cuando termine la query. (err,newUser) => void.
+ */
 User.prototype.create = function (callback) {
-    User.getByEmail(this.email, (err, users) => {
-        if (err) return callback(err);
-        if (users.length) return callback(
-            new Error(`Ya existe un usuario con el email ${this.email}`));
-
-        let hash = bcrypt.hashSync(this.password, 10);
-        let sql = `INSERT INTO ${TABLE_NAME}(name,email,password) VALUES(?,?,?)`;
-        SessionManager.query(sql, [this.name, this.email, hash], (err, result) => {
-            if (result) this.id = result.insertId;
-            callback(err, result);
-        });
+    let hash = bcrypt.hashSync(this.password, 10);
+    let sql = `INSERT INTO ${TABLE_NAME}(name,email,password) VALUES(?,?,?)`;
+    
+    SessionManager.query(sql, [this.name, this.email, hash], (err, result) => {
+        if (result) this.id = result.insertId;
+        callback(err, this);
     });
 };
 

@@ -28,9 +28,9 @@ describe('User', function () {
                 name: "martin", email: "mzaragoza@accusys", password: "pepe" 
             });
 
-            user.create(function (err, result) {
+            user.create(function (err, newUser) {
                 if (err) return done(err);
-                assert.ok(user.id);
+                assert.ok(newUser.id);
                 done();
             });
         });
