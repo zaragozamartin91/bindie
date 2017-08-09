@@ -5,8 +5,11 @@ or just use native ES6 promises. Just set mongoose.Promise to your favorite ES6-
 mongoose.Promise = global.Promise;
 
 function config(callback) {
-    let promise = mongoose.connect('mongodb://localhost/test', {
+    /* FORMATO DE LA URL:
+    mongoose.connect('mongodb://username:password@host:port/database?options...'); */
+    let promise = mongoose.connect('mongodb://root:root@localhost/test', {
         useMongoClient: true,
+        poolSize: 5
     });
     promise.then(db => {
         registerSchemas(db);
@@ -26,30 +29,3 @@ function registerSchemas(db) {
 }
 
 exports.config = config;
-
-// promise.then(function (db) {
-//     console.log("Registrando schemas...");
-
-//     const UserSchema = require('./UserMongo');
-
-//     UserSchema.registerSchema(db);
-//     require('./Band').registerSchema(db);
-//     require('./Song').registerSchema(db);
-//     require('./Advertisement').registerSchema(db);
-//     require('./Location').registerSchema(db);
-//     require('./Contract').registerSchema(db);
-//     require('./Event').registerSchema(db);
-
-//     const User = mongoose.model('User');
-//     let user = new User({ name: "mateo", email: "mateo@zaragoza.com", password: "Roberto" });
-//     //user.save((err, res) => {
-//     //    console.error(err);
-//     //    console.log(res);
-//     //})
-//     User.findOne({ email: user.email }, (err, res) => {
-//         console.log("auth: " + res.authenticate("Roberto"));
-//         console.log(res);
-//     });
-// });
-
-
