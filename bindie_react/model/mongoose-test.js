@@ -3,26 +3,20 @@ mongoose.Promise = global.Promise;
 
 var promise = mongoose.connect('mongodb://localhost/test', {
     useMongoClient: true,
-});
-promise.then(function (db) {
-    /* Use `db`, for instance `db.model()` */
-    var teamSchema = new mongoose.Schema({
-        country: String,
-        GroupName: String
-    });
-    var Team = db.model('Team', teamSchema);
+    poolSize: 5
+}).then(db => {
+    console.log(db);
+});;
 
-    var team = new Team({ country: "us", GroupName: "group" });
-    team.save((err, team) => {
-        console.log("team saved:");
-        console.log(team);
-    });
+var Cat = mongoose.model('Cat', { name: String });
 
-    var Teammm = db.model('Team');
-    Teammm.findOne({ country: "us" }, (err, team) => {
-        console.log("found team: ");
-        console.log(team);
-    })
+var kitty = new Cat({ name: 'Zildjian' });
+kitty.save(function (err) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('meow');
+    }
 });
 
-
+console.log(mongoose.connection);

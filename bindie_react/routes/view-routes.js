@@ -14,6 +14,7 @@ router.get('/login', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
   console.log(req.body);
+  req.session.email = req.body.email;
   res.redirect('/main');
 });
 
