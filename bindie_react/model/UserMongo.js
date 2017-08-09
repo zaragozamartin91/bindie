@@ -18,10 +18,7 @@ exports.registerSchema = function (db) {
             type: String,
             /*Defining a custom validator is done using the validate property. The validate property value should be an array consisting of 
             a validation function and an error message.*/
-            validate: [
-                function (password) {
-                    return password && password.length >= 4;
-                },
+            validate: [password => password && password.length >= 4,
                 'Password debe contener al menos 4 caracteres...'
             ],
             required: 'Se debe ingresar un password!'
@@ -84,7 +81,7 @@ exports.registerSchema = function (db) {
         Event.find({
             members: {
                 $elemMatch: {
-                    $eq: userId
+                    $eq: id
                 }
             }
         }).populate('members').populate('location').populate('band').exec(callback);
@@ -103,11 +100,7 @@ exports.registerSchema = function (db) {
         let Song = db.model('Song');
 
         Song.searchByBand(bandId, function (err, songs) {
-            if (err) {
-                callback(err, {
-                    error: err
-                });
-            }
+            if (err) return callback(err, { error: err });
 
             let fans = [];
             let objectIds = [];
@@ -127,7 +120,6 @@ exports.registerSchema = function (db) {
 
     /*pre-save middleware to handle the hashing of your users' passwords.*/
     UserSchema.pre('save', function (next) {
-        console.log("password to save: " + this.password);
         if (this.password) {
             let hash = bcrypt.hashSync(this.password, 10);
             this.password = hash;
@@ -138,7 +130,7 @@ exports.registerSchema = function (db) {
 
     /*A post middleware is defined using the post() method of the schema object*/
     /*esta funcion correra despues de ejecutar save() sobre mongo.*/
-    UserSchema.post('save', function (next) {
+    UserSchema.post('save', function (newUser) {
         if (this.isNew) console.log('Se creo un usuario nuevo!');
         else console.log('Se actualizo un usuario!');
     });

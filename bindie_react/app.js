@@ -1,21 +1,21 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
 
-var session = require('express-session');
-//var MySQLStore = require('express-mysql-session')(session);
-//var SessionManager = require('./model/SessionManager');
+const session = require('express-session');
+//const MySQLStore = require('express-mysql-session')(session);
+//const SessionManager = require('./model/SessionManager');
 const MongoStore = require('connect-mongo')(session);
 const MongooseConfig = require('./model/mongoose-config');
 
-var viewRoutes = require('./routes/view-routes');
-var apiRoutes = require('./routes/api-routes');
+const viewRoutes = require('./routes/view-routes');
+const apiRoutes = require('./routes/api-routes');
 
 /* ------------------------------------------------------------------------------------------- */
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,7 +41,7 @@ MongooseConfig.config(db => {
   https://www.npmjs.com/package/connect-mongo */
   /* Las cookies duraran una hora */
   const cookieMaxAge = 1000 * 60 * 60;
-  var sess = {
+  const sess = {
     secret: 'bindie rules',
     store: new MongoStore({ mongooseConnection: db }),
     resave: false,
@@ -69,7 +69,7 @@ MongooseConfig.config(db => {
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
   });
@@ -100,7 +100,7 @@ MongooseConfig.config(db => {
 
   module.exports = app;
 
-  var port = 8080;
+  let port = 8080;
   console.log(`ESCUCHANDO EN PUERTO ${port}`);
   app.listen(port);
 });
