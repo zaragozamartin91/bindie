@@ -48,8 +48,7 @@ const SongsApp = React.createClass({
                             uploadSuccMsg: "Cancion subida exitosamente",
                             uploadErrMsg: ""
                         });
-                    })
-                    .catch(err => {
+                    }).catch(err => {
                         console.error(err);
                         this.setState({
                             uploadSuccMsg: "",
@@ -108,8 +107,7 @@ const SongsApp = React.createClass({
 
                 <TextField
                     hintText="Banda"
-                    onChange={this.onBandChange}
-                />
+                    onChange={this.onBandChange} />
 
                 <FlatButton
                     label="Subir una cancion"

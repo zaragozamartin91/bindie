@@ -6,7 +6,20 @@ import PlayNextIcon from 'material-ui/svg-icons/av/skip-next';
 import PlayPreviousIcon from 'material-ui/svg-icons/av/skip-previous';
 
 const SongPlayer = React.createClass({
-    /** song: cancion a reproducir.
+    /**
+     * Indica si acaso se esta cargando la siguiente/anterior cancion.
+     */
+    loadingSong: false,
+
+    /**
+     * Tiempo de espera para cargar la siguiente / anterior cancion.
+     */
+    songLoadWait: 1000,
+
+    /** 
+     * song: cancion a reproducir.
+     * nextSong: callback de siguiente cancion
+     * prevSong: callback de anterior cancion
      */
     getDefaultProps: function () {
         return {
@@ -21,7 +34,7 @@ const SongPlayer = React.createClass({
         this.props.nextSong();
     },
 
-    getSongSrc: function(song) {
+    getSongSrc: function (song) {
         return `/api/song/${song}`;
     },
 
@@ -37,13 +50,31 @@ const SongPlayer = React.createClass({
         }
     },
 
+    nextSong: function () {
+        if (this.loadingSong) return;
+
+        this.loadingSong = true;
+        setTimeout(e => {
+            this.loadingSong = false;
+            this.props.nextSong();
+        }, this.songLoadWait);
+    },
+
     prevSong: function () {
         console.log(`this.audio.currentTime: ${this.audio.currentTime}`);
         if (this.audio.currentTime < 3) {
-            this.props.prevSong();
-        } else {
-            this.audio.currentTime = 0;
-        }
+            if (this.loadingSong) return;
+
+            this.loadingSong = true;
+            return setTimeout(e => {
+                this.loadingSong = false;
+                this.props.prevSong();
+            }, this.songLoadWait);
+        } else this.audio.currentTime = 0;
+    },
+
+    componentDidMount: function () {
+        console.log("SongPlayer DID MOUNT!");
     },
 
     render: function () {
@@ -82,7 +113,7 @@ const SongPlayer = React.createClass({
                         <FlatButton
                             icon={<PlayNextIcon />}
                             style={audioCtrlStyle}
-                            onClick={this.props.nextSong} />
+                            onClick={this.nextSong} />
                     </div>
                 </div>
             )

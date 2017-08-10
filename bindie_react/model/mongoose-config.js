@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 or just use native ES6 promises. Just set mongoose.Promise to your favorite ES6-style promise constructor and mongoose will use it. */
 mongoose.Promise = global.Promise;
 
+
 /**
  * Configura los schemas de mongo.
  * @param {boolean} regSchemas True si se deben registrar todos los schemas antes de invocar al callback, false en caso contrario.
@@ -22,6 +23,11 @@ function config(regSchemas, callback) {
     });
 }
 
+/**
+ * Registra los shcemas disponibles.
+ * 
+ * @param  {Connection} db Conexion con mongo.
+ */
 function registerSchemas(db) {
     console.log("REGISTRANDO SCHEMAS");
     require('./User').registerSchema(db);
