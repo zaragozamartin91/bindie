@@ -8,7 +8,7 @@ const session = require('express-session');
 //const MySQLStore = require('express-mysql-session')(session);
 //const SessionManager = require('./model/SessionManager');
 const MongoStore = require('connect-mongo')(session);
-const MongooseConfig = require('./model/mongoose-config');
+const mongooseConfig = require('./model/mongoose-config');
 
 const viewRoutes = require('./routes/view-routes');
 const apiRoutes = require('./routes/api-routes');
@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-MongooseConfig.config(db => {
+mongooseConfig.config(true, db => {
   // db es una conexion lista para usar con MongoDb
 
   /* CONFIGURACION DE SESION ------------------------------------------------------------------------ */

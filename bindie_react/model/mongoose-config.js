@@ -4,7 +4,12 @@ const mongoose = require('mongoose');
 or just use native ES6 promises. Just set mongoose.Promise to your favorite ES6-style promise constructor and mongoose will use it. */
 mongoose.Promise = global.Promise;
 
-function config(callback) {
+/**
+ * Configura los schemas de mongo.
+ * @param {boolean} regSchemas True si se deben registrar todos los schemas antes de invocar al callback, false en caso contrario.
+ * @param {function} callback (db) => void : Recibe una conexion con la BBDD inicializada.
+ */
+function config(regSchemas, callback) {
     /* FORMATO DE LA URL:
     mongoose.connect('mongodb://username:password@host:port/database?options...'); */
     let promise = mongoose.connect('mongodb://root:root@localhost/test', {
@@ -12,14 +17,14 @@ function config(callback) {
         poolSize: 5
     });
     promise.then(db => {
-        registerSchemas(db);
+        if (regSchemas) registerSchemas(db);
         callback(db);
     });
 }
 
 function registerSchemas(db) {
     console.log("REGISTRANDO SCHEMAS");
-    require('./UserMongo').registerSchema(db);
+    require('./User').registerSchema(db);
     require('./Band').registerSchema(db);
     require('./Song').registerSchema(db);
     require('./Advertisement').registerSchema(db);
