@@ -5,16 +5,16 @@ import FlatButton from 'material-ui/FlatButton';
 import PlayNextIcon from 'material-ui/svg-icons/av/skip-next';
 import PlayPreviousIcon from 'material-ui/svg-icons/av/skip-previous';
 
+/**
+ * Tiempo de espera para cargar la siguiente / anterior cancion.
+ */
+const SONG_LOAD_WAIT = 1000;
+
 const SongPlayer = React.createClass({
     /**
      * Indica si acaso se esta cargando la siguiente/anterior cancion.
      */
     loadingSong: false,
-
-    /**
-     * Tiempo de espera para cargar la siguiente / anterior cancion.
-     */
-    songLoadWait: 1000,
 
     /** 
      * song: cancion a reproducir.
@@ -57,7 +57,7 @@ const SongPlayer = React.createClass({
         setTimeout(e => {
             this.loadingSong = false;
             this.props.nextSong();
-        }, this.songLoadWait);
+        }, SONG_LOAD_WAIT);
     },
 
     prevSong: function () {
@@ -69,12 +69,8 @@ const SongPlayer = React.createClass({
             return setTimeout(e => {
                 this.loadingSong = false;
                 this.props.prevSong();
-            }, this.songLoadWait);
+            }, SONG_LOAD_WAIT);
         } else this.audio.currentTime = 0;
-    },
-
-    componentDidMount: function () {
-        console.log("SongPlayer DID MOUNT!");
     },
 
     render: function () {
