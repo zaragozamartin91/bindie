@@ -41,6 +41,11 @@ exports.registerSchema = function (db) {
     };
 
     /*To add a static method, you will need to declare it as a member of your schema's statics property*/
+    /**
+     * @param {string} email El correo del usuario registrado.
+     * @param {function} callback (err,user) => void : Funcion a invocar cuando el usuario
+     * haya sido encontrado. user==null si no existe.
+     */
     UserSchema.statics.findOneByEmail = function (email, callback) {
         this.findOne({
             email: email

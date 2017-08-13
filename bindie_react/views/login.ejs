@@ -12,6 +12,11 @@
 
 <body>
   <div class="page-content" id="root"></div>
+  <% if (locals.message) { %>
+    <div id="message" data-value="<%= locals.message.string %>"/>
+  <% 
+    removeMessages() 
+  } %>
 
   <script src="javascripts/common.bundle.js"></script>
   <script src="javascripts/login.bundle.js"></script>

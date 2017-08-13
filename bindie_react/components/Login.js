@@ -11,9 +11,12 @@ import Header from './Header';
 
 
 /* ESTE FRAGMENTO DE CODIGO ES REQUERIDO PARA LOS EVENTOS DE TIPO TOUCH O CLICK EN COMPONENTES MATERIAL-UI */
-var injectTapEventPlugin = require("react-tap-event-plugin");
+const injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
 /* -------------------------------------------------------------------------------------------------------- */
+
+let messageDiv = document.getElementById('message');
+let message = messageDiv ? messageDiv.getAttribute('data-value') : null;
 
 const Login = React.createClass({
     submitForm: function () {
@@ -22,9 +25,12 @@ const Login = React.createClass({
     },
 
     render: function () {
+        let msgElem = message ? <p style={{ color: "red" }}>{message}</p> : <div />
+
         return (
             <div>
                 <Header title="Bindie" />
+                {msgElem}
                 <MuiThemeProvider>
                     <Card>
                         <CardHeader

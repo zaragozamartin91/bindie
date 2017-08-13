@@ -10,6 +10,8 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongooseConfig = require('./model/mongoose-config');
 
+const messages = require('./middleware/messages');
+
 const viewRoutes = require('./routes/view-routes');
 const apiRoutes = require('./routes/api-routes');
 
@@ -62,6 +64,10 @@ mongooseConfig.config(true, db => {
   NO ES POSIBLE NAVEGARLOS COMO ESTRUCTURA DE DIRECTORIO */
   app.use(express.static('public'));
 
+  /* MIDDLEWARE PARA EL MANEJO DE MENSAJES */
+  app.use(messages);
+
+  /* RUTAS */
   app.use('/', viewRoutes);
   app.use('/api', apiRoutes);
 
