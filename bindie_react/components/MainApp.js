@@ -52,7 +52,7 @@ const MainApp = React.createClass({
         /* SE CARGAN LAS CANCIONES DESPUES QUE EL COMPONENTE HAYA SIDO MONTADO */
         console.log("MainApp DID MOUNT!");
 
-        axios.post('/api/allSongs')
+        axios.post('/api/song/allSongs')
             .then(response => {
                 let data = response.data;
                 if (data.err) {

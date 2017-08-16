@@ -27,7 +27,7 @@ router.post('/login', (req, res) => {
     if (user) {
       let isValid = user.authenticate(pass);
       if (isValid) {
-        req.session.user = user;
+        req.session.uid = user._id;
         return res.redirect('/main');
       } 
 

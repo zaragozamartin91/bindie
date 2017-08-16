@@ -34,14 +34,7 @@ router.post('/song/upload/:band', (req, res, next) => {
     form.parse(req);
 });
 
-router.post('/allSongs', (req, res, next) => {
-    filesystem.readdir(songsDir, (err, songs) => {
-        if (err) console.log(err);
-        console.log(songs);
-        res.send({ err, songs });
-    });
-});
-
+/** Api para obtener y reproducir el audio de una cancion */
 router.get('/song/:song', function (req, res) {
     console.log(`SONG: ${req.params.song}`);
 
@@ -59,6 +52,17 @@ router.get('/song/:song', function (req, res) {
     } else {
         res.end("NO DEBERIAS ESTAR AQUI");
     }
+});
+
+/** Obtiene todas las canciones.
+ * Este api es temporal...
+ */
+router.post('/song/allSongs', (req, res, next) => {
+    filesystem.readdir(songsDir, (err, songs) => {
+        if (err) console.log(err);
+        console.log(songs);
+        res.send({ err, songs });
+    });
 });
 
 module.exports = router;
