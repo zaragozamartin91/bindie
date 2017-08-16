@@ -27,6 +27,10 @@ router.post('/song/upload/:band', (req, res, next) => {
         res.send({ msg: `file ${file.name} uploaded!` });
     });
 
+    form.on('field', (field, value) => {
+        console.log(`field: ${field} ; value: ${value}`);
+    });
+
     form.parse(req);
 });
 
