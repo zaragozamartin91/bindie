@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 
 /* GET home page. */
 router.get(GlobalConfig.mainPath, (req, res) => {
-  res.render('index', { title: 'Bindie' });
+  if (req.session.uid) return res.render('index', { title: 'Bindie' });
+  else return res.redirect('/login');
 });
 
 router.get('/login', (req, res) => {
@@ -28,8 +29,8 @@ router.post('/login', (req, res) => {
       let isValid = user.authenticate(pass);
       if (isValid) {
         req.session.uid = user._id;
-        return res.redirect('/main');
-      } 
+        return res.redirect(GlobalConfig.mainPath);
+      }
 
       res.error(`Password invalido`);
       return res.redirect('back');

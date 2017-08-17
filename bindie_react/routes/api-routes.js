@@ -7,6 +7,8 @@ const songsDir = path.join(__dirname, '..', 'songs');
 const filesystem = require("fs");
 const url = require('url');
 const GlobalConfig = require('../GlobalConfig');
+const mongoose = require('mongoose');
+
 
 /* TODAS LAS RUTAS DE TIPO API TIENEN EL PREFIJO /api INCORPORADO AUTOMATICAMENTE */
 
@@ -63,6 +65,22 @@ router.post('/song/allSongs', (req, res, next) => {
         console.log(songs);
         res.send({ err, songs });
     });
+});
+
+/**
+ * Busca y obtiene pares nombre - email a partir de usuarios.
+ */
+router.get('/user/query/:name?', (req, res) => {
+    let name = req.params.name;
+    if (name) {
+        User = mongoose.model('User');
+        let query = User.find({ name: new RegExp(`.*${name}.*`, "i") }, 'name email');
+        query.exec((err, data) => {
+            if (err) return res.send({ err });
+            let pairs = data.map(d => { return { name: d.name, email: d.email }; });
+            return res.send({ pairs });
+        });
+    } else return res.send({ pairs: [] });
 });
 
 module.exports = router;

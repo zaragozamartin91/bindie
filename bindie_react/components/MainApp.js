@@ -11,6 +11,7 @@ import axios from 'axios';
 import Index from './Index';
 import SongsApp from './songs/SongsApp';
 import SongPlayer from './songs/SongPlayer';
+import BandManager from './bands/BandManager';
 
 /* ESTE FRAGMENTO DE CODIGO ES REQUERIDO PARA LOS EVENTOS DE TIPO TOUCH O CLICK EN COMPONENTES MATERIAL-UI */
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -20,7 +21,8 @@ injectTapEventPlugin();
 /* PAGINAS USADAS PARA EL ENRUTAMIENTO */
 const PAGES = {
     index: <Index />,
-    songs: <SongsApp />
+    songs: <SongsApp />,
+    bands: <BandManager />
 };
 
 const MainApp = React.createClass({
@@ -107,6 +109,7 @@ const MainApp = React.createClass({
                     <Drawer open={this.state.drawerOpen} docked={false} onRequestChange={this.onDrawerRequestChange} >
                         <MenuItem onTouchTap={e => this.gotoPage('index')}>Principal</MenuItem>
                         <MenuItem onTouchTap={e => this.gotoPage('songs')}>Canciones</MenuItem>
+                        <MenuItem onTouchTap={e => this.gotoPage('bands')}>Mis bandas</MenuItem>
                     </Drawer>
 
                     {songPlayer}
