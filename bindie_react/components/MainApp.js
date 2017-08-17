@@ -11,7 +11,7 @@ import axios from 'axios';
 import Index from './Index';
 import SongsApp from './songs/SongsApp';
 import SongPlayer from './songs/SongPlayer';
-import BandManager from './bands/BandManager';
+import BandCreator from './bands/BandCreator';
 
 /* ESTE FRAGMENTO DE CODIGO ES REQUERIDO PARA LOS EVENTOS DE TIPO TOUCH O CLICK EN COMPONENTES MATERIAL-UI */
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -22,7 +22,7 @@ injectTapEventPlugin();
 const PAGES = {
     index: <Index />,
     songs: <SongsApp />,
-    bands: <BandManager />
+    bands: <BandCreator />
 };
 
 const MainApp = React.createClass({
